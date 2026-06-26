@@ -22,5 +22,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', include('home.urls')),  # Links the main site to your app's new file
+    path('home/', include('home.urls')),
+    path('catalog/', include('catalog.urls')),
 ]

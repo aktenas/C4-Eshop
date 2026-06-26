@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Catalogue</title>
+</head>
+<body>
+    <h1>Our Product Catalogue</h1>
+
+    <div class="product-list">
+        {% for item in items %}
+            <div class="product-card" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px;">
+                <h2>{{ item.title }}</h2>
+                <p><strong>Category:</strong> {{ item.category.name }}</p>
+                <p>{{ item.description }}</p>
+                <p><strong>Price:</strong> ${{ item.price }}</p>
+                <p><strong>Stock Available:</strong> {{ item.stock }} units</p>
+            </div>
+        {% empty %}
+            <p>No products found in the catalogue yet!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

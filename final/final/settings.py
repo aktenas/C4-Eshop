@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'home',
     'catalog',
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'catalog.context_processors.cart',
             ],
         },
     },
@@ -71,6 +73,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'final.wsgi.application'
 
+# Authentication Redirects
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'catalog'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

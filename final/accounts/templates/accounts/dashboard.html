@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head><title>User Dashboard</title></head>
+<body>
+    <h1>Welcome to your Dashboard, {{ user.username }}!</h1>
+    
+    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background: #fafafa;">
+        <h3>Your Registration Profile Details</h3>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <a href="{% url 'update_profile' %}" style="padding: 5px 10px; background: #333; color: white; text-decoration: none;">Update Profile Info</a>
+    </div>
+
+    <div>
+        <h3>Your Recent Activity (Your Reviews)</h3>
+        {% for review in user_reviews %}
+            <div style="border-left: 3px solid black; padding-left: 10px; margin-bottom: 10px;">
+                <p><strong>Item:</strong> {{ review.item.title }}</p>
+                <p><strong>Rating:</strong> {{ review.rating }}★</p>
+                <p><strong>Comment:</strong> "{{ review.comment }}"</p>
+            </div>
+        {% empty %}
+            <p>You haven't submitted any reviews yet!</p>
+        {% endfor %}
+    </div>
+    <p><a href="{% url 'catalog' %}">← Go Shopping</a> | <a href="{% url 'logout' %}">Log Out</a></p>
+</body>
+</html>

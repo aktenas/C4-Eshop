@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Update Profile</title></head>
+<body>
+    <h2>Update Account Details</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Updates</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}">Cancel</a></p>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Shopping Cart</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto;">
+
+    <div>
+        <a href="{% url 'catalog' %}" style="text-decoration: none; color: #555;">← Back to Shop</a>
+    </div>
+
+    <h1>Your Cart Summary</h1>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: #111; color: white; text-align: left;">
+                <th style="padding: 12px;">Item / Service</th>
+                <th style="padding: 12px;">Quantity</th>
+                <th style="padding: 12px;">Unit Price</th>
+                <th style="padding: 12px;">Total</th>
+                <th style="padding: 12px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item_data in cart %}
+                {% with item=item_data.item %}
+                    <tr>
+                        <td style="padding: 12px; border-bottom: 1px solid #ddd;">
+                            <strong>{{ item.title }}</strong><br>
+                            <small>{{ item.material }} | {{ item.color }}</small>
+                        </td>
+                        <td style="padding: 12px; border-bottom: 1px solid #ddd;">{{ item_data.quantity }}</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #ddd;">${{ item_data.price }}</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #ddd;">${{ item_data.total_price }}</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #ddd;">
+                            <a href="{% url 'cart_remove' item.id %}" style="color: #ff6b6b; text-decoration: none; font-weight: bold;">Remove</a>
+                        </td>
+                    </tr>
+                {% endwith %}
+            {% endfor %}
+
+            {% if booking %}
+                <tr>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd; background: #fffdf0;">
+                        <strong>Booking: {{ booking.service }}</strong><br>
+                        <small>Notes: {{ booking.notes }}</small>
+                    </td>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd; background: #fffdf0;">1</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd; background: #fffdf0;">${{ booking.deposit }}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd; background: #fffdf0;">${{ booking.deposit }}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd; background: #fffdf0;">
+                        <em style="color: #999;">Deposit Staged</em>
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    {% if global_cart|length > 0 or booking %}
+        <div style="margin-top: 30px; text-align: right; border-top: 2px solid #111; padding-top: 15px;">
+            <h2>Grand Total: ${{ global_cart.get_total_price }}</h2>
+            <button style="background: black; color: white; padding: 12px 30px; font-size: 16px; font-weight: bold; border: none; cursor: pointer;">
+                Proceed to Checkout
+            </button>
+        </div>
+    {% else %}
+        <p style="text-align: center; color: #777; margin-top: 40px;">Your cart is completely empty.</p>
+    {% endif %}
+
+</body>
+</html>

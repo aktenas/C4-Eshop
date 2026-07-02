@@ -1,23 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Product Catalogue</title>
+    <title>Jewellery Collection</title>
 </head>
-<body>
-    <h1>Our Product Catalogue</h1>
+<body style="margin: 0; font-family: Arial, sans-serif;">
 
-    <div class="product-list">
-        {% for item in items %}
-            <div class="product-card" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px;">
-                <h2>{{ item.title }}</h2>
-                <p><strong>Category:</strong> {{ item.category.name }}</p>
-                <p>{{ item.description }}</p>
-                <p><strong>Price:</strong> ${{ item.price }}</p>
-                <p><strong>Stock Available:</strong> {{ item.stock }} units</p>
-            </div>
-        {% empty %}
-            <p>No products found in the catalogue yet!</p>
-        {% endfor %}
+    <!-- SHOP HEADER NAVIGATION BAR -->
+     <div style="background: #222; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-weight: bold; font-size: 18px;">Piercing Studio</span>
+    
+    <div style="display: flex; align-items: center;">
+        <!-- ADD THIS CART LINK HERE -->
+        <a href="{% url 'cart_detail' %}" style="color: #00fa9a; text-decoration: none; margin-right: 20px; font-weight: bold;">
+            Cart (${{ global_cart.get_total_price|default:"0.00" }}) [{{ global_cart|length|default:0 }}]
+        </a>
+
+        {% if user.is_authenticated %}
+            <span style="margin-right: 15px;">Hello, <strong>{{ user.username }}</strong>!</span>
+            <a href="{% url 'dashboard' %}" style="color: white; text-decoration: none; margin-right: 15px; font-weight: bold;">My Profile Dashboard</a>
+            <a href="{% url 'logout' %}" style="color: #ff6b6b; text-decoration: none; font-weight: bold;">Log Out</a>
+        {% else %}
+            <a href="{% url 'login' %}" style="color: white; text-decoration: none; margin-right: 15px; font-weight: bold;">Log In</a>
+            <a href="{% url 'register' %}" style="color: black; background: white; padding: 6px 12px; text-decoration: none; font-weight: bold; border-radius: 4px;">Register</a>
+        {% endif %}
     </div>
+</div>    
+        <div>
+            {% if user.is_authenticated %}
+                <!-- If user is logged in, show their profile dashboard and logout routes -->
+                <span style="margin-right: 15px;">Hello, <strong>{{ user.username }}</strong>!</span>
+                <a href="{% url 'dashboard' %}" style="color: #00fa9a; text-decoration: none; margin-right: 15px; font-weight: bold;">My Profile Dashboard</a>
+                <a href="{% url 'logout' %}" style="color: #ff6b6b; text-decoration: none; font-weight: bold;">Log Out</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- MAIN BODY CONTENT CONTAINER -->
+    <div style="padding: 0 20px;">
+        <div style="margin-top: 20px; margin-bottom: 10px;">
+            <a href="{% url 'home' %}" style="text-decoration: none; color: #555;">← Back to Home Page</a>
+        </div>
+        
+        <h1>Categories</h1>
+        <p>Select a collection to view options and filters:</p>
+
+        <div class="category-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px 0;">
+            {% for cat in categories %}
+                <div style="border: 2px solid #333; padding: 20px; text-align: center; background: #fafafa;">
+                    <h2>{{ cat.name }}</h2>
+                    <p>{{ cat.description }}</p>
+                    <a href="{% url 'category' cat.id %}" style="display: inline-block; padding: 10px 20px; background: black; color: white; text-decoration: none;">
+                        Browse Collection
+                    </a>
+                </div>
+            {% empty %}
+                <p>No collections found. Head to the admin panel to add categories!</p>
+            {% endfor %}
+        </div>
+    </div>
+
 </body>
 </html>

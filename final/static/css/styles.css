@@ -20,6 +20,9 @@ body.studio-body {
     font-family: Arial, Helvetica, sans-serif !important;
     margin: 0px !important;
 }
+h2 {
+    color: #ffffff !important;
+}
 
 /* margins for mobile */
 .page-shell {
@@ -455,6 +458,7 @@ body.light-mode .analytics-value {
     color: #111111 !important;
 }
 
+
 /* Navbar*/
 body.studio-body.light-mode .bg-obsidian {
     background-color: #ffffff !important;
@@ -546,7 +550,7 @@ body.studio-body.light-mode .page-shell::before {
 
 /* Gradient Footer*/
 body.light-mode .studio-footer {
-    background: linear-gradient(to top, rgba(255, 72, 72, 0.6) 0%, rgba(245, 245, 245, 0) 60%) !important;
+    background: linear-gradient(to top, rgba(255, 72, 72, 0.6) 0%, rgba(245, 245, 245, 0.75) 60%) !important;
 }
 
 body.light-mode .studio-footer footer {

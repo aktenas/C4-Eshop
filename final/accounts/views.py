@@ -19,7 +19,7 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    # Pulls reviews made specifically by this logged-in user
+
     user_reviews = Review.objects.filter(user=request.user).order_by('-created_at')
     context = {
         'user_reviews': user_reviews,

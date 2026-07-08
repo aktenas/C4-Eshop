@@ -46,7 +46,6 @@ class Cart:
         # Base cost of jewelry products
         base_total = sum(Decimal(item_data['price']) * item_data['quantity'] for item_data in self.cart.values())
         
-        # Factor in active appointment downpayments if present
         booking = self.session.get('active_booking')
         if booking:
             base_total += Decimal(booking['deposit'])

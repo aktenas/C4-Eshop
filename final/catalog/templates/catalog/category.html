@@ -15,7 +15,7 @@
             
             <h1 class="page-title text-start">{{ category.name }} Jewellery</h1>
             <div class="red-accent-line"></div>
-            <p class="text-start mb-4 text-muted small" style="font-family: monospace; letter-spacing: 0.05em;">// FILTER AND BROWSE ITEMS INSIDE THIS COLLECTION</p>
+            <p class="text-start mb-4 small" style="font-family: monospace; letter-spacing: 0.05em;">// FILTER AND BROWSE ITEMS INSIDE THIS COLLECTION</p>
 
             <form method="GET" action="" class="mb-5 p-4 review-panel-container" style="background: rgba(128, 128, 128, 0.08); border: 1px solid rgba(128, 128, 128, 0.2); border-left: 3px solid #ff0000 !important; border-radius: 0;">
                 <div class="row g-3 align-items-end">
@@ -81,7 +81,7 @@
                                 <div>
                                     <h3>{{ item.title }}</h3>
                                     
-                                    <span class="text-muted d-block mb-3" style="font-size: 0.75rem; font-family: monospace;">
+                                    <span class="d-block mb-3" style="font-size: 0.75rem; font-family: monospace; color: inherit;">
                                         // {{ item.material }} // {{ item.color }}
                                     </span>
                                 </div>
@@ -104,7 +104,7 @@
                     </div>
                 {% empty %}
                     <div class="col-12 text-start py-4">
-                        <p class="text-muted mb-0" style="font-family: monospace; letter-spacing: 0.05em; font-style: italic;">
+                        <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; font-style: italic; color: inherit;">
                             // There are no items listed in this collection yet.
                         </p>
                     </div>

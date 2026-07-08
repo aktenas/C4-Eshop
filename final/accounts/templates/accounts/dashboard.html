@@ -4,38 +4,42 @@
 {% block title %}C4 TATTOO - Dashboard{% endblock %}
 
 {% block content %}
+    <!-- MAIN BODY CONTENT CONTAINER -->
     <main class="container-fluid my-5 py-4">
         <div class="page-shell">
             
+            <!-- Return Link Component -->
             <div class="text-start mb-4">
                 <a href="{% url 'catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
                     <i class="fa-solid fa-arrow-left me-2"></i> GO SHOPPING
                 </a>
             </div>
             
+            <!-- Header Section -->
             <h1 class="page-title text-start">Welcome, {{ user.username }}!</h1>
             <div class="red-accent-line"></div>
-            <p class="text-start mb-5 text-muted small" style="font-family: monospace; letter-spacing: 0.05em;">// HELLO AND WELCOME TO YOUR CENTRALIZED MANAGEMENT DASHBOARD TERMINAL</p>
+            <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// DASHBOARD</p>
 
             <div class="row g-5">
                 
+                <!-- PROFILE INFORMATION BLOCK -->
                 <div class="col-md-5">
-                    <h2 class="display-6 text-uppercase fw-bold text-white mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em; color: inherit;">Profile Details</h2>
+                    <h2 class="display-6 text-uppercase fw-bold mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em; color: inherit;">Profile Details</h2>
                     
                     <div class="p-4 review-panel-container" style="background: rgba(128, 128, 128, 0.08); border: 1px solid rgba(128, 128, 128, 0.2); border-left: 4px solid #ff0000 !important; border-radius: 0;">
                         <div class="mb-3">
                             <span class="text-red-label text-start mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// USERNAME</span>
-                            <p class="fs-5 fw-bold text-body mb-0" style="font-family: 'Arial', sans-serif;">{{ user.username }}</p>
+                            <p class="fs-5 fw-bold mb-0" style="font-family: 'Arial', sans-serif;">{{ user.username }}</p>
                         </div>
                         
                         <div class="mb-3">
                             <span class="text-red-label text-start mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// EMAIL ADDRESS</span>
-                            <p class="fs-5 text-body mb-0" style="font-family: 'Arial', sans-serif;">{{ user.email }}</p>
+                            <p class="fs-5 mb-0" style="font-family: 'Arial', sans-serif;">{{ user.email }}</p>
                         </div>
                         
                         <div class="mb-3">
                             <span class="text-red-label text-start mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// FULL NAME</span>
-                            <p class="fs-5 text-body mb-0" style="font-family: 'Arial', sans-serif;">
+                            <p class="fs-5 mb-0" style="font-family: 'Arial', sans-serif;">
                                 {{ user.first_name|default:"—" }} {{ user.last_name|default:"" }}
                             </p>
                         </div>
@@ -48,8 +52,9 @@
                     </div>
                 </div>
 
+                <!-- ACTIVITY LOG / REVIEWS FEED BLOCK -->
                 <div class="col-md-7">
-                    <h2 class="display-6 text-uppercase fw-bold text-white mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em; color: inherit;">Your Activity</h2>
+                    <h2 class="display-6 text-uppercase fw-bold mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em; color: inherit;">Your Activity</h2>
                     
                     <span class="text-red-label text-start mb-3" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// ARCHIVED CLIENT REVIEWS SUBMISSIONS</span>
                     
@@ -57,7 +62,7 @@
                         {% for review in user_reviews %}
                             <div class="studio-card p-4" style="border-radius: 0;">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h4 class="fw-bold text-uppercase m-0 text-body" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em;">
+                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
                                         {{ review.item.title }}
                                     </h4>
                                     <span class="text-danger fw-bold" style="font-family: monospace; font-size: 1.1rem;">
@@ -65,13 +70,13 @@
                                     </span>
                                 </div>
                                 <div class="red-accent-line my-2" style="border-bottom-width: 1px !important; margin-bottom: 12px !important;"></div>
-                                <p style="height: auto; overflow: visible; margin-bottom: 0; font-style: italic; color: inherit; opacity: 0.85;">
+                                <p style="height: auto; overflow: visible; margin-bottom: 0; font-style: italic; color: inherit;">
                                     "{{ review.comment }}"
                                 </p>
                             </div>
                         {% empty %}
                             <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
-                                <p class="text-muted mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible;">
+                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
                                     // You haven't submitted any reviews yet!
                                 </p>
                             </div>

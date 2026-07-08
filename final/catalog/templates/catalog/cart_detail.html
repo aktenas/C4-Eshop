@@ -4,25 +4,19 @@
 {% block title %}C4 TATTOO - Your Cart{% endblock %}
 
 {% block content %}
-    <!-- MAIN BODY CONTENT CONTAINER -->
     <main class="container-fluid my-5 py-4">
         <div class="page-shell">
             
-            <!-- Unified Navigation Return Element -->
             <div class="text-start mb-4">
                 <a href="{% url 'catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
                     <i class="fa-solid fa-arrow-left me-2"></i> BACK TO SHOP
                 </a>
             </div>
             
-            <!-- Header Section (Uses text-body so it changes color based on theme) -->
-            <h1 class="text-start mb-2 text-body text-uppercase" style="font-family: 'Impact', sans-serif; font-size: 2.8rem; letter-spacing: 0.05em;">
-                Your Cart Summary
-            </h1>
+            <h1 class="page-title text-start">Your Cart Summary</h1>
             <div class="red-accent-line mb-3"></div>
-            <p class="text-start mb-4 text-muted small" style="font-family: monospace; letter-spacing: 0.05em;">// VERIFY YOUR SELECTIONS BEFORE SECURING SECURE CHECKOUT ROW</p>
+            <p class="text-start mb-4 small" style="font-family: monospace; letter-spacing: 0.05em;">// VERIFY YOUR SELECTIONS BEFORE SECURING SECURE CHECKOUT ROW</p>
 
-            <!-- RESPONSIVE CART INTERFACE -->
             {% if global_cart|length > 0 or booking %}
             <div class="table-responsive mb-4" style="border-left: 3px solid #ff0000;">
                 <table class="table table-bordered align-middle mb-0">
@@ -36,7 +30,6 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <!-- RECURSIVE SHOP PRODUCT LOOPS -->
                         {% for item_data in cart %}
                             {% with item=item_data.item %}
                                 <tr>
@@ -44,11 +37,11 @@
                                         <div class="text-body fw-bold text-uppercase" style="font-family: 'Impact', sans-serif; font-size: 1.2rem; letter-spacing: 0.02em;">
                                             {{ item.title }}
                                         </div>
-                                        <span class="text-muted small d-block" style="font-family: monospace; font-size: 0.75rem;">
+                                        <span class="small d-block" style="font-family: monospace; font-size: 0.75rem; color: inherit;">
                                             // {{ item.material }} // {{ item.color }}
                                         </span>
                                     </td>
-                                    <td class="px-3 py-3 text-center text-muted fw-bold" style="font-family: monospace;">
+                                    <td class="px-3 py-3 text-center fw-bold" style="font-family: monospace; color: inherit;">
                                         {{ item_data.quantity }}
                                     </td>
                                     <td class="px-3 py-3 text-end text-body fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
@@ -58,7 +51,7 @@
                                         ${{ item_data.total_price }}
                                     </td>
                                     <td class="px-4 py-3 text-end">
-                                        <a href="{% url 'cart_remove' item.id %}" class="btn btn-sm btn-outline-danger text-uppercase fw-bold" style="font-size: 0.7 Tier; letter-spacing: 0.05em; border-radius: 0; padding: 4px 10px;">
+                                        <a href="{% url 'cart_remove' item.id %}" class="btn btn-sm btn-outline-danger text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em; border-radius: 0; padding: 4px 10px;">
                                             Remove
                                         </a>
                                     </td>
@@ -66,18 +59,17 @@
                             {% endwith %}
                         {% endfor %}
 
-                        <!-- STAGED BOOKING ENGINE INJECTION -->
                         {% if booking %}
                             <tr class="table-warning">
                                 <td class="px-4 py-4">
                                     <div class="fw-bold text-uppercase text-danger" style="font-family: 'Impact', sans-serif; font-size: 1.2rem; letter-spacing: 0.02em;">
                                         Booking: {{ booking.service }}
                                     </div>
-                                    <span class="text-muted small d-block" style="font-family: monospace; font-size: 0.75rem;">
+                                    <span class="small d-block" style="font-family: monospace; font-size: 0.75rem; color: inherit;">
                                         // Notes: {{ booking.notes }}
                                     </span>
                                 </td>
-                                <td class="px-3 py-4 text-center text-muted fw-bold" style="font-family: monospace;">
+                                <td class="px-3 py-4 text-center fw-bold" style="font-family: monospace; color: inherit;">
                                     1
                                 </td>
                                 <td class="px-3 py-4 text-end text-body fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
@@ -97,9 +89,8 @@
                 </table>
             </div>
 
-            <!-- CHECKOUT LOGICAL INTERFACE CONTAINER -->
             <div class="text-end mt-4 p-4 border" style="background: rgba(0,0,0,0.02);">
-                <span class="text-muted small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em;">// TOTAL SYSTEM VALUATION</span>
+                <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">// TOTAL SYSTEM VALUATION</span>
                 <h2 class="text-body mb-4" style="font-family: 'Impact', sans-serif; font-size: 2.2rem; letter-spacing: 0.02em;">
                     Grand Total: <span class="text-danger">${{ global_cart.get_total_price }}</span>
                 </h2>
@@ -109,12 +100,11 @@
             </div>
 
             {% else %}
-            <!-- EMPTY CART VIEW (Using subtle borders and muted text that works on light and dark themes) -->
             <div class="text-center py-5 border" style="background: rgba(0,0,0,0.02); border-left: 3px solid #ff0000 !important;">
                 <div class="mb-3">
-                    <i class="fa-solid fa-cart-shopping text-muted opacity-50" style="font-size: 3rem;"></i>
+                    <i class="fa-solid fa-cart-shopping opacity-50" style="font-size: 3rem; color: inherit;"></i>
                 </div>
-                <p class="text-muted mb-0 fw-bold" style="font-family: monospace; letter-spacing: 0.05em;">
+                <p class="mb-0 fw-bold" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">
                     // YOUR CART IS COMPLETELY EMPTY.
                 </p>
             </div>

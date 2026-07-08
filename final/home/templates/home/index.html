@@ -7,28 +7,25 @@
 <main class="container-fluid my-5">
     <div class="page-shell">
         
-        <!-- Booking Splash Header -->
-        <section class="p-5 text-center rounded-3 border shadow-sm bg-secondary">
-            <h1 class="display-5 fw-bold text-dark page-title">C4 Tattoo & Piercing</h1>
+        <section class="p-5 text-center">
+            <h1 class="page-title text-center mb-2">C4 Tattoo & Piercing</h1>
             <div class="red-accent-line"></div>
-            <p class="text-red-label">// BOOK A TATTOO OR PIERCING APPOINTMENT TODAY</p>
+            <p class="text-red-label mt-3">// BOOK A TATTOO OR PIERCING APPOINTMENT TODAY</p>
             <p class="intro-copy">Don't think about it twice, just book it.</p>
             <a href="{% url 'tasks' %}" class="btn btn-red btn-lg mt-2 px-4 shadow-sm">BOOK AN APPOINTMENT</a>
         </section>
 
-        <!-- Dynamic Information Cards -->
         <div class="row g-4 mt-4">
             
             <div class="col-md-6">
                 <div class="studio-card h-100">
                     <div class="studio-card-media p-0 overflow-hidden" style="height: 320px;">
-                        <!-- Using project static tracking for your local shop graphic assets -->
                         <img src="{% static 'images/anti-brow-piercing.png' %}" alt="Latest Shop Activity Anti Eyebrow Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                     </div>
                     <div class="studio-card-content">
                         <span class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important; font-size: 0.85rem;">LATEST ACTIVITY</span>
                         <h3>Anti-Brow Piercing</h3>
-                        <p class="mb-0 text-muted" style="height: auto; font-size: 0.9rem;">Perfectly placed anti-eyebrow</p>
+                        <p class="mb-0" style="height: auto; font-size: 0.9rem; color: inherit;">Perfectly placed anti-eyebrow</p>
                     </div>
                 </div>
             </div>
@@ -39,9 +36,9 @@
                         <span class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important; font-size: 0.85rem;">LATEST NEWS</span>
                         <h3>C4 TATTOO IN ATHENS TATTOO CONVENTION 2026</h3>
                         
-                        <div class="api-news-container my-3 d-flex flex-column align-items-center justify-content-center flex-grow-1" style="background: #111111; border: 1px dashed #222222; min-height: 240px; color: #444444;">
-                            <i class="fa-solid fa-network-wired mb-2" style="font-size: 2.5rem; color: #222222;"></i>
-                            <span style="font-family: 'Special Elite', monospace; font-size: 0.85rem; color: #555555;">loading data</span>
+                        <div class="api-news-container my-3 d-flex flex-column align-items-center justify-content-center flex-grow-1" style="min-height: 240px;">
+                            <i class="fa-solid fa-network-wired mb-2" style="font-size: 2.5rem;"></i>
+                            <span style="font-family: 'Special Elite', monospace; font-size: 0.85rem;">loading data</span>
                         </div>
                     </div>
                 </div>
@@ -49,9 +46,8 @@
 
         </div>
 
-        <!-- Carousel Showcase System -->
         <section class="my-5">
-            <div id="studioWorkcaseCarousel" class="carousel slide shadow-sm" data-bs-ride="carousel" style="border: 1px solid #222222; overflow: hidden; position: relative;">
+            <div id="studioWorkcaseCarousel" class="carousel slide shadow-sm" data-bs-ride="carousel" style="overflow: hidden; position: relative;">
                 
                 <div class="carousel-indicators" style="z-index: 15;">
                     <button type="button" data-bs-target="#studioWorkcaseCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -59,7 +55,7 @@
                     <button type="button" data-bs-target="#studioWorkcaseCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
 
-                <div class="carousel-inner" style="height: 480px; background: #000000;">
+                <div class="carousel-inner" style="height: 480px;">
     
                     <div class="carousel-item active h-100" data-bs-interval="4000">
                         <img src="{% static 'images/carousel1.jpg' %}" alt="Custom Ear Setup" class="w-100 h-100" style="object-fit: cover; opacity: 0.4; position: absolute; top: 0; left: 0; filter: blur(8px);">
@@ -99,39 +95,38 @@
             </div>
         </section>
 
-        <!-- Studio Metrics Analytics Footer Panel -->
         <div class="row g-4 mt-5 pt-2">
             
             <div class="col-md-4">
-                <div class="studio-card p-4 text-start analytics-box" style="border-left: 4px solid #FF0000 !important; background: #111111; height: 100%;">
+                <div class="studio-card p-4 text-start analytics-box" style="border-left: 4px solid #FF0000 !important; height: 100%;">
                     <span class="text-red-label d-block mb-1" style="font-size: 0.8rem;">// TRENDING PIERCING</span>
-                    <h4 class="text-muted small text-uppercase mb-2" style="letter-spacing: 0.05em; font-size: 0.85rem;">MOST CHOSEN PIERCING</h4>
-                    <h2 class="display-6 fw-bold text-white mb-0 analytics-value" style="font-family: 'Impact', sans-serif; letter-spacing: 0.02em;">
+                    <h4 class="small text-uppercase mb-2" style="letter-spacing: 0.05em; font-size: 0.85rem; color: inherit;">MOST CHOSEN PIERCING</h4>
+                    <h2 class="display-6 fw-bold mb-0 analytics-value" style="font-family: 'Impact', sans-serif; letter-spacing: 0.02em; color: inherit;">
                         SEPTUM <span class="fs-4 text-danger ms-2">(42%)</span>
                     </h2>
-                    <p class="text-muted small mt-2 mb-0" style="font-size: 0.85rem;">Followed closely by the Industrial and High Nostrils this month.</p>
+                    <p class="small mt-2 mb-0" style="font-size: 0.85rem; color: inherit;">Followed closely by the Industrial and High Nostrils this month.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="studio-card p-4 text-start analytics-box" style="border-left: 4px solid #FF0000 !important; background: #111111; height: 100%;">
+                <div class="studio-card p-4 text-start analytics-box" style="border-left: 4px solid #FF0000 !important; height: 100%;">
                     <span class="text-red-label d-block mb-1" style="font-size: 0.8rem;">// PERCENTAGE</span>
-                    <h4 class="text-muted small text-uppercase mb-2" style="letter-spacing: 0.05em; font-size: 0.85rem;">TOTAL CLIENTS </h4>
-                    <h2 class="display-6 fw-bold text-white mb-0 analytics-value" style="font-family: 'Impact', sans-serif; letter-spacing: 0.02em;">
+                    <h4 class="small text-uppercase mb-2" style="letter-spacing: 0.05em; font-size: 0.85rem; color: inherit;">TOTAL CLIENTS </h4>
+                    <h2 class="display-6 fw-bold mb-0 analytics-value" style="font-family: 'Impact', sans-serif; letter-spacing: 0.02em; color: inherit;">
                         184 <span class="fs-5 text-success ms-2"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
                     </h2>
-                    <p class="text-muted small mt-2 mb-0" style="font-size: 0.85rem;">Data collected from our artists booked sessions this month.</p>
+                    <p class="small mt-2 mb-0" style="font-size: 0.85rem; color: inherit;">Data collected from our artists booked sessions this month.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="studio-card p-4 text-start analytics-box" style="border-left: 4px solid #FF0000 !important; background: #111111; height: 100%;">
+                <div class="studio-card p-4 text-start analytics-box" style="border-left: 4px solid #FF0000 !important; height: 100%;">
                     <span class="text-red-label d-block mb-1" style="font-size: 0.8rem;">// RATING</span>
-                    <h4 class="text-muted small text-uppercase mb-2" style="letter-spacing: 0.05em; font-size: 0.85rem;">REVIEW AVERAGE</h4>
-                    <h2 class="display-6 fw-bold text-white mb-0 analytics-value" style="font-family: 'Impact', sans-serif; letter-spacing: 0.02em; color: #ffcc00 !important;">
-                        4.92 <span class="fs-6 text-muted ms-2">/ 5.00</span>
+                    <h4 class="small text-uppercase mb-2" style="letter-spacing: 0.05em; font-size: 0.85rem; color: inherit;">REVIEW AVERAGE</h4>
+                    <h2 class="display-6 fw-bold mb-0 analytics-value" style="font-family: 'Impact', sans-serif; letter-spacing: 0.02em;">
+                        4.92 <span class="fs-6 ms-2" style="color: inherit;">/ 5.00</span>
                     </h2>
-                    <p class="text-muted small mt-2 mb-0" style="font-size: 0.85rem;">From our loyal customers.</p>
+                    <p class="small mt-2 mb-0" style="font-size: 0.85rem; color: inherit;">From our loyal customers.</p>
                 </div>
             </div>
 

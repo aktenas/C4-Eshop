@@ -4,11 +4,11 @@
 {% block title %}C4 TATTOO - Login{% endblock %}
 
 {% block content %}
-    <!-- MAIN BODY CONTENT CONTAINER TO TRIGGER WATERMARK ROOT LAYER -->
+
     <main class="container-fluid my-5 py-4">
         <div class="page-shell d-flex flex-column align-items-center justify-content-center" style="min-height: 60vh;">
             
-            <!-- HYPER-MINIMAL FLAT INTERFACE (No cards, backgrounds, or side wrappers) -->
+
             <div style="width: 100%; max-width: 360px;">
                 
                 <div class="mb-4 text-start">
@@ -19,8 +19,6 @@
                 
                 <form method="POST" class="m-0">
                     {% csrf_token %}
-                    
-                    <!-- Django form engine handles native inputs cleanly -->
                     <div class="django-form-engine text-start">
                         {{ form.as_p }}
                     </div>
@@ -35,7 +33,7 @@
                 <div class="red-accent-line my-4" style="border-bottom-width: 1px !important; margin-bottom: 20px !important; opacity: 0.3;"></div>
                 
                 <div class="d-flex justify-content-between align-items-center small">
-                    <a href="{% url 'home' %}" class="text-decoration-none text-muted" style="font-family: monospace; letter-spacing: 0.05em;">
+                    <a href="{% url 'home' %}" class="text-decoration-none" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">
                         ← CANCEL
                     </a>
                     <p class="mb-0">

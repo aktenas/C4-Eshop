@@ -38,3 +38,12 @@ final/final/__pycache__/urls.cpython-39.pyc
 final/final/__pycache__/settings.cpython-39.pyc
 final/final/__pycache__/urls.cpython-39.pyc
 final/db.sqlite3
+final/catalog/__pycache__/__init__.cpython-39.pyc
+final/catalog/__pycache__/admin.cpython-39.pyc
+final/catalog/__pycache__/apps.cpython-39.pyc
+final/db.sqlite3
+final/home/__pycache__/views.cpython-39.pyc
+final/final/__pycache__/wsgi.cpython-39.pyc
+final/final/__pycache__/__init__.cpython-39.pyc
+final/home/__pycache__/views.cpython-39.pyc
+final/home/__pycache__/views.cpython-39.pyc

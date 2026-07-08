@@ -1,9 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>contact here!</title>
-    </head>
-    <body>
-        <h1>conctacct, World!</h1>
-    </body>
-</html>
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO{% endblock %}
+
+{% block content %}
+    <!--main page area positioned below the header-->
+    <main class="container-fluid my-5 py-4">
+        <div class="page-shell">
+            
+            <div class="text-start mb-4">
+                <a href="{% url 'home' %}" class="text-decoration-none" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                    <i class="fa-solid fa-arrow-left me-2"></i> BACK
+                </a>
+            </div>
+
+            <h1 class="page-title text-start mb-2">CONTACT US</h1>
+            <div class="red-accent-line"></div>
+            
+            <div class="row g-5">
+                <div class="col-md-5">
+                    <h2 class="display-6 text-uppercase fw-bold text-white mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em;">C4 HQ</h2>
+                    
+                    <div class="mb-4">
+                        <span class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important;">// STUDIO ADDRESS</span>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d303.14662185903825!2d23.733452123133915!3d37.975726473697236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sgr!4v1781368330390!5m2!1sen!2sgr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <p class="fs-5 studio-theme-text mb-0" style="font-family: 'Arial', sans-serif;">Ermou 1</p>
+                        <p class="studio-theme-text">Athens, Greece</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <span class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important;">// PHONE NUMBER</span>
+                        <p class="fs-5 studio-theme-text mb-0" style="font-family: 'Arial', sans-serif;">+30 6952095981</p>
+                        <p class="studio-theme-text">info@c4tattoo.com</p>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <h2 class="display-6 text-uppercase fw-bold text-white mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em;">CONTACT FORM</h2>
+                    
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important;">Name</label>
+                                <input type="text" class="form-control" placeholder="e.g. Alex" required style="background: #111111; color: #ffffff; border: 1px solid #222222; border-radius: 0px; padding: 12px;">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important;">E-mail</label>
+                                <input type="email" class="form-control" placeholder="name@domain.com" required style="background: #111111; color: #ffffff; border: 1px solid #222222; border-radius: 0px; padding: 12px;">
+                            </div>
+                            <div class="col-12">
+                                <label class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important;">Subject</label>
+                                <input type="text" class="form-control" placeholder="e.g. Custom Sleeve Inquiry" required style="background: #111111; color: #ffffff; border: 1px solid #222222; border-radius: 0px; padding: 12px;">
+                            </div>
+                            <div class="col-12">
+                                <label class="text-red-label text-start mb-1" style="width: auto !important; float: none !important; clear: none !important;">Message</label>
+                                <textarea class="form-control" rows="5" placeholder="Your message..." required style="background: #111111; color: #ffffff; border: 1px solid #222222; border-radius: 0px; padding: 12px; resize: none;"></textarea>
+                            </div>
+                            <div class="col-12 pt-2">
+                                <button type="submit" class="btn btn-red px-5 py-3" style="float: right !important;">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}

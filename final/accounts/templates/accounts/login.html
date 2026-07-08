@@ -1,13 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head><title>Login</title></head>
-<body>
-    <h2>Account Login</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log In</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO - Login{% endblock %}
+
+{% block content %}
+    <!-- MAIN BODY CONTENT CONTAINER TO TRIGGER WATERMARK ROOT LAYER -->
+    <main class="container-fluid my-5 py-4">
+        <div class="page-shell d-flex flex-column align-items-center justify-content-center" style="min-height: 60vh;">
+            
+            <!-- HYPER-MINIMAL FLAT INTERFACE (No cards, backgrounds, or side wrappers) -->
+            <div style="width: 100%; max-width: 360px;">
+                
+                <div class="mb-4 text-start">
+                    <span style="font-family: 'Impact', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: inherit;">
+                        // LOGIN
+                    </span>
+                </div>
+                
+                <form method="POST" class="m-0">
+                    {% csrf_token %}
+                    
+                    <!-- Django form engine handles native inputs cleanly -->
+                    <div class="django-form-engine text-start">
+                        {{ form.as_p }}
+                    </div>
+                    
+                    <div class="pt-3">
+                        <button type="submit" class="btn-red w-100 text-uppercase fw-bold" style="margin: 0 !important; font-size: 0.9rem; letter-spacing: 0.05em; padding: 12px !important;">
+                            Sign In <i class="fa-solid fa-right-to-bracket ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="red-accent-line my-4" style="border-bottom-width: 1px !important; margin-bottom: 20px !important; opacity: 0.3;"></div>
+                
+                <div class="d-flex justify-content-between align-items-center small">
+                    <a href="{% url 'home' %}" class="text-decoration-none text-muted" style="font-family: monospace; letter-spacing: 0.05em;">
+                        ← CANCEL
+                    </a>
+                    <p class="mb-0">
+                        <a href="{% url 'register' %}" class="fw-bold text-decoration-none" style="color: #FF0000; font-family: monospace; letter-spacing: 0.05em;">
+                            REGISTER HERE //
+                        </a>
+                    </p>
+                </div>
+                
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,647 @@
+﻿/* --- SYSTEM FONTS IMPORT --- */
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+
+/* ==========================================================================
+   1 GLOBAL LAYOUTS
+   ========================================================================== */
+
+/* background */
+body.studio-body {
+    background-color: #000000 !important;
+    /* background lines */
+    background-image: 
+        linear-gradient(rgba(14, 14, 14, 0.85) 50%, rgba(0, 0, 0, 0.95) 50%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 4px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 4px) !important;
+    /* Repeats the line pattern across the screen every 4 vertical pixels and creates grid pattern */    
+    background-size: 100% 4px, 4px 4px, 4px 4px !important;
+    color: #CCCCCC !important; 
+    font-family: Arial, Helvetica, sans-serif !important;
+    margin: 0px !important;
+}
+
+/* margins for mobile */
+.page-shell {
+    width: 100% !important;
+    max-width: 1300px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    position: relative !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+/* red line */
+.red-accent-line {
+    border-bottom: 4px solid #FF0000 !important;
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* Secondary bg  */
+.bg-secondary {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+
+/* ==========================================================================
+   2 TEXT, BUTTONS & LABEL DESIGN
+   ========================================================================== */
+
+/* Header Title Text*/
+h1.page-title {
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-transform: uppercase !important;
+    font-size: 4.5rem !important;
+    letter-spacing: -0.01em !important;
+    color: #FFFFFF !important;
+    display: inline-block !important;
+    margin-top: 40px !important;
+    margin-bottom: 25px !important;
+    text-shadow: 4px 4px 0px #FF0000 !important; /* Changed from dark to crisp solid red */
+    width: 100% !important;
+    text-align: left !important;
+}
+
+/* Body Text */
+p.intro-copy {
+    max-width: 650px !important;    /* Keeps text readable without extending too wide across the screen */
+    width: 100% !important; /*responsive design*/
+    text-align: center !important;  
+    margin-right: auto !important;  
+    margin-left: auto !important;   
+    color: #999999 !important;
+    margin-bottom: 25px !important;
+    margin-top: 20px !important;
+    line-height: 1.6 !important;
+}
+
+/* Red texts */
+.text-red-label {
+    color: #FF0000 !important;
+    font-family: 'Special Elite', monospace !important;
+    letter-spacing: 0.1em !important;
+    width: 100% !important;        /* spans full width to allow centering */
+    text-align: center !important;  /* centers the text line */
+    display: block !important;
+    margin-bottom: 10px !important;
+}
+
+/* red button */
+.btn-red {
+    background-color: #FF0000 !important;
+    color: #FFFFFF !important;
+    font-family: 'Impact', sans-serif !important;
+    text-transform: uppercase !important;
+    font-size: 1.15rem !important;
+    letter-spacing: 0.05em !important;
+    border: none !important;
+    border-radius: 0px !important; 
+    padding: 12px 28px !important;
+    display: block !important;       /* changed from float to block for centering */
+    margin: 20px auto 0 auto !important; /* auto left/right margins center the button block */
+    transition: all 0.2s ease-in-out !important;
+    box-shadow: 3px 3px 0px #1a1a1a !important;
+}
+/* change red button to white when the mouse hovers*/
+.btn-red:hover {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+/* Snaps the main landing page button to the width of its text */
+section.bg-secondary .btn-red {
+    display: inline-block !important;
+    width: fit-content !important;
+    float: none !important;
+    margin: 20px auto 0 auto !important;
+}
+
+
+/* ==========================================================================
+   3 NAVIGATION BAR
+   ========================================================================== */
+
+/* Navbar Background */
+.bg-obsidian {
+    background-color: #050505 !important;
+    border-bottom: 1px solid #FF0000 !important;
+}
+
+/* navbar c4 tattoo text */
+.navbar-brand {
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-transform: uppercase !important;
+    font-size: 1.8rem !important;
+    letter-spacing: 0.05em !important;
+    color: #FFFFFF !important;
+    transition: color 0.2s ease-in-out !important;
+}
+/* navbar c4 tattoo text becomes white when mouse hovers*/
+.navbar-brand:hover {
+    color: #FF0000 !important;
+}
+
+/* resize logo to fit navbar*/
+.navbar-logo {
+    height: 45px !important;
+    width: auto !important;
+    object-fit: contain !important;
+}
+
+
+/* ==========================================================================
+   4 STUDIO CARDS
+   ========================================================================== */
+
+/* card grids */
+.studio-card {
+    background-color: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /*makes the hover transition smooth*/
+}
+
+.studio-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.1);
+}
+
+.studio-card.h-100 {
+    display: flex !important; /*elements are resized appropriately with card*/
+    flex-direction: column !important; /*elements of card stack vertically*/
+    height: 100% !important; /* makes the leements fill the space in the card*/
+}
+
+/* crops the image into card size */
+.studio-card-media {
+    background-color: #ffffff;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #111111;
+}
+
+/* Fits the text nicely into the card */
+.studio-card-content {
+    padding: 25px;
+    text-align: left;
+    flex-grow: 1 !important; /*if the card is stretched the content stretches too*/
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+.studio-card-content h3 {
+    font-family: 'Impact', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    color: #ffffff !important;
+    margin-bottom: 10px;
+}
+
+.studio-card-content p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #888888;
+    margin-bottom: 20px;
+    height: 70px; /* Forces equal spacing limits across the columns */
+    overflow: hidden;
+}
+
+/* only for buttons inside cards */
+.studio-card-content .btn-red {
+    float: none !important; /*clears bootstrap positioning rules and makes the button behave as content of the card*/
+    display: block !important;
+    margin: 0 !important;
+}
+
+/* Review panel */
+.review-panel-container {
+    background: #111111 !important;
+    border-left: 4px solid #FF0000 !important;
+}
+/*review panel font*/
+.review-panel-container .form-title {
+    font-family: 'Impact', sans-serif !important;
+    letter-spacing: 0.05em !important;
+    color: #ffffff !important;
+}
+
+/* entry fields */
+.studio-input, 
+.studio-select {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #222222 !important;
+    border-radius: 0 !important;
+    padding: 10px !important;
+}
+/*place holder color*/
+.studio-input::placeholder {
+    color: #555555 !important;
+}
+
+
+/* ==========================================================================
+   5 BOOKING PROCESS
+   ========================================================================== */
+
+/* booking step process frame */
+.booking-progress {
+    display: flex;
+    background-color: #111111;
+    border: 1px solid #222222;
+    margin-bottom: 40px;
+}
+
+.booking-progress-step {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: #666666;
+    border-right: 1px solid #222222;
+    position: relative !important;
+    display: inline-block !important;
+}
+/*current step*/
+.booking-progress-step.is-active {
+    background-color: #990000;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+/*removes divider from current step that makes the right wall of the box a little thicker*/
+.booking-progress-step:last-child {
+    border-right: none;
+}
+
+/* arrows  */
+.booking-progress-step:not(:last-child)::after {/*places the arrow on the current step after the text*/
+    content: " >" !important;
+    margin-left: 14px !important;
+    margin-right: 6px !important;
+    color: #444444 !important; 
+    font-weight: bold !important;
+}
+
+/* red arrows on current step */
+.booking-progress-step.is-active::after {
+    color: #FF0000 !important; 
+}
+
+
+/* ==========================================================================
+   6 CAROUSEL & BACKGROUND 
+   ========================================================================== */
+
+/* carousel blur background */
+.carousel-bg-blur {
+    position: absolute !important;
+    top: -10% !important;
+    left: -10% !important;
+    width: 120% !important; /* Slightly oversized to prevent white screen bleed on borders */
+    height: 120% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    /* blur filter */
+    filter: blur(16px) brightness(40%) !important; 
+    transform: scale(1.05) !important;
+    z-index: 1 !important; /*layers it below the actual image*/
+    pointer-events: none !important; /*doesnt interrupt clicking the arrows*/
+}
+/*actual portfolio image*/
+.carousel-fg-img {
+    position: relative !important;
+    z-index: 5 !important;
+    object-fit: contain !important;
+    max-width: 100% !important;
+}
+
+/* Text Captions Block */
+.carousel-caption {
+    position: absolute !important;
+    z-index: 10 !important; /*layering*/
+    background: rgba(0, 0, 0, 0.75) !important;
+    border-left: 3px solid #FF0000 !important;
+    padding: 15px !important;
+    bottom: 30px !important;
+    left: 15% !important;
+    right: 15% !important;
+}
+
+.carousel-caption h5 {
+    font-family: 'Impact', sans-serif !important;
+    letter-spacing: 0.05em !important;
+    color: #FFFFFF !important;
+    margin: 0 !important;
+    text-transform: uppercase !important;
+}
+/*red dots*/
+.carousel-indicators [data-bs-target] {
+    background-color: #FF0000 !important;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important; /*makles it look like a circle*/
+}
+
+/* resets the style */
+.api-news-container-active {
+    background: transparent !important;
+    border: none !important;
+    text-align: left !important;
+}
+
+.api-news-card {
+    background: #111111 !important;
+    border-left: 4px solid #FF0000 !important;
+    padding: 16px !important;
+    margin-bottom: 10px !important;
+    transition: transform 0.2s ease-in-out !important;
+}
+
+.api-news-card h5 {
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    color: #FFFFFF !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 6px !important;
+    font-size: 1.1rem !important;
+}
+
+/* footer gradient */
+.studio-footer {
+    position: relative !important;
+    border-top: none !important;
+    background: linear-gradient(to top, 
+        rgba(13, 13, 13, 0.95) 0%, 
+        rgba(13, 13, 13, 0.75) 50%, 
+        rgba(13, 13, 13, 0.0) 100%
+    ) !important;
+}
+
+.studio-footer .footer-text {
+    color: #a6a6a6 !important;
+}
+
+.studio-footer .footer-link {
+    color: #ffffff !important;
+}
+
+.studio-footer .footer-link:hover {
+    color: #FF0000 !important;
+}
+
+/* logo water mark on background */
+.page-shell::before { /*loads it first*/
+    content: "" !important;/*no text*/
+    position: fixed !important;
+    top: 55% !important; 
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 80vw !important; /*spans 80% of the screen width*/
+    max-width: 750px !important;
+    height: 80vh !important;/*spans 80% of the screen height*/
+    max-height: 750px !important;
+    background-image: url('../images/logo-red.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+    z-index: -1 !important; 
+    pointer-events: none !important; 
+    filter: opacity(0.05) !important; 
+    transition: filter 0.3s ease-in-out !important;
+}
+
+
+/* ==========================================================================
+   7  LIGHT MODE
+   ========================================================================== */
+
+/* Background Lines */
+body.studio-body.light-mode {
+    background-color: #f8f9fa !important;
+    background-image: 
+        linear-gradient(rgba(245, 245, 245, 0.85) 50%, rgba(255, 255, 255, 0.95) 50%),
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.01) 0px, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 4px),
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.01) 0px, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 4px) !important;
+    color: #2b2b2b !important;
+}
+
+/* header 1 to black with red shadow */
+body.studio-body.light-mode h1.page-title {
+    color: #111111 !important;
+    text-shadow: 4px 4px 0px #FF0000 !important;
+}
+
+/* text*/
+body.studio-body.light-mode h2,
+body.studio-body.light-mode .studio-card-content h3,
+body.studio-body.light-mode .api-news-card h5,
+body.studio-body.light-mode .review-panel-container .form-title,
+body.studio-body.light-mode .user-review-author-name,
+body.studio-body.light-mode #summary-cat-node,
+body.studio-body.light-mode #summary-srv-node,
+body.studio-body.light-mode #summary-art-node,
+body.studio-body.light-mode #summary-time-node,
+body.light-mode .analytics-value {
+    color: #111111 !important;
+}
+
+/* Navbar*/
+body.studio-body.light-mode .bg-obsidian {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+}
+
+body.studio-body.light-mode .navbar-brand {
+    color: #111111 !important;
+}
+
+body.studio-body.light-mode .navbar-nav .nav-link,
+body.studio-body.light-mode .navbar-nav .nav-link.text-white {
+    color: #555555 !important;
+}
+
+/*burger menu icon*/
+body.studio-body.light-mode .navbar-toggler-icon {
+    filter: invert(1) !important;
+}
+
+/* cards */
+body.studio-body.light-mode .studio-card,
+body.studio-body.light-mode .api-news-card,
+body.light-mode .review-panel-container,
+body.studio-body.light-mode .analytics-box {
+    background-color: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* borders */
+body.studio-body.light-mode .api-news-card,
+body.light-mode .review-panel-container,
+body.studio-body.light-mode .analytics-box {
+    border-left: 4px solid #FF0000 !important;
+}
+
+body.studio-body.light-mode .studio-card-media {
+    background-color: #f0f0f0 !important;
+    border-bottom: 2px solid #e0e0e0 !important;
+}
+
+/* Booking Steps */
+body.studio-body.light-mode .booking-progress {
+    background-color: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+}
+
+body.studio-body.light-mode .booking-progress-step {
+    color: #888888 !important;
+    border-right: 1px solid #e0e0e0 !important;
+}
+
+body.studio-body.light-mode .booking-progress-step.is-active {
+    background-color: #FF0000 !important;
+    color: #ffffff !important;
+}
+
+body.light-mode .booking-progress-step:not(.is-active),
+body.light-mode .booking-progress-step.is-active + .booking-progress-step {
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: 1px solid #FF0000 !important;
+}
+
+/* reviews */
+body.light-mode .studio-input,
+body.light-mode .studio-select,
+body.light-mode form input,
+body.light-mode form textarea,
+body.light-mode .form-control {
+    background-color: #ffffff !important;
+    color: #111111 !important; 
+    border: 1px solid #cccccc !important;
+}
+
+/* placeholders */
+body.light-mode .studio-input::placeholder,
+body.light-mode form input::placeholder,
+body.light-mode form textarea::placeholder,
+body.light-mode .form-control::placeholder {
+    color: #888888 !important; 
+}
+
+/* Watermark Transparency */
+body.studio-body.light-mode .page-shell::before {
+    filter: opacity(0.095) !important;
+}
+
+/* Gradient Footer*/
+body.light-mode .studio-footer {
+    background: linear-gradient(to top, rgba(255, 72, 72, 0.6) 0%, rgba(245, 245, 245, 0) 60%) !important;
+}
+
+body.light-mode .studio-footer footer {
+    background: #f7f7f7 !important;
+    border-top: 1px solid #e0e0e0 !important;
+}
+
+/*footer text*/
+body.light-mode .studio-footer p, 
+body.light-mode .studio-footer a,
+body.light-mode .studio-footer .footer-text,
+body.light-mode .studio-footer .footer-link {
+    color: #111111 !important;
+}
+
+body.light-mode .studio-footer .footer-link:hover {
+    color: #b30000 !important;
+}
+/* ==========================================================================
+   8 RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 480px) {
+    .carousel-inner { height: 260px !important; }
+}
+
+@media (max-width: 768px) {
+    .carousel-inner { height: 320px !important; }
+}
+
+
+@media (max-width: 576px) {
+    /* Title Compression rules */
+    .page-title, h1.page-title {
+        font-size: 2.2rem !important;
+        line-height: 1.15 !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    /* booking process */
+    .booking-progress {
+        display: flex !important;
+        overflow: hidden !important; 
+        gap: 16px !important; /* expand gap to give the floating arrow room */
+        width: 100% !important;
+        padding: 0 !important;
+        position: relative !important;
+    }
+
+    /* Hide desktop steps */
+    .booking-progress-step {
+        display: none !important;
+        flex: 1 1 0px !important; 
+        text-align: center !important;
+        font-size: 0.8rem !important;
+        padding: 10px 4px !important;
+    }
+
+    /* remove desktop arrow*/
+    .booking-progress-step:not(:last-child)::after {
+        content: "" !important;
+        display: none !important;
+    }
+
+    /* deisplay current step */
+    .booking-progress-step.is-active {
+        display: block !important;
+        background: #FF0000 !important;
+        color: #FFFFFF !important;
+        font-weight: bold !important;
+    }
+
+    /* on mobile the arrow is added between the 2 boxes*/
+    .booking-progress-step.is-active::before {
+        content: ">" !important;
+        position: absolute !important;
+        right: -12px !important; 
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        color: #FF0000 !important;
+        font-family: 'Impact', sans-serif !important;
+        font-size: 1.1rem !important;
+        z-index: 10 !important;
+    }
+
+    /* show only next step on mobile */
+    .booking-progress-step.is-active + .booking-progress-step {
+        display: block !important;
+        background: #111111 !important;
+        color: #666666 !important;
+        border: 1px dashed #333333 !important;
+    }
+    
+    /*remove the arrow on final confirm step even though its red and invisible */
+    .booking-progress-step.is-active:last-child::before {
+        display: none !important;
+        content: "" !important;
+    }
+}

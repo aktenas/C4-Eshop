@@ -1,0 +1,154 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO{% endblock %}
+
+{% block content %}
+    <!--main page area positioned below the header-->
+    <main class="container-fluid my-5 py-4">
+        <div class="page-shell">
+            
+            <div class="text-start mb-4">
+                <a href="{% url 'home' %}" class="text-decoration-none" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                    <i class="fa-solid fa-arrow-left me-2"></i> BACK
+                </a>
+            </div>
+
+            <h1 class="page-title text-start mb-2">Client Reviews</h1>
+            <div class="red-accent-line"></div>
+            
+            <div class="row align-items-center mb-4 g-4">
+                <div class="col-md-8">
+                    <p class="mb-0 fs-5 text-muted" style="color: #a6a6a6 !important;">
+                        Reviews from clients who trusted C4 Tattoo.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <!-- Toggles the submission form open/closed -->
+                    <button id="toggle-review-form-btn" class="btn btn-red px-4 py-3">Write A Review</button>
+                </div>
+            </div>
+
+            <!--REVIEW SUBMISSION PANEL-->
+            <div id="review-form-panel" class="d-none mb-5 p-4 review-panel-container">
+                <h3 class="fw-bold form-title mb-3">SUBMIT YOUR REVIEW</h3>
+                <form id="client-review-form">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label class="text-red-label d-block mb-1">Name</label>
+                            <input type="text" id="review-author" class="form-control studio-input" placeholder="e.g. nick" maxlength="16" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="text-red-label d-block mb-1">Service</label>
+                            <input type="text" id="review-tag" class="form-control studio-input" placeholder="e.g. SEPTUM" maxlength="16" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="text-red-label d-block mb-1">Rating</label>
+                            <select id="review-rating" class="form-control studio-select text-danger fw-bold">
+                                <option value="5">★★★★★ (5 Stars)</option>
+                                <option value="4">★★★★☆ (4 Stars)</option>
+                                <option value="3">★★★☆☆ (3 Stars)</option>
+                                <option value="2">★★☆☆☆ (2 Stars)</option>
+                                <option value="1">★☆☆☆☆ (1 Star)</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="text-red-label d-block mb-1">Review</label>
+                            <textarea id="review-text" class="form-control studio-input" rows="4" placeholder="Share your experience with C4 Tattoo..." required style="resize: none;"></textarea>
+                        </div>
+                        <div class="col-12 text-start">
+                            <button type="submit" class="btn btn-red px-4 py-2">Submit Review</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!--REVIEWS DISPLAY GRID-->
+            <div class="row g-4" id="reviews-feed-grid">
+                
+                <!-- Card 1 -->
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media flex-column">
+                            <div class="mb-2" style="color: #b30000;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="fw-bold text-black text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif;">user123</span>
+                        </div>
+                        <div class="studio-card-content">
+                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// LETTER</span>
+                            <p style="height: auto; margin-bottom: 0; min-height: 110px;">
+                                "Oreo did an amazing job"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media flex-column">
+                            <div class="mb-2" style="color: #b30000;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="fw-bold text-black text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif;">Alex</span>
+                        </div>
+                        <div class="studio-card-content">
+                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// EAR STRETCH</span>
+                            <p style="height: auto; margin-bottom: 0; min-height: 110px;">
+                                "Monster energy is great"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media flex-column">
+                            <div class="mb-2" style="color: #b30000;">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="fw-bold text-black text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif;">nick</span>
+                        </div>
+                        <div class="studio-card-content">
+                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// BLACKOUT</span>
+                            <p style="height: auto; margin-bottom: 0; min-height: 110px;">
+                                "Ruby Red is an amazing piercer"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <template id="review-card-template">
+        <div class="col-md-4">
+            <div class="studio-card">
+                <div class="studio-card-media flex-column">
+                    <div class="mb-2 review-stars" style="color: #b30000;"></div>
+                    <span class="fw-bold text-black text-uppercase review-author" style="font-size: 1.2rem; font-family: 'Impact', sans-serif;"></span>
+                </div>
+                <div class="studio-card-content">
+                    <span class="text-red-accent d-block mb-2 text-uppercase review-tag" style="font-size: 0.85rem;"></span>
+                    <p class="review-body" style="height: auto; margin-bottom: 0; min-height: 110px;"></p>
+                </div>
+            </div>
+        </div>
+    </template>
+{% endblock %}

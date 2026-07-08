@@ -1,63 +1,63 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Jewellery Collection</title>
-</head>
-<body style="margin: 0; font-family: Arial, sans-serif;">
+{% extends 'base.html' %}
+{% load static %}
 
-    <!-- SHOP HEADER NAVIGATION BAR -->
-     <div style="background: #222; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
-    <span style="font-weight: bold; font-size: 18px;">Piercing Studio</span>
-    
-    <div style="display: flex; align-items: center;">
-        <!-- ADD THIS CART LINK HERE -->
-        <a href="{% url 'cart_detail' %}" style="color: #00fa9a; text-decoration: none; margin-right: 20px; font-weight: bold;">
-            Cart (${{ global_cart.get_total_price|default:"0.00" }}) [{{ global_cart|length|default:0 }}]
-        </a>
+{% block title %}C4 TATTOO - Catalog{% endblock %}
 
-        {% if user.is_authenticated %}
-            <span style="margin-right: 15px;">Hello, <strong>{{ user.username }}</strong>!</span>
-            <a href="{% url 'dashboard' %}" style="color: white; text-decoration: none; margin-right: 15px; font-weight: bold;">My Profile Dashboard</a>
-            <a href="{% url 'logout' %}" style="color: #ff6b6b; text-decoration: none; font-weight: bold;">Log Out</a>
-        {% else %}
-            <a href="{% url 'login' %}" style="color: white; text-decoration: none; margin-right: 15px; font-weight: bold;">Log In</a>
-            <a href="{% url 'register' %}" style="color: black; background: white; padding: 6px 12px; text-decoration: none; font-weight: bold; border-radius: 4px;">Register</a>
-        {% endif %}
-    </div>
-</div>    
-        <div>
-            {% if user.is_authenticated %}
-                <!-- If user is logged in, show their profile dashboard and logout routes -->
-                <span style="margin-right: 15px;">Hello, <strong>{{ user.username }}</strong>!</span>
-                <a href="{% url 'dashboard' %}" style="color: #00fa9a; text-decoration: none; margin-right: 15px; font-weight: bold;">My Profile Dashboard</a>
-                <a href="{% url 'logout' %}" style="color: #ff6b6b; text-decoration: none; font-weight: bold;">Log Out</a>
-            {% endif %}
-        </div>
-    </div>
-
+{% block content %}
     <!-- MAIN BODY CONTENT CONTAINER -->
-    <div style="padding: 0 20px;">
-        <div style="margin-top: 20px; margin-bottom: 10px;">
-            <a href="{% url 'home' %}" style="text-decoration: none; color: #555;">← Back to Home Page</a>
-        </div>
-        
-        <h1>Categories</h1>
-        <p>Select a collection to view options and filters:</p>
+    <main class="container-fluid my-5 py-4">
+        <!-- page-shell controls sizing bounds dynamically -->
+        <div class="page-shell">
+            
+            <!-- Return Link Component -->
+            <div class="text-start mb-4">
+                <a href="{% url 'home' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                    <i class="fa-solid fa-arrow-left me-2"></i> BACK TO HOME
+                </a>
+            </div>
+            
+            <!-- Header Section (Uses your explicit .page-title class for text-shadow & color) -->
+            <h1 class="page-title text-start">Our Collections</h1>
+            <div class="red-accent-line"></div>
+            <p class="text-start mb-5 text-muted small" style="font-family: monospace; letter-spacing: 0.05em;">// CHOOSE A COLLECTION TO EXPLORE SPECIFIC PIERCING JEWELLERY OPTIONS</p>
 
-        <div class="category-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px 0;">
-            {% for cat in categories %}
-                <div style="border: 2px solid #333; padding: 20px; text-align: center; background: #fafafa;">
-                    <h2>{{ cat.name }}</h2>
-                    <p>{{ cat.description }}</p>
-                    <a href="{% url 'category' cat.id %}" style="display: inline-block; padding: 10px 20px; background: black; color: white; text-decoration: none;">
-                        Browse Collection
-                    </a>
-                </div>
-            {% empty %}
-                <p>No collections found. Head to the admin panel to add categories!</p>
-            {% endfor %}
+            <!-- COLLECTIONS DISPLAY GRID -->
+            <div class="row g-4">
+                {% for cat in categories %}
+                    <div class="col-lg-4 col-md-6">
+                        <!-- studio-card handles independent borders and hover shifts cleanly -->
+                        <div class="studio-card h-100">
+                            
+                            <!-- Graphical Placeholder Media Window -->
+                            <div class="studio-card-media" style="background: rgba(128, 128, 128, 0.05); border-color: rgba(128, 128, 128, 0.15);">
+                                <i class="fa-solid fa-gem text-danger" style="font-size: 3rem; opacity: 0.85;"></i>
+                            </div>
+                            
+                            <!-- Content wrapper where h3 color and typography are dictated by css -->
+                            <div class="studio-card-content">
+                                <div>
+                                    <h3>{{ cat.name }}</h3>
+                                    <p style="height: auto; overflow: visible; margin-bottom: 25px;">
+                                        {{ cat.description }}
+                                    </p>
+                                </div>
+                                
+                                <a href="{% url 'category' cat.id %}" class="btn-red text-center text-decoration-none">
+                                    Browse Collection <i class="fa-solid fa-chevron-right ms-2" style="font-size: 0.75rem;"></i>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-start py-4">
+                        <p class="text-muted mb-0" style="font-family: monospace; letter-spacing: 0.05em; font-style: italic;">
+                            // No collections found. Head to the admin panel to add categories!
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+            
         </div>
-    </div>
-
-</body>
-</html>
+    </main>
+{% endblock %}

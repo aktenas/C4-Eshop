@@ -1,53 +1,116 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ category.name }} Collection</title>
-</head>
-<body>
-    <div style="margin-top: 20px;">
-        <a href="{% url 'catalog' %}">← Back to All Collections</a>
-    </div>
-    
-    <h1>{{ category.name }} Jewellery</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-    <form method="GET" action="" style="margin-bottom: 30px; padding: 15px; background: #eee; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-        
-        <input type="text" name="search" value="{{ search_query }}" placeholder="Search this collection...">
+{% block title %}C4 TATTOO - {{ category.name }} Collection{% endblock %}
 
-        <select name="material">
-            <option value="">All Materials</option>
-            <option value="Titanium" {% if selected_material == "Titanium" %}selected{% endif %}>Titanium</option>
-            <option value="Surgical Steel" {% if selected_material == "Surgical Steel" %}selected{% endif %}>Surgical Steel</option>
-            <option value="Gold" {% if selected_material == "Gold" %}selected{% endif %}>Gold</option>
-        </select>
-
-        <select name="color">
-            <option value="">All Colors</option>
-            <option value="Silver" {% if selected_color == "Silver" %}selected{% endif %}>Silver</option>
-            <option value="Gold" {% if selected_color == "Gold" %}selected{% endif %}>Gold</option>
-            <option value="Black" {% if selected_color == "Black" %}selected{% endif %}>Black</option>
-        </select>
-
-        <select name="sort">
-            <option value="">Sort By</option>
-            <option value="price_low" {% if selected_sort == "price_low" %}selected{% endif %}>Price: Low to High</option>
-            <option value="price_high" {% if selected_sort == "price_high" %}selected{% endif %}>Price: High to Low</option>
-        </select>
-
-        <button type="submit" style="cursor: pointer; padding: 5px 15px;">Apply Filters</button>
-        <a href="." style="background:#ccc; padding: 5px 10px; text-decoration:none; color:black; font-size:13px;">Reset</a>
-    </form>
-
-    <div class="product-list">
-        {% for item in items %}
-            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; background: #fff;">
-                <h2>{{ item.title }}</h2>
-                <p><strong>Specifications:</strong> {{ item.size }} | {{ item.material }} | {{ item.color }}</p>
-                <p>{{ item.description }}</p>
-                <p><strong>Price:</strong> ${{ item.price }}</p>
-                <p><strong>Stock Available:</strong> {{ item.stock }} units</p>
+{% block content %}
+    <main class="container-fluid my-5 py-4">
+        <div class="page-shell">
+            
+            <div class="text-start mb-4">
+                <a href="{% url 'catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                    <i class="fa-solid fa-arrow-left me-2"></i> BACK TO COLLECTIONS
+                </a>
             </div>
-        {% empty %}
-            <p>No products match your current filters in this collection.</p>
-        {% endfor %}  
-    </div>
+            
+            <h1 class="page-title text-start">{{ category.name }} Jewellery</h1>
+            <div class="red-accent-line"></div>
+            <p class="text-start mb-4 text-muted small" style="font-family: monospace; letter-spacing: 0.05em;">// FILTER AND BROWSE ITEMS INSIDE THIS COLLECTION</p>
+
+            <form method="GET" action="" class="mb-5 p-4 review-panel-container" style="background: rgba(128, 128, 128, 0.08); border: 1px solid rgba(128, 128, 128, 0.2); border-left: 3px solid #ff0000 !important; border-radius: 0;">
+                <div class="row g-3 align-items-end">
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// SEARCH</label>
+                        <input type="text" name="search" value="{{ search_query }}" class="form-control studio-input" placeholder="Search item...">
+                    </div>
+
+                    <div class="col-lg-2 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// MATERIAL</label>
+                        <select name="material" class="form-select studio-select fw-bold">
+                            <option value="" style="background: #111; color: #fff;">All Materials</option>
+                            <option value="Titanium" {% if selected_material == "Titanium" %}selected{% endif %} style="background: #111; color: #fff;">Titanium</option>
+                            <option value="Surgical Steel" {% if selected_material == "Surgical Steel" %}selected{% endif %} style="background: #111; color: #fff;">Surgical Steel</option>
+                            <option value="Gold" {% if selected_material == "Gold" %}selected{% endif %} style="background: #111; color: #fff;">Gold</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// COLOR</label>
+                        <select name="color" class="form-select studio-select fw-bold">
+                            <option value="" style="background: #111; color: #fff;">All Colors</option>
+                            <option value="Silver" {% if selected_color == "Silver" %}selected{% endif %} style="background: #111; color: #fff;">Silver</option>
+                            <option value="Gold" {% if selected_color == "Gold" %}selected{% endif %} style="background: #111; color: #fff;">Gold</option>
+                            <option value="Black" {% if selected_color == "Black" %}selected{% endif %} style="background: #111; color: #fff;">Black</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// SORT BY</label>
+                        <select name="sort" class="form-select studio-select fw-bold">
+                            <option value="" style="background: #111; color: #fff;">Default Sorting</option>
+                            <option value="price_low" {% if selected_sort == "price_low" %}selected{% endif %} style="background: #111; color: #fff;">Price: Low to High</option>
+                            <option value="price_high" {% if selected_sort == "price_high" %}selected{% endif %} style="background: #111; color: #fff;">Price: High to Low</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 text-lg-end">
+                        <div class="d-flex gap-2 justify-content-lg-end">
+                            <button type="submit" class="btn-red text-uppercase fw-bold flex-grow-1 flex-lg-grow-0 px-4" style="font-size: 0.85rem; letter-spacing: 0.05em; margin: 0 !important;">
+                                Apply Filters
+                            </button>
+                            <a href="." class="btn btn-dark text-uppercase fw-bold px-3 d-inline-flex align-items-center justify-content-center" style="border-radius: 0; padding: 10px; font-size: 0.85rem; background: #222; border: 1px solid #333; color: #fff; text-decoration: none;">
+                                Reset
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="row g-4">
+                {% for item in items %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="studio-card h-100">
+                            
+                            <div class="studio-card-media" style="background: rgba(128, 128, 128, 0.05); border-color: rgba(128, 128, 128, 0.15);">
+                                <i class="fa-solid fa-ring text-danger" style="font-size: 2.5rem; opacity: 0.85;"></i>
+                            </div>
+                            
+                            <div class="studio-card-content">
+                                <div>
+                                    <h3>{{ item.title }}</h3>
+                                    
+                                    <span class="text-muted d-block mb-3" style="font-size: 0.75rem; font-family: monospace;">
+                                        // {{ item.material }} // {{ item.color }}
+                                    </span>
+                                </div>
+                                
+                                <div class="mt-auto">
+                                    <p style="font-size: 1.6rem; font-family: 'Impact', sans-serif; letter-spacing: 0.02em; font-weight: bold; height: auto; margin-bottom: 15px; color: inherit;">
+                                        ${{ item.price }}
+                                    </p>
+
+                                    <form action="{% url 'cart_add' item.id %}" method="post" class="m-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-red w-100 text-uppercase fw-bold py-2" style="font-size: 0.8rem; letter-spacing: 0.05em; margin: 0 !important;">
+                                            Add to Cart
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-start py-4">
+                        <p class="text-muted mb-0" style="font-family: monospace; letter-spacing: 0.05em; font-style: italic;">
+                            // There are no items listed in this collection yet.
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}

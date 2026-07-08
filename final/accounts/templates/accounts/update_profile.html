@@ -1,13 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head><title>Update Profile</title></head>
-<body>
-    <h2>Update Account Details</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Updates</button>
-    </form>
-    <p><a href="{% url 'dashboard' %}">Cancel</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO - Update Profile{% endblock %}
+
+{% block content %}
+    <!-- MAIN BODY CONTENT CONTAINER TO TRIGGER WATERMARK ROOT LAYER -->
+    <main class="container-fluid my-5 py-4">
+        <div class="page-shell d-flex flex-column align-items-center justify-content-center" style="min-height: 60vh;">
+            
+            <!-- HYPER-MINIMAL FLAT INTERFACE -->
+            <div style="width: 100%; max-width: 360px;">
+                
+                <div class="mb-4 text-start">
+                    <span style="font-family: 'Impact', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: inherit;">
+                        // UPDATE PROFILE
+                    </span>
+                </div>
+                
+                <form method="POST" class="m-0">
+                    {% csrf_token %}
+                    
+                    <!-- Form engine automatically applies styles from your styles.css -->
+                    <div class="django-form-engine text-start">
+                        {{ form.as_p }}
+                    </div>
+                    
+                    <div class="pt-3">
+                        <button type="submit" class="btn-red w-100 text-uppercase fw-bold" style="margin: 0 !important; font-size: 0.9rem; letter-spacing: 0.05em; padding: 12px !important;">
+                            Save Updates <i class="fa-solid fa-floppy-disk ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="red-accent-line my-4" style="border-bottom-width: 1px !important; margin-bottom: 20px !important; opacity: 0.3;"></div>
+                
+                <div class="text-start small">
+                    <a href="{% url 'dashboard' %}" class="text-decoration-none text-muted" style="font-family: monospace; letter-spacing: 0.05em;">
+                        ← CANCEL AND RETURN
+                    </a>
+                </div>
+                
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}

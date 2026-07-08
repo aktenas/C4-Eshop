@@ -1,9 +1,403 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>tasks!</title>
-    </head>
-    <body>
-        <h1>Hello, World!</h1>
-    </body>
-</html>
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO{% endblock %}
+
+{% block content %}
+    <main class="container-fluid my-5 py-4">
+        <div class="page-shell">
+            
+            <div class="text-start mb-4">
+                <a href="{% url 'home' %}" id="booking-back-btn" class="text-decoration-none" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                    <i class="fa-solid fa-arrow-left me-2"></i> BACK
+                </a>
+            </div>
+
+            <div class="booking-progress mb-5">
+                <div class="booking-progress-step is-active">Category</div>
+                <div class="booking-progress-step">Service</div>
+                <div class="booking-progress-step">Artist</div>
+                <div class="booking-progress-step">Time</div>
+                <div class="booking-progress-step">Confirm</div>
+            </div>
+
+            <h1 class="page-title text-start mb-2" id="booking-heading">Select a Service</h1>
+            <div class="red-accent-line"></div>
+            <p class="text-start mb-5" id="booking-subtext" style="color: #999999; font-size: 1.1rem;">Book a tattoo session, piercing, or checkup appointment.</p>
+
+            <div id="step-view-0" class="booking-step-group row g-4">
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 250px;">
+                            <img src="{% static 'images/tattoo.jpg' %}" alt="Tattoo Session" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>Tattoo Sessions</h3>
+                            <p>Book time and tattoo artist.</p>
+                            <button class="btn-red w-100 category-select-btn" data-category="Tattoo Sessions">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 250px;">
+                            <img src="{% static 'images/facial.jpg' %}" alt="Facial Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>Facial Piercing</h3>
+                            <p>Eyebrow, bridge</p>
+                            <button class="btn-red w-100 category-select-btn" data-category="Facial Piercing">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 250px;">
+                            <img src="{% static 'images/nose.jpg' %}" alt="Nose Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>Nose Piercing</h3>
+                            <p>Septum and nostril procedures.</p>
+                            <button class="btn-red w-100 category-select-btn" data-category="Nose Piercing">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 250px;">
+                            <img src="{% static 'images/ear.webp' %}" alt="Ears Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>Ears Piercing</h3>
+                            <p>Standard earlobe pairs, tragus, industrial.</p>
+                            <button class="btn-red w-100 category-select-btn" data-category="Ears Piercing">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 250px;">
+                            <img src="{% static 'images/lip.jpg' %}" alt="Mouth Area Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>LIP/MOUTH PIERCING</h3>
+                            <p>Medusa, snake bites, dahlia, tongue, angel bites.</p>
+                            <button class="btn-red w-100 category-select-btn" data-category="LIP/MOUTH PIERCING">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media d-flex align-items-center justify-content-center" style="height: 250px; background: #111111;">
+                            <i class="fa-solid fa-hand-holding-medical text-danger" style="font-size: 4.5rem;"></i>
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>Checkup</h3>
+                            <p>Jewelry down-size, piercing checkup, healing consultation.</p>
+                            <button class="btn-red w-100 category-select-btn" data-category="Checkup">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<div id="step-view-1" class="booking-step-group row g-4 d-none">
+                
+                <div class="col-md-4 service-filterable-card" data-cat="Tattoo Sessions">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/tattoo.jpg' %}" alt="Sleeve" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Custom Full Sleeve</h4>
+                            <p class="text-muted small">Large scale illustrative artwork layouts.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Custom Full Sleeve">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Tattoo Sessions">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/tattoo.jpg' %}" alt="Flash" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Traditional Flash</h4>
+                            <p class="text-muted small">Bold outline, classic shop flash traditional work.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Traditional Flash">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 service-filterable-card" data-cat="Facial Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/bridge.jpg' %}" alt="Bridge Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Bridge</h4>
+                            <p class="text-muted small">Horizontal surface bar placement across the nasal bridge.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Bridge Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Facial Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/eyebrow.jpg' %}" alt="Eyebrow Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Eyebrow</h4>
+                            <p class="text-muted small">Vertical insertion through the outer ridge of the eyebrow.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Eyebrow Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 service-filterable-card" data-cat="Nose Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/nostril.jpg' %}" alt="Nostril Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Nostril</h4>
+                            <p class="text-muted small">Classic nostril jewelry installation.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Nostril Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Nose Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/high-nostrils.jpg' %}" alt="High Nostrils Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">High Nostrils (Paired)</h4>
+                            <p class="text-muted small">Elevated placement option set deeper up the nasal cartilage.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="High Nostrils Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Nose Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/septum.jpg' %}" alt="Septum Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Septum</h4>
+                            <p class="text-muted small">Classic septum installation.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Septum Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Nose Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/nostril-double.jpg' %}" alt="Double Nostril Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Nostril Double (Paired)</h4>
+                            <p class="text-muted small">Symmetric nostril piercings.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Double Nostril Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 service-filterable-card" data-cat="Ears Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/tragus.jpg' %}" alt="Tragus Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Tragus</h4>
+                            <p class="text-muted small">Ear canal cartilage stud configurations.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Tragus Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Ears Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/industrial.jpg' %}" alt="Industrial Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Industrial</h4>
+                            <p class="text-muted small">Double-perforation straight bar across upper ear rim.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Industrial Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Ears Piercing">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/lobe.jpg' %}" alt="Lobe Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Lobe</h4>
+                            <p class="text-muted small">Standard earlobe piercing.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Lobe Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="LIP/MOUTH PIERCING">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/medusa.jpg' %}" alt="Medusa Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Medusa</h4>
+                            <p class="text-muted small">Single stud centered perfectly directly above the upper lip.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Medusa Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="LIP/MOUTH PIERCING">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/snake-bites.jpg' %}" alt="Snake Bites Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Snake Bites (Paired)</h4>
+                            <p class="text-muted small">Symmetric placements on both sides of the bottom lip.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Snake Bites Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="LIP/MOUTH PIERCING">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/dahlia.jpg' %}" alt="Dahlia Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Dahlia</h4>
+                            <p class="text-muted small">Symmetric placements on both sides of the smile line.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Dahlia Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="LIP/MOUTH PIERCING">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/tongue.jpg' %}" alt="Tongue Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Tongue</h4>
+                            <p class="text-muted small">Classic vertical barbell installation.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Tongue Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="LIP/MOUTH PIERCING">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
+                            <img src="{% static 'images/angel-bites.jpg' %}" alt="Angel Bites Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content p-4 text-center">
+                            <h4 class="fw-bold text-white mb-2" style="font-family: 'Impact', sans-serif;">Angel Bites (Paired)</h4>
+                            <p class="text-muted small">Symmetric double upper lip piercings.</p>
+                            <button class="btn-red w-100 service-select-btn" data-srv="Angel Bites Piercing">Select Option</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 service-filterable-card" data-cat="Checkup">
+                    <div class="studio-card p-4 text-center">
+                        <h4 class="fw-bold text-white mb-3" style="font-family: 'Impact', sans-serif;">Jewelry Downsize</h4>
+                        <p class="text-muted small">Post-swelling structural labret length reduction processing.</p>
+                        <button class="btn-red w-100 service-select-btn" data-srv="Jewelry Downsize Checkup">Select Option</button>
+                    </div>
+                </div>
+            </div>
+            <div id="step-view-2" class="booking-step-group row g-4 d-none">
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 240px;">
+                            <img src="{% static 'images/monster-energy-tattoer-piercer.webp' %}" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>MONSTER ENERGY</h3>
+                            <span class="text-red-accent d-block mb-3">// 8 YEARS OF EXPERIENCE</span>
+                            <button class="btn-red w-100 artist-select-btn" data-art="MONSTER ENERGY">Select Artist</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 240px;">
+                            <img src="{% static 'images/oreo-piercing-tattoo.jpg' %}" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3>OREO</h3>
+                            <span class="text-red-accent d-block mb-3">// STUDENT</span>
+                            <button class="btn-red w-100 artist-select-btn" data-art="OREO">Select Artist</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card">
+                        <div class="studio-card-media p-0 overflow-hidden" style="height: 240px;">
+                            <img src="{% static 'images/ruby-red-tattoo-piercer.jpg' %}" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                        </div>
+                        <div class="studio-card-content">
+                            <h3 style="font-size: 1.1rem;">RUBY RED</h3>
+                            <span class="text-red-accent d-block mb-3">// NEW TO C4 TATTOO</span>
+                            <button class="btn-red w-100 artist-select-btn" data-art="RUBY RED">Select Artist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="step-view-3" class="booking-step-group row g-4 d-none">
+                <div class="col-md-4">
+                    <div class="studio-card p-4 text-center">
+                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
+                        <h3 style="font-family: 'Impact', sans-serif;">June 20 @ 11:00 AM</h3>
+                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="June 20 @ 11:00 AM">Book Now</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card p-4 text-center">
+                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
+                        <h3 style="font-family: 'Impact', sans-serif;">June 21 @ 01:30 PM</h3>
+                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="June 21 @ 01:30 PM">Book Now</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card p-4 text-center">
+                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
+                        <h3 style="font-family: 'Impact', sans-serif;">June 22 @ 04:00 PM</h3>
+                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="June 22 @ 04:00 PM">Book Now</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card p-4 text-center">
+                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
+                        <h3 style="font-family: 'Impact', sans-serif;">July 23 @ 11:00 AM</h3>
+                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="July 23 @ 11:00 AM">Book Now</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="studio-card p-4 text-center">
+                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
+                        <h3 style="font-family: 'Impact', sans-serif;">July 25 @ 03:30 PM</h3>
+                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="July 25 @ 03:30 PM">Book Now</button>
+                    </div>
+                </div>
+            </div>
+            <div id="step-view-4" class="booking-step-group row g-4 d-none">
+                <div class="col-12">
+                    <div class="studio-card p-5 text-start" style="border-left: 4px solid #FF0000 !important;">
+                        <span class="text-red-label d-block mb-2">// VERIFY BOOKING</span>
+                        <h2 class="display-6 fw-bold text-white mb-4" style="font-family: 'Impact', sans-serif;">BOOKING SUMMARY</h2>
+                        
+                        <div class="mb-3"><strong style="color:#FF0000;">CATEGORY //</strong> <span class="text-white" id="summary-cat-node">None</span></div>
+                        <div class="mb-3"><strong style="color:#FF0000;">SERVICE //</strong> <span class="text-white" id="summary-srv-node">None</span></div>
+                        <div class="mb-3"><strong style="color:#FF0000;">ARTIST //</strong> <span class="text-white" id="summary-art-node">None</span></div>
+                        <div class="mb-4"><strong style="color:#FF0000;">DATE AND TIME //</strong> <span class="text-white" id="summary-time-node">None</span></div>
+                        
+                        <div class="red-accent-line my-4"></div>
+                        <button class="btn-red btn-lg px-5" id="final-confirm-btn">BOOK NOW</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+{% endblock %}

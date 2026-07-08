@@ -1,13 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head><title>Register</title></head>
-<body>
-    <h2>Create Your Account</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO - Register{% endblock %}
+
+{% block content %}
+    <main class="container-fluid my-5 py-4">
+        <div class="page-shell d-flex flex-column align-items-center justify-content-center" style="min-height: 60vh;">
+            
+            <div style="width: 100%; max-width: 360px;">
+                
+                <div class="mb-4 text-start">
+                    <span style="font-family: 'Impact', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: inherit;">
+                        // REGISTER
+                    </span>
+                </div>
+                
+                <form method="POST" class="m-0">
+                    {% csrf_token %}
+                    
+                    <div class="django-form-engine text-start">
+                        {{ form.as_p }}
+                    </div>
+                    
+                    <div class="pt-3">
+                        <button type="submit" class="btn-red w-100 text-uppercase fw-bold" style="margin: 0 !important; font-size: 0.9rem; letter-spacing: 0.05em; padding: 12px !important;">
+                            Create Account <i class="fa-solid fa-user-plus ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="red-accent-line my-4" style="border-bottom-width: 1px !important; margin-bottom: 20px !important; opacity: 0.3;"></div>
+                
+                <div class="d-flex justify-content-between align-items-center small">
+                    <a href="{% url 'home' %}" class="text-decoration-none text-muted" style="font-family: monospace; letter-spacing: 0.05em;">
+                        ← CANCEL
+                    </a>
+                    <p class="mb-0">
+                        <a href="{% url 'login' %}" class="fw-bold text-decoration-none" style="color: #FF0000; font-family: monospace; letter-spacing: 0.05em;">
+                            LOGIN HERE //
+                        </a>
+                    </p>
+                </div>
+                
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}

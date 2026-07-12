@@ -24,7 +24,7 @@ def register(request):
                 request.session['cart'] = temp_cart
                 request.session.modified = True
                 
-            return redirect('dashboard')
+            return redirect('accounts:dashboard')
     else:
         form = UserRegistrationForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -73,7 +73,7 @@ def update_profile(request):
         form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('dashboard')
+            return redirect('accounts:dashboard')
     else:
         form = UserProfileForm(instance=request.user)
     return render(request, 'accounts/update_profile.html', {'form': form})

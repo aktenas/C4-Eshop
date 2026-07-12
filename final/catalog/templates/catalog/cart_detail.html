@@ -8,7 +8,7 @@
         <div class="page-shell">
             
             <div class="text-start mb-4">
-                <a href="{% url 'catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                <a href="{% url 'catalog:catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
                     <i class="fa-solid fa-arrow-left me-2"></i> BACK TO SHOP
                 </a>
             </div>
@@ -51,7 +51,7 @@
                                         ${{ item_data.total_price }}
                                     </td>
                                     <td class="px-4 py-3 text-end">
-                                        <a href="{% url 'cart_remove' item.id %}" class="btn btn-sm btn-outline-danger text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em; border-radius: 0; padding: 4px 10px;">
+                                        <a href="{% url 'catalog:cart_remove' item.id %}" class="btn btn-sm btn-outline-danger text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em; border-radius: 0; padding: 4px 10px;">
                                             Remove
                                         </a>
                                     </td>

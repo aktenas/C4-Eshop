@@ -24,7 +24,7 @@
         <div class="container">
 
             
-            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home:home' %}">
                 <img src="{% static 'images/logo-red.png' %}" alt="C4 Tattoo Logo" class="navbar-logo me-2"> C4 TATTOO
             </a>
 
@@ -46,12 +46,12 @@
                 <ul class="navbar-nav ms-auto text-uppercase fw-bold align-items-lg-center" style="font-size: 0.9rem; letter-spacing: 0.05em;">
                     
                     
-                    <li class="nav-item"><a class="nav-link text-white px-3" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'tasks' %}">Bookings</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'about' %}">About</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'contact' %}">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'reviews' %}">Reviews</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'catalog' %}">Catalog</a></li>
+                    <li class="nav-item"><a class="nav-link text-white px-3" href="{% url 'home:home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'home:tasks' %}">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'home:about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'home:contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'home:reviews' %}">Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'catalog:catalog' %}">Catalog</a></li>
 
                     
                     <li class="nav-item d-none d-lg-block mx-2">
@@ -59,7 +59,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-danger px-3 py-lg-0" href="{% url 'cart_detail' %}" title="View Cart">
+                        <a class="nav-link text-danger px-3 py-lg-0" href="{% url 'catalog:cart_detail' %}" title="View Cart">
                             <i class="fa-solid fa-cart-shopping fs-5"></i>
                             <span class="badge bg-danger rounded-pill ms-1" style="font-size: 0.75rem; vertical-align: top;">
                                 {{ global_cart|length|default:0 }}
@@ -69,10 +69,10 @@
 
                     
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'dashboard' %}">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link text-danger px-3" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link text-danger px-3" href="{% url 'accounts:logout' %}">Logout</a></li>
                     {% else %}
-                        <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link text-secondary px-3" href="{% url 'accounts:login' %}">Login</a></li>
                     {% endif %}
                     
                 </ul>

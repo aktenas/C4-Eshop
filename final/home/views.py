@@ -8,6 +8,7 @@ from .models import Booking
 from datetime import datetime
 from django.db.models import Q
 
+
 def home(request):
     return render (request, 'home/index.html', {})
 def tasks(request):
@@ -69,20 +70,17 @@ def book_appointment(request):
             notes=notes
         )
     
-        return redirect('dashboard')
+        return redirect('accounts:dashboard')
         
-    return redirect('home')
+    return redirect('home:home')
 
 @login_required
 def cancel_booking(request, booking_id):
     if request.method == 'POST':
         booking = get_object_or_404(Booking, id=booking_id, user=request.user)
         booking.delete()
-    return redirect('dashboard')
+    return redirect('accounts:dashboard')
 
-from django.http import JsonResponse
-from datetime import datetime
-from .models import Booking
 
 def check_taken_slots(request):
     date_str = request.GET.get('date')

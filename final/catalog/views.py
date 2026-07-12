@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_POST
 from .models import Item, Category, Review
 from .cart import Cart
 from home.models import Booking
+
 
 def catalog(request):
     categories = Category.objects.all()
@@ -46,13 +47,13 @@ def cart_add(request, item_id):
     cart = Cart(request)
     item = get_object_or_404(Item, id=item_id)
     cart.add(item=item, quantity=1)
-    return redirect('cart_detail')
+    return redirect('catalog:cart_detail')
 
 def cart_remove(request, item_id):
     cart = Cart(request)
     item = get_object_or_404(Item, id=item_id)
     cart.remove(item)
-    return redirect('cart_detail')
+    return redirect('catalog:cart_detail')
 
 def cart_detail(request):
     cart = Cart(request)
@@ -95,3 +96,32 @@ def add_review_ajax(request):
 
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+# Verifies user is an authorized staff member
+def is_studio_admin(user):
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(is_studio_admin, login_url='login')
+def admin_piercing_dashboard(request):
+    """Fetch only items that belong to piercing categories"""
+    # Looks for any categories containing the word 'piercing'
+    piercing_items = Item.objects.filter(
+        category__title__icontains='piercing'
+    ).order_by('category', 'title')
+    
+    return render(request, 'catalog/admin_piercings.html', {'items': piercing_items})
+
+@user_passes_test(is_studio_admin, login_url='login')
+def admin_edit_piercing(request, item_id):
+    """Edit fields for a specific piercing option"""
+    item = get_object_or_404(Item, id=item_id)
+    
+    if request.method == 'POST':
+        item.title = request.POST.get('title')
+        item.price = request.POST.get('price')
+        item.material = request.POST.get('material')
+        item.color = request.POST.get('color')
+        item.save()
+        return redirect('catalog:admin_piercing_dashboard')
+        
+    return render(request, 'catalog/admin_edit_piercing.html', {'item': item})

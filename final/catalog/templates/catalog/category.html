@@ -8,7 +8,7 @@
         <div class="page-shell">
             
             <div class="text-start mb-4">
-                <a href="{% url 'catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                <a href="{% url 'catalog:catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
                     <i class="fa-solid fa-arrow-left me-2"></i> BACK TO COLLECTIONS
                 </a>
             </div>
@@ -91,7 +91,7 @@
                                         ${{ item.price }}
                                     </p>
 
-                                    <form action="{% url 'cart_add' item.id %}" method="post" class="m-0">
+                                    <form action="{% url 'catalog:cart_add' item.id %}" method="post" class="m-0">
                                         {% csrf_token %}
                                         <button type="submit" class="btn-red w-100 text-uppercase fw-bold py-2" style="font-size: 0.8rem; letter-spacing: 0.05em; margin: 0 !important;">
                                             Add to Cart

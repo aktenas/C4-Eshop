@@ -74,8 +74,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'final.wsgi.application'
 
 # Authentication Redirects
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'catalog'
+LOGIN_REDIRECT_URL = 'accounts:dashboard'
+LOGOUT_REDIRECT_URL = 'home:home'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

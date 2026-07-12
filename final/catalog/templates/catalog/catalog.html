@@ -8,7 +8,7 @@
         <div class="page-shell">
             
             <div class="text-start mb-4">
-                <a href="{% url 'home' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                <a href="{% url 'home:home' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
                     <i class="fa-solid fa-arrow-left me-2"></i> BACK TO HOME
                 </a>
             </div>
@@ -34,7 +34,7 @@
                                     </p>
                                 </div>
                                 
-                                <a href="{% url 'category' cat.id %}" class="btn-red text-center text-decoration-none">
+                                <a href="{% url 'catalog:category' cat.id %}" class="btn-red text-center text-decoration-none">
                                     Browse Collection <i class="fa-solid fa-chevron-right ms-2" style="font-size: 0.75rem;"></i>
                                 </a>
                             </div>

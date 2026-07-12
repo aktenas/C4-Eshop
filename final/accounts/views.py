@@ -5,12 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegistrationForm, UserProfileForm
 from catalog.models import Review
+from home.models import Booking
+from django.db.models import Q
 
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            # Grab transient cart before login drops it
             temp_cart = request.session.get('cart', None)
             
             user = form.save(commit=False)
@@ -32,13 +33,8 @@ class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'
     
     def form_valid(self, form):
-        # Read the saved cart from the browser cookies before logging in
         saved_cart_cookie = self.request.COOKIES.get('saved_cart')
-        
-        # Complete standard login processing (wipes/cycles session)
         response = super().form_valid(form)
-        
-        # If a cart was saved from a previous logout, load it back into the fresh session
         if saved_cart_cookie:
             try:
                 self.request.session['cart'] = json.loads(saved_cart_cookie)
@@ -50,13 +46,8 @@ class CustomLoginView(LoginView):
 
 class CustomLogoutView(LogoutView):
     def dispatch(self, request, *args, **kwargs):
-        # 1. Capture the cart state right before logging out
         current_cart = request.session.get('cart', None)
-        
-        # 2. Let standard logout proceed (clears session completely)
         response = super().dispatch(request, *args, **kwargs)
-        
-        # 3. Bake the cart into a long-lived browser cookie expiring in 30 days
         if current_cart:
             response.set_cookie('saved_cart', json.dumps(current_cart), max_age=30*24*60*60)
             
@@ -64,9 +55,15 @@ class CustomLogoutView(LogoutView):
 
 @login_required
 def dashboard(request):
-    user_reviews = Review.objects.filter(user=request.user).order_by('-created_at')
+    # Pull user reviews from catalog.models
+    user_reviews = Review.objects.filter(user=request.user).select_related('item').order_by('-created_at')
+    
+    # Pull user bookings from catalog.models 
+    user_bookings = Booking.objects.filter(user=request.user).order_by('-created_at')
+    
     context = {
         'user_reviews': user_reviews,
+        'user_bookings': user_bookings,
     }
     return render(request, 'accounts/dashboard.html', context)
 
@@ -80,3 +77,15 @@ def update_profile(request):
     else:
         form = UserProfileForm(instance=request.user)
     return render(request, 'accounts/update_profile.html', {'form': form})
+
+@login_required
+def dashboard(request):
+    user_reviews = Review.objects.filter(user=request.user).select_related('item').order_by('-created_at')
+    
+    user_bookings = Booking.objects.filter(user=request.user).order_by('-id')
+    
+    context = {
+        'user_reviews': user_reviews,
+        'user_bookings': user_bookings,
+    }
+    return render(request, 'accounts/dashboard.html', context)

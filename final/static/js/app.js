@@ -6,61 +6,51 @@
     setupNewsSection();
     setupBookingPage();
 });
-// --- BASICS ---
+
+
 function loadNavbar() {
-    // loads navbar and sets the theme
     $('#global-header').load('components/navbar.html', function () {
         setThemeFromStorage();
     });
 }
 
+// loads footer
 function loadFooter() {
-    // loads footer
     $('#global-footer').load('components/footer.html');
 }
 
 function setThemeFromStorage() {
-    // stores the theme selected by the user
     const savedTheme = localStorage.getItem('c4-theme');
 
     if (savedTheme === 'light') {
-        $('body').addClass('light-mode'); //adds css class light mode to html body element
+        $('body').addClass('light-mode'); 
         $('#theme-toggle-icon').removeClass('fa-sun').addClass('fa-moon');
     } else {
         $('body').removeClass('light-mode');
         $('#theme-toggle-icon').removeClass('fa-moon').addClass('fa-sun');
     }
 }
-// event listener for theme toggle button
+
 function setupThemeButton() {
-    // the button that changes the theme
     $(document).on('click', '#theme-toggle', function () {
         if ($('body').hasClass('light-mode')) {
             localStorage.setItem('c4-theme', 'dark');
         } else {
             localStorage.setItem('c4-theme', 'light');
         }
-
         setThemeFromStorage();
     });
 }
+
 // --- NEWS API ---
-// sets up placeholder for API news
 function setupNewsSection() {
-    // with the $ it crashed
     const newsBox = document.querySelector('.api-news-container');
+    if (!newsBox) return;
 
-    // As the code is executed in all pages, only the index.html that contains the api news container will run this function
-    if (!newsBox) {
-        return;
-    }
-
-    // Show the loading screen until the news fetch
     showDefaultNews(newsBox);
     getConventionNews(newsBox);
 }
 
-// Placeholder until the news load
 function showDefaultNews(newsBox) {
     const defaultNews = [
         {
@@ -72,58 +62,41 @@ function showDefaultNews(newsBox) {
             text: 'Reading another update from the official website.'
         }
     ];
-
     showNewsCards(newsBox, defaultNews);
 }
 
-// fetch the news
 function getConventionNews(newsBox) {
     const websiteUrl = 'https://athenstattooconvention.gr/';
-    // construct api url
     const apiUrl = 'https://r.jina.ai/' + websiteUrl;
     
     fetch(apiUrl)
-        // saves the raw markdown string text content
         .then(function (response) {
             return response.text();
         })
-        // processes the markdown string directly
         .then(function (markdownText) {
             showWebsiteNews(newsBox, markdownText);
-            // for debugging
-            // console.log(markdownText)
         })
         .catch(function () {
-            // If the API fails the loading cards stay visible instead of fake news
             console.log('News API is not available right now.');
         });
 }
 
-// keeps only 2 cards to show
 function showWebsiteNews(newsBox, markdownText) {
     const newsItems = findNewsItemsFromText(markdownText);
-
     if (newsItems.length === 2) {
         showNewsCards(newsBox, newsItems);
     }
 }
 
-// Parses raw markdown files line by line
 function findNewsItemsFromText(websiteText) {
-    // separates the markdown file into lines
     const lines = websiteText.split('\n');
-
     const newsItems = [];
 
     lines.forEach(function (line, row) {
-        //  removes markdown symbols from the title
         const title = cleanMarkdownText(line);
 
-        // a heading has to start with # in markdown
         if (line.trim().startsWith('#') && isGoodTitle(title) && newsItems.length < 2) {
-            // after the title, the next lines are defined as the excerpt of the announcement
             const excerpt = findTextAfterLine(lines, row);
-            
             if (excerpt.length > 5) {
                 newsItems.push({
                     title: title,
@@ -132,23 +105,16 @@ function findNewsItemsFromText(websiteText) {
             }
         }
     });
-
     return newsItems;
 }
-// Cleans text lines from markdown symbols
+
 function cleanMarkdownText(text) {
-    // replace part: scan the entire line (g) and replace the symbols in the brakets with an aempty space ' '
-    //trim: removes the spaces at the start and end of line
-    //replace: shrinks multiple space characters to one 
     return text.replace(/[#*_`[\]()]/g, '').trim().replace(/\s+/g, ' ');
 }
 
-
-// Looks down the line array to grab the next available body text section block
 function findTextAfterLine(lines, startRow) {
     for (let i = startRow + 1; i < lines.length; i++) {
         const text = cleanMarkdownText(lines[i]);
-
         if (isGoodExcerpt(text)) {
             return text;
         }
@@ -156,42 +122,25 @@ function findTextAfterLine(lines, startRow) {
     return '';
 }
 
-function isGoodTitle(text) {
-    // Skip repeated logo/menu text and use only useful content headings.
-    if (text.length < 6) {
-        return false;
+if (typeof isGoodTitle !== 'function') {
+    function isGoodTitle(text) {
+        if (text.length < 6) return false;
+        if (text === 'Athens Tattoo Convention' || text === 'Athens Tattoo Convention – Athens Tattoo Convention') return false;
+        if (text.toLowerCase().includes('presales')) return false;
+        return true;
     }
-
-    if (text === 'Athens Tattoo Convention' || text === 'Athens Tattoo Convention – Athens Tattoo Convention') {
-        return false;
-    }
-    //markdown only has capital letters
-    if (text.toLowerCase().includes('presales')) {1
-        return false;
-    }
-
-    return true;
 }
 
-function isGoodExcerpt(text) {
-    // avoids short menu labels and buttons
-    if (text.length < 20) {
-        return false;
+if (typeof isGoodExcerpt !== 'function') {
+    function isGoodExcerpt(text) {
+        if (text.length < 20) return false;
+        if (text.toLowerCase() === 'book now' || text.toLowerCase().includes('skip to content')) return false;
+        if (text.includes('https://')) return false;
+        return true;
     }
-
-    if (text.toLowerCase() === 'book now' || text.toLowerCase().includes('skip to content')) {
-        return false;
-    }
-
-    if (text.includes('https://')) {
-        return false;
-    }
-
-    return true;
 }
 
 function showNewsCards(newsBox, newsItems) {
-    // clear the loading message before adding the news cards.
     newsBox.innerHTML = '';
     newsBox.classList.add('api-news-container-active');
 
@@ -213,9 +162,7 @@ function showNewsCards(newsBox, newsItems) {
 }
 
 // --- BOOKING SYSTEM ---
-
-$(document).ready(function() {
-    // checks if theres the booking system in the current page
+function setupBookingPage() {
     if ($('.booking-progress').length === 0) return;
 
     let state = {
@@ -231,88 +178,273 @@ $(document).ready(function() {
         { title: "Select Option", sub: "Choose a service." },
         { title: "Select an Artist", sub: "Choose an artist." },
         { title: "Select Date and Time", sub: "Choose an available date and time slot below." },
+        { title: "Payment", sub: "Make Payment" },
         { title: "Verify Booking", sub: "Review booking." }
     ];
 
-    // Step 0 -> Step 1
-    $(document).on('click', '.category-select-btn', function() {
-        // finds the data category of the button just pressed in the HTML
-        state.category = $(this).data('category');
+    function generateStudioTimeSlots(artist) {
+        if (artist && String(artist).toLowerCase().trim() === 'monster energy') {
+            // tattoo artist slots
+            return [
+                { raw: "13:00", display: "01:00 PM" },
+                { raw: "15:30", display: "03:30 PM" },
+                { raw: "18:00", display: "06:00 PM" }
+            ];
+        }
         
+        // Standard studio slots
+        return [
+            { raw: "13:00", display: "01:00 PM" },
+            { raw: "13:30", display: "01:30 PM" },
+            { raw: "14:00", display: "02:00 PM" },
+            { raw: "14:30", display: "02:30 PM" },
+            { raw: "15:00", display: "03:00 PM" },
+            { raw: "15:30", display: "03:30 PM" },
+            { raw: "16:00", display: "04:00 PM" },
+            { raw: "16:30", display: "04:30 PM" },
+            { raw: "17:00", display: "05:00 PM" },
+            { raw: "17:30", display: "05:30 PM" },
+            { raw: "18:00", display: "06:00 PM" },
+            { raw: "18:30", display: "06:30 PM" },
+            { raw: "19:00", display: "07:00 PM" },
+            { raw: "19:30", display: "07:30 PM" },
+            { raw: "20:00", display: "08:00 PM" }
+        ];
+    }
+
+    function fetchAndRenderSlots(dateString) {
+        const slotsContainer = document.querySelector('#time-slots-container');
+        if (!slotsContainer) return;
+        
+        slotsContainer.innerHTML = ''; 
+        const currentArtist = state.artist || ""; 
+        
+        const checkUrl = `/home/book/check-slots/?date=${dateString}&artist=${encodeURIComponent(currentArtist)}`;
+        
+        fetch(checkUrl)
+            .then(response => response.json())
+            .then(data => {
+                const takenSlots = data.taken_slots; 
+                const masterSlots = generateStudioTimeSlots(currentArtist);
+                
+                slotsContainer.innerHTML = ''; 
+
+                masterSlots.forEach(slot => {
+                    const isTaken = takenSlots.includes(slot.raw) || takenSlots.includes(slot.display);
+
+                    if (isTaken) {
+                        return; 
+                    }
+
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.style.fontFamily = 'monospace';
+                    btn.style.letterSpacing = '0.05em';
+                    btn.textContent = slot.display;
+                    btn.setAttribute('data-time-display', slot.display);
+                    btn.className = 'btn btn-sm btn-outline-danger text-white fw-bold studio-time-slot-btn';
+
+                    slotsContainer.appendChild(btn);
+                });
+            })
+            .catch(err => console.error("Error fetching slots:", err));
+    }
+
+    // calendar
+    const datePickerEl = document.querySelector('#calendar-date-picker');
+    if (datePickerEl) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowString = tomorrow.toISOString().split('T')[0];
+        
+        datePickerEl.min = tomorrowString;
+        datePickerEl.value = tomorrowString;
+        
+        fetchAndRenderSlots(tomorrowString);
+    }
+
+    $(document).off('change', '#calendar-date-picker').on('change', '#calendar-date-picker', function() {
+        const selectedDate = $(this).val();
+        if (!selectedDate) return;
+
+        state.time = ''; 
+        fetchAndRenderSlots(selectedDate);
+    });
+
+    // Step 0 -> Step 1
+    $(document).off('click', '.category-select-btn').on('click', '.category-select-btn', function() {
+        const chosenCategory = $(this).attr('data-category') || $(this).data('category') || "";
+        state.category = chosenCategory;
+    
         $('.service-filterable-card').addClass('d-none');
-        // selects the category of the clicked button and removes the display none in css
         $(`.service-filterable-card[data-cat="${state.category}"]`).removeClass('d-none');
+        
+        const monsterEnergyBtn = document.querySelector('.artist-select-btn[data-art="MONSTER ENERGY"]');
+        const oreoBtn = document.querySelector('.artist-select-btn[data-art="OREO"]');
+        const rubyRedBtn = document.querySelector('.artist-select-btn[data-art="RUBY RED"]');
+        
+        const isTattoo = state.category && state.category.toLowerCase().includes('tattoo');
+
+        // 1. Filter Monster Energy
+        if (monsterEnergyBtn) {
+            const column = monsterEnergyBtn.closest('.col-md-4');
+            if (column) {
+                if (isTattoo) {
+                    column.classList.remove('d-none');
+                } else {
+                    column.classList.add('d-none');
+                }
+            }
+        }
+
+        // 2. Filter Oreo
+        if (oreoBtn) {
+            const column = oreoBtn.closest('.col-md-4');
+            if (column) {
+                if (isTattoo) {
+                    column.classList.add('d-none');
+                } else {
+                    column.classList.remove('d-none');
+                }
+            }
+        }
+
+        // 3. Filter Ruby Red
+        if (rubyRedBtn) {
+            const column = rubyRedBtn.closest('.col-md-4');
+            if (column) {
+                if (isTattoo) {
+                    column.classList.add('d-none');
+                } else {
+                    column.classList.remove('d-none');
+                }
+            }
+        }
         
         renderStep(1);
     });
-
     // Step 1 -> Step 2
-    $(document).on('click', '.service-select-btn', function() {
-        // finds the service in html of the button clicked
+    $(document).off('click', '.service-select-btn').on('click', '.service-select-btn', function() {
         state.service = $(this).data('srv');
+        
+        const monsterEnergyBtn = document.querySelector('.artist-select-btn[data-art="Monster Energy"]');
+        if (monsterEnergyBtn) {
+            if (state.category && state.category.toLowerCase().includes('piercing')) {
+                monsterEnergyBtn.closest('.studio-card')?.classList.add('d-none'); 
+                monsterEnergyBtn.classList.add('d-none');
+            } else {
+                monsterEnergyBtn.classList.remove('d-none');
+            }
+        }
+        
         renderStep(2);
     });
 
-    // Step 2 -> Step 3
-    $(document).on('click', '.artist-select-btn', function() {
-        // finds the artist in html of the button clicked
+    // Step 2 -> Step 3 
+    $(document).off('click', '.artist-select-btn').on('click', '.artist-select-btn', function() {
         state.artist = $(this).data('art');
+        
+        const currentSelectedDate = document.querySelector('#calendar-date-picker').value;
+        
+        if (currentSelectedDate) {
+            fetchAndRenderSlots(currentSelectedDate);
+        }
+        
         renderStep(3);
     });
 
+    $(document).off('click', '.studio-time-slot-btn').on('click', '.studio-time-slot-btn', function() {
+        $('.studio-time-slot-btn').removeClass('btn-danger text-black').addClass('btn-outline-danger text-white');
+        $(this).removeClass('btn-outline-danger text-white').addClass('btn-danger text-black');
+        
+        const pickedTimeStr = $(this).attr('data-time-display');
+        const dateVal = document.querySelector('#calendar-date-picker').value;
+
+        const dateObj = new Date(dateVal);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { 
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
+
+        state.time = `${formattedDate} @ ${pickedTimeStr}`;
+    });
+
     // Step 3 -> Step 4
-    $(document).on('click', '.time-select-btn', function() {
-        // finds the time slot in html of the button clicked
-        state.time = $(this).data('time');
-        
-        $('#summary-cat-node').text(state.category);
-        $('#summary-srv-node').text(state.service);
-        $('#summary-art-node').text(state.artist);
-        $('#summary-time-node').text(state.time);
-        
+    $(document).off('click', '#calendar-continue-btn').on('click', '#calendar-continue-btn', function() {
+        const dateVal = document.querySelector('#calendar-date-picker').value;
+
+        if (!dateVal || !state.time) {
+            alert("SYSTEM ALERT:\nPlease select an available calendar date and click a time slot button window before moving forward.");
+            return;
+        }
         renderStep(4);
     });
 
-    // Step 4 
-    $(document).on('click', '#final-confirm-btn', function() {
-        alert(`BOOKING SUCCESSFUL!\nYour appointment for a ${state.service} with ${state.artist} on ${state.time} is saved.`);
-        // after the alert is displayed, user is redirected to the home page
-        window.location.href = 'index.html';
+    // Step 4 -> Step 5
+    $(document).off('click', '#payment-continue-btn').on('click', '#payment-continue-btn', function() {
+        const name = document.querySelector('#payment-name').value.trim();
+        const card = document.querySelector('#payment-card').value.trim();
+        const expiry = document.querySelector('#payment-expiry').value.trim();
+        const cvv = document.querySelector('#payment-cvv').value.trim();
+
+        if (!name || !card || !expiry || !cvv) {
+            alert("GATEWAY WARNING:\nPlease input valid authentication card parameters before proceeding.");
+            return;
+        }
+
+        document.querySelector('#summary-cat-node').textContent = state.category;
+        document.querySelector('#summary-srv-node').textContent = state.service;
+        document.querySelector('#summary-art-node').textContent = state.artist;
+        document.querySelector('#summary-time-node').textContent = state.time;
+
+        renderStep(5);
     });
 
-    // pressing back gets the user a step back
-    $(document).on('click', '#booking-back-btn', function(e) {
+    // Step 5
+    $(document).off('click', '#final-confirm-btn').on('click', '#final-confirm-btn', function(e) {
+        e.preventDefault();
+
+        if (state.category && state.category.toLowerCase().includes('tattoo')) {
+            document.querySelector('#id_service_type').value = 'tattoo';
+        } else {
+            document.querySelector('#id_service_type').value = 'piercing';
+        }
+
+        const generatedNotes = `Service: ${state.service} | Artist: ${state.artist} | Date: ${state.time}`;
+        document.querySelector('#id_notes').value = generatedNotes;
+
+        alert(`BOOKING SUCCESSFUL!\nYour appointment for a ${state.service} with ${state.artist} on ${state.time} has been registered to your account.`);
+        document.querySelector('#django-booking-bridge').submit();
+    });
+
+    // Back Button
+    $(document).off('click', '#booking-back-btn').on('click', '#booking-back-btn', function(e) {
         if (state.currentStep > 0) {
             e.preventDefault();
             renderStep(state.currentStep - 1);
         }
     });
 
-    // renders each step state 
     function renderStep(stepNumber) {
         state.currentStep = stepNumber;
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         $('.booking-progress-step').removeClass('is-active');
-        // equals index is used to select current step and make it the only one visible
         $('.booking-progress-step').eq(stepNumber).addClass('is-active');
 
         $('.booking-step-group').addClass('d-none');
-        // finds the current step view number in html and removes display none
         $(`#step-view-${stepNumber}`).removeClass('d-none');
 
-        $('#booking-heading').text(headings[stepNumber].title);
-        $('#booking-subtext').text(headings[stepNumber].sub);
+        document.querySelector('#booking-heading').textContent = headings[stepNumber].title;
+        document.querySelector('#booking-subtext').textContent = headings[stepNumber].sub;
     }
-});
+}
 
 // --- REVIEW SYSTEM ---
-
 $(document).ready(function() {
-    // checks if the current page has the review form, if not its not the review page
     if ($('#client-review-form').length === 0) return;
 
-    // pops up the review panel
     $(document).on('click', '#toggle-review-form-btn', function() {
         const formPanel = $('#review-form-panel');
         formPanel.toggleClass('d-none');
@@ -324,17 +456,14 @@ $(document).ready(function() {
         }
     });
 
-    // before submission the data is collected
     $('#client-review-form').on('submit', function(e) {
         e.preventDefault();
 
-        // collect raw string form input, val takes the raw input and trim removes the spaces
-        const author = $('#review-author').val().trim();
-        const tag = $('#review-tag').val().trim();
-        const score = parseInt($('#review-rating').val());
-        const content = $('#review-text').val().trim();
+        const author = document.querySelector('#review-author').value.trim();
+        const tag = document.querySelector('#review-tag').value.trim();
+        const score = parseInt(document.querySelector('#review-rating').value);
+        const content = document.querySelector('#review-text').value.trim();
 
-        // star element layout 
         let starsHTML = '';
         for (let i = 0; i < 5; i++) {
             if (i < score) {
@@ -343,22 +472,17 @@ $(document).ready(function() {
                 starsHTML += '<i class="fa-regular fa-star"></i> ';
             }
         }
-        // targets the review card template
-        const templateNode = document.querySelector('#review-card-template');
         
-        // clones the template so its not edited directly
+        const templateNode = document.querySelector('#review-card-template');
         const cardClone = templateNode.content.cloneNode(true);
 
-        // adds the collected review data to the card
         $(cardClone).find('.review-stars').html(starsHTML);
         $(cardClone).find('.review-author').text(author);
         $(cardClone).find('.review-tag').text(`// ${tag}`);
         $(cardClone).find('.review-body').text(`"${content}"`);
 
-        // injects the card into the review grid, prepend puts it first
         $('#reviews-feed-grid').prepend(cardClone);
 
-        // closes window
         $('#client-review-form')[0].reset();
         $('#review-form-panel').addClass('d-none');
         $('#toggle-review-form-btn').text('Write A Review');

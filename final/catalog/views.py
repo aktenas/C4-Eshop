@@ -1,31 +1,24 @@
-from .models import Item
-from django.http import HttpResponse
-from .models import Item, Category
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from .models import Item, Category, Review
 from .cart import Cart
+from home.models import Booking
 
-# This handles the main landing page at /catalog/
 def catalog(request):
     categories = Category.objects.all()
     return render(request, 'catalog/catalog.html', {'categories': categories})
 
-
-# This handles the specific department view at /catalog/category/<id>/
 def category(request, category_id):
-    # Grab the selected category, or show a 404 page if it doesn't exist
     category = get_object_or_404(Category, id=category_id)
-    
-    # Filter items so we ONLY grab pieces belonging to this specific collection
     items = Item.objects.filter(category=category)
 
-    # Grab filter inputs from the URL query parameters
     search_query = request.GET.get('search', '')
     material_filter = request.GET.get('material', '')
     color_filter = request.GET.get('color', '')
     sort_by = request.GET.get('sort', '')
 
-    # Apply Filters dynamically if the user selects them
     if search_query:
         items = items.filter(title__icontains=search_query)
     if material_filter:
@@ -33,7 +26,6 @@ def category(request, category_id):
     if color_filter:
         items = items.filter(color=color_filter)
         
-    # Apply Price Sorting
     if sort_by == 'price_low':
         items = items.order_by('price')
     elif sort_by == 'price_high':
@@ -48,6 +40,7 @@ def category(request, category_id):
         'selected_sort': sort_by,
     }
     return render(request, 'catalog/category.html', context)
+
 @require_POST
 def cart_add(request, item_id):
     cart = Cart(request)
@@ -63,18 +56,42 @@ def cart_remove(request, item_id):
 
 def cart_detail(request):
     cart = Cart(request)
-    booking = request.session.get('active_booking')
-    return render(request, 'catalog/cart_detail.html', {'cart': cart, 'booking': booking})
+    return render(request, 'catalog/cart_detail.html', {'cart': cart})
 
-def book_appointment(request):
-    if request.method == 'POST':
-        service_type = request.POST.get('service_type')
-        notes = request.POST.get('notes', '')
-        
-        request.session['active_booking'] = {
-            'service': service_type,
-            'notes': notes,
-            'deposit': '50.00'
-        }
-        return redirect('cart_detail')
-    return render(request, 'catalog/book_service.html')
+@login_required
+@require_POST
+def add_review_ajax(request):
+    try:
+        item_id = request.POST.get('item_id')
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment', '').strip()
+
+        if not all([item_id, rating, comment]):
+            return JsonResponse({'success': False, 'error': 'All fields are required.'}, status=400)
+
+        try:
+            item = Item.objects.get(id=item_id)
+        except Item.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Selected catalog item does not exist.'}, status=404)
+
+        rating_val = int(rating)
+        if not (1 <= rating_val <= 5):
+            return JsonResponse({'success': False, 'error': 'Invalid rating numerical range value.'}, status=400)
+
+        review = Review.objects.create(
+            item=item,
+            user=request.user,
+            rating=rating_val,
+            comment=comment
+        )
+
+        return JsonResponse({
+            'success': True,
+            'username': request.user.username,
+            'item_title': item.title,
+            'rating': review.rating,
+            'comment': review.comment,
+        })
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

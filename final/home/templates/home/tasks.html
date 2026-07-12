@@ -7,7 +7,7 @@
     <main class="container-fluid my-5 py-4">
         <div class="page-shell">
             
-            <div class="text-start mb-4">
+            <div>
                 <a href="{% url 'home' %}" id="booking-back-btn" class="text-decoration-none" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
                     <i class="fa-solid fa-arrow-left me-2"></i> BACK
                 </a>
@@ -18,12 +18,13 @@
                 <div class="booking-progress-step">Service</div>
                 <div class="booking-progress-step">Artist</div>
                 <div class="booking-progress-step">Time</div>
+                <div class="booking-progress-step">Payment</div>
                 <div class="booking-progress-step">Confirm</div>
             </div>
 
-            <h1 class="page-title text-start mb-2" id="booking-heading">Select a Service</h1>
+            <h1 class="page-title mb-2" id="booking-heading">Select a Service</h1>
             <div class="red-accent-line"></div>
-            <p class="text-start mb-5" id="booking-subtext" style="font-size: 1.1rem; color: inherit;">Book a tattoo session, piercing, or checkup appointment.</p>
+            <p id="booking-subtext" style="font-size: 1.1rem; color: inherit;">Book a tattoo session, piercing, or checkup appointment.</p>
 
             <div id="step-view-0" class="booking-step-group row g-4">
                 <div class="col-md-4">
@@ -106,7 +107,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/tattoo.jpg' %}" alt="Sleeve" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Custom Full Sleeve</h4>
                             <p class="small">Large scale illustrative artwork layouts.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Custom Full Sleeve">Select Option</button>
@@ -118,7 +119,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/tattoo.jpg' %}" alt="Flash" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Traditional Flash</h4>
                             <p class="small">Bold outline, classic shop flash traditional work.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Traditional Flash">Select Option</button>
@@ -131,7 +132,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/bridge.jpg' %}" alt="Bridge Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Bridge</h4>
                             <p class="small">Horizontal surface bar placement across the nasal bridge.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Bridge Piercing">Select Option</button>
@@ -143,7 +144,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/eyebrow.jpg' %}" alt="Eyebrow Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Eyebrow</h4>
                             <p class="small">Vertical insertion through the outer ridge of the eyebrow.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Eyebrow Piercing">Select Option</button>
@@ -156,7 +157,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/nostril.jpg' %}" alt="Nostril Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Nostril</h4>
                             <p class="small">Classic nostril jewelry installation.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Nostril Piercing">Select Option</button>
@@ -168,7 +169,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/high-nostrils.jpg' %}" alt="High Nostrils Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">High Nostrils (Paired)</h4>
                             <p class="small">Elevated placement option set deeper up the nasal cartilage.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="High Nostrils Piercing">Select Option</button>
@@ -180,7 +181,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/septum.jpg' %}" alt="Septum Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Septum</h4>
                             <p class="small">Classic septum installation.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Septum Piercing">Select Option</button>
@@ -192,7 +193,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/nostril-double.jpg' %}" alt="Double Nostril Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Nostril Double (Paired)</h4>
                             <p class="small">Symmetric nostril piercings.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Double Nostril Piercing">Select Option</button>
@@ -205,7 +206,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/tragus.jpg' %}" alt="Tragus Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Tragus</h4>
                             <p class="small">Ear canal cartilage stud configurations.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Tragus Piercing">Select Option</button>
@@ -217,7 +218,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/industrial.jpg' %}" alt="Industrial Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Industrial</h4>
                             <p class="small">Double-perforation straight bar across upper ear rim.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Industrial Piercing">Select Option</button>
@@ -229,7 +230,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/lobe.jpg' %}" alt="Lobe Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Lobe</h4>
                             <p class="small">Standard earlobe piercing.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Lobe Piercing">Select Option</button>
@@ -241,7 +242,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/medusa.jpg' %}" alt="Medusa Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Medusa</h4>
                             <p class="small">Single stud centered perfectly directly above the upper lip.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Medusa Piercing">Select Option</button>
@@ -253,7 +254,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/snake-bites.jpg' %}" alt="Snake Bites Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Snake Bites (Paired)</h4>
                             <p class="small">Symmetric placements on both sides of the bottom lip.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Snake Bites Piercing">Select Option</button>
@@ -265,7 +266,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/dahlia.jpg' %}" alt="Dahlia Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Dahlia</h4>
                             <p class="small">Symmetric placements on both sides of the smile line.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Dahlia Piercing">Select Option</button>
@@ -277,7 +278,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/tongue.jpg' %}" alt="Tongue Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Tongue</h4>
                             <p class="small">Classic vertical barbell installation.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Tongue Piercing">Select Option</button>
@@ -289,7 +290,7 @@
                         <div class="studio-card-media p-0 overflow-hidden" style="height: 200px;">
                             <img src="{% static 'images/angel-bites.jpg' %}" alt="Angel Bites Piercing" class="img-fluid w-100 h-100" style="object-fit: cover;">
                         </div>
-                        <div class="studio-card-content p-4 text-center">
+                        <div class="studio-card-content p-4">
                             <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">Angel Bites (Paired)</h4>
                             <p class="small">Symmetric double upper lip piercings.</p>
                             <button class="btn-red w-100 service-select-btn" data-srv="Angel Bites Piercing">Select Option</button>
@@ -297,13 +298,14 @@
                     </div>
                 </div>
                 <div class="col-md-4 service-filterable-card" data-cat="Checkup">
-                    <div class="studio-card p-4 text-center">
+                    <div class="studio-card p-4">
                         <h4 class="fw-bold mb-3" style="font-family: 'Impact', sans-serif; color: inherit;">Jewelry Downsize</h4>
                         <p class="small">Post-swelling structural labret length reduction processing.</p>
                         <button class="btn-red w-100 service-select-btn" data-srv="Jewelry Downsize Checkup">Select Option</button>
                     </div>
                 </div>
             </div>
+
             <div id="step-view-2" class="booking-step-group row g-4 d-none">
                 <div class="col-md-4">
                     <div class="studio-card">
@@ -312,7 +314,7 @@
                         </div>
                         <div class="studio-card-content">
                             <h3>MONSTER ENERGY</h3>
-                            <span class="text-red-accent d-block mb-3">// 8 YEARS OF EXPERIENCE</span>
+                            <span class="text-red-accent mb-3">// 8 YEARS OF EXPERIENCE</span>
                             <button class="btn-red w-100 artist-select-btn" data-art="MONSTER ENERGY">Select Artist</button>
                         </div>
                     </div>
@@ -324,7 +326,7 @@
                         </div>
                         <div class="studio-card-content">
                             <h3>OREO</h3>
-                            <span class="text-red-accent d-block mb-3">// STUDENT</span>
+                            <span class="text-red-accent mb-3">// STUDENT</span>
                             <button class="btn-red w-100 artist-select-btn" data-art="OREO">Select Artist</button>
                         </div>
                     </div>
@@ -336,7 +338,7 @@
                         </div>
                         <div class="studio-card-content">
                             <h3 style="font-size: 1.1rem;">RUBY RED</h3>
-                            <span class="text-red-accent d-block mb-3">// NEW TO C4 TATTOO</span>
+                            <span class="text-red-accent mb-3">// NEW TO C4 TATTOO</span>
                             <button class="btn-red w-100 artist-select-btn" data-art="RUBY RED">Select Artist</button>
                         </div>
                     </div>
@@ -344,46 +346,74 @@
             </div>
 
             <div id="step-view-3" class="booking-step-group row g-4 d-none">
-                <div class="col-md-4">
-                    <div class="studio-card p-4 text-center">
-                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
-                        <h3 style="font-family: 'Impact', sans-serif;">June 20 @ 11:00 AM</h3>
-                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="June 20 @ 11:00 AM">Book Now</button>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="studio-card p-4 text-center">
-                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
-                        <h3 style="font-family: 'Impact', sans-serif;">June 21 @ 01:30 PM</h3>
-                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="June 21 @ 01:30 PM">Book Now</button>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="studio-card p-4 text-center">
-                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
-                        <h3 style="font-family: 'Impact', sans-serif;">June 22 @ 04:00 PM</h3>
-                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="June 22 @ 04:00 PM">Book Now</button>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="studio-card p-4 text-center">
-                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
-                        <h3 style="font-family: 'Impact', sans-serif;">July 23 @ 11:00 AM</h3>
-                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="July 23 @ 11:00 AM">Book Now</button>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="studio-card p-4 text-center">
-                        <span class="text-red-label d-block mb-2">DATE AND TIME</span>
-                        <h3 style="font-family: 'Impact', sans-serif;">July 25 @ 03:30 PM</h3>
-                        <button class="btn-red mt-3 px-4 time-select-btn" data-time="July 25 @ 03:30 PM">Book Now</button>
+                <div class="col-md-8 col-lg-6 mx-auto">
+                    <div class="p-4 review-panel-container">
+                        
+                        <div class="mb-4">
+                            <label class="text-red-label mb-2">// SELECT APPOINTMENT DATE</label>
+                            <input type="date" id="calendar-date-picker" class="form-control studio-input" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="text-red-label mb-2">// AVAILABLE SESSION WINDOWS (1PM - 8PM)</label>
+                            <p class="small mb-3" style="font-family: monospace;">// Choose an active block below. Red items are already secured.</p>
+                                                                            
+                            <div id="time-slots-container" class="d-flex flex-wrap gap-2 justify-content-center"></div>
+                        </div>
+
+                        <div class="red-accent-line my-4"></div>
+                        
+                        <button type="button" class="btn-red w-100" id="calendar-continue-btn">
+                            Proceed to Payment
+                        </button>
+
                     </div>
                 </div>
             </div>
+
             <div id="step-view-4" class="booking-step-group row g-4 d-none">
+                <div class="col-md-8 col-lg-6 mx-auto">
+                    <div class="p-4 review-panel-container">
+                        <label class="text-red-label mb-3">// SECURE DEPOSIT GATEWAY</label>
+                        
+                        <div class="p-3 mb-4 bg-dark border border-secondary text-danger fw-bold" style="font-family: monospace; letter-spacing: 0.05em;">
+                            REQUIRED SECURE DEPOSIT: $50.00
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small text-muted mb-1" style="font-family: monospace;">CARDHOLDER NAME</label>
+                            <input type="text" id="payment-name" class="form-control studio-input" placeholder="e.g. CARDHOLDER NAME" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small text-muted mb-1" style="font-family: monospace;">CREDIT CARD NUMBER</label>
+                            <input type="text" id="payment-card" class="form-control studio-input" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <label class="small text-muted mb-1" style="font-family: monospace;">EXPIRY DATE</label>
+                                <input type="text" id="payment-expiry" class="form-control studio-input" placeholder="MM/YY" maxlength="5" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small text-muted mb-1" style="font-family: monospace;">CVV CODE</label>
+                                <input type="password" id="payment-cvv" class="form-control studio-input" placeholder="***" maxlength="3" required>
+                            </div>
+                        </div>
+
+                        <div class="red-accent-line my-4"></div>
+                        
+                        <button type="button" class="btn-red w-100" id="payment-continue-btn">
+                            Authorize & Verify
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="step-view-5" class="booking-step-group row g-4 d-none">
                 <div class="col-12">
-                    <div class="studio-card p-5 text-start" style="border-left: 4px solid #FF0000 !important;">
-                        <span class="text-red-label d-block mb-2">// VERIFY BOOKING</span>
+                    <div class="studio-card p-5">
+                        <span class="text-red-label mb-2">// VERIFY BOOKING</span>
                         <h2 class="display-6 fw-bold mb-4" style="font-family: 'Impact', sans-serif;">BOOKING SUMMARY</h2>
                         
                         <div class="mb-3"><strong style="color:#FF0000;">CATEGORY //</strong> <span id="summary-cat-node">None</span></div>
@@ -392,11 +422,18 @@
                         <div class="mb-4"><strong style="color:#FF0000;">DATE AND TIME //</strong> <span id="summary-time-node">None</span></div>
                         
                         <div class="red-accent-line my-4"></div>
-                        <button class="btn-red btn-lg px-5" id="final-confirm-btn">BOOK NOW</button>
+                        
+                        <button type="button" class="btn-red btn-lg px-5" id="final-confirm-btn">BOOK NOW</button>
                     </div>
                 </div>
             </div>
 
+                <form id="django-booking-bridge" method="POST" action="{% url 'book_appointment' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="service_type" id="id_service_type">
+                    <input type="hidden" name="notes" id="id_notes">
+                    <button type="submit" id="submit-booking-btn" style="display:none;"></button>
+                </form>
         </div>
     </main>
 {% endblock %}

@@ -43,7 +43,6 @@ class Cart:
         return sum(item_data['quantity'] for item_data in self.cart.values())
 
     def get_total_price(self):
-        # Base cost of jewelry products
         base_total = sum(Decimal(item_data['price']) * item_data['quantity'] for item_data in self.cart.values())
         
         booking = self.session.get('active_booking')
@@ -53,12 +52,10 @@ class Cart:
         return base_total
 
     def get_total_price(self):
-        # Base cost of jewelry products only
         return sum(Decimal(item_data['price']) * item_data['quantity'] for item_data in self.cart.values())
 
     def clear(self):
         del self.session['cart']
-        # REMOVED session active_booking cleanup line
         self.save()
     def save(self):
         self.session.modified = True

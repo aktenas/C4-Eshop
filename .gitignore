@@ -47,3 +47,10 @@ final/final/__pycache__/wsgi.cpython-39.pyc
 final/final/__pycache__/__init__.cpython-39.pyc
 final/home/__pycache__/views.cpython-39.pyc
 final/home/__pycache__/views.cpython-39.pyc
+final/home/__pycache__/models.cpython-39.pyc
+final/home/__pycache__/urls.cpython-39.pyc
+final/home/__pycache__/views.cpython-39.pyc
+final/home/migrations/__pycache__/0002_booking_remove_item_category_remove_review_item_and_more.cpython-39.pyc
+final/home/migrations/__pycache__/0003_alter_booking_service_type.cpython-39.pyc
+__pycache__/
+*.pyc

@@ -23,27 +23,32 @@
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <button id="toggle-review-form-btn" class="btn btn-red px-4 py-3">Write A Review</button>
+                    {% if user.is_authenticated %}
+                        <button id="toggle-review-form-btn" class="btn btn-red px-4 py-3">Write A Review</button>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-red px-4 py-3">Log In To Review</a>
+                    {% endif %}
                 </div>
             </div>
 
-            <!--REVIEW SUBMISSION PANEL-->
-            <div id="review-form-panel" class="d-none mb-5 p-4 review-panel-container">
-                <h3 class="fw-bold form-title mb-3">SUBMIT YOUR REVIEW</h3>
-                <form id="client-review-form">
+            {% if user.is_authenticated %}
+            <div id="review-form-panel" class="d-none mb-5 p-4 review-panel-container" style="background: rgba(128, 128, 128, 0.05); border: 1px solid rgba(128, 128, 128, 0.15);">
+                <h3 class="fw-bold form-title mb-3" style="color: inherit;">SUBMIT YOUR REVIEW</h3>
+                
+                <form id="client-review-form" data-ajax-url="{% url 'add_review_ajax' %}">
                     {% csrf_token %}
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <label class="text-red-label d-block mb-1">Name</label>
-                            <input type="text" id="review-author" class="form-control studio-input" placeholder="e.g. nick" maxlength="16" required>
+                            <label class="text-red-label d-block mb-1">Select Catalog Item</label>
+                            <select id="review-item-id" class="form-control studio-select text-danger fw-bold" required style="background: transparent; border: 1px solid #222222; border-radius: 0; padding: 12px;">
+                                {% for item in items %}
+                                    <option value="{{ item.id }}">{{ item.title }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="col-sm-6">
-                            <label class="text-red-label d-block mb-1">Service</label>
-                            <input type="text" id="review-tag" class="form-control studio-input" placeholder="e.g. SEPTUM" maxlength="16" required>
-                        </div>
-                        <div class="col-12">
                             <label class="text-red-label d-block mb-1">Rating</label>
-                            <select id="review-rating" class="form-control studio-select text-danger fw-bold">
+                            <select id="review-rating" class="form-control studio-select text-danger fw-bold" style="background: transparent; border: 1px solid #222222; border-radius: 0; padding: 12px;">
                                 <option value="5">★★★★★ (5 Stars)</option>
                                 <option value="4">★★★★☆ (4 Stars)</option>
                                 <option value="3">★★★☆☆ (3 Stars)</option>
@@ -52,8 +57,8 @@
                             </select>
                         </div>
                         <div class="col-12">
-                            <label class="text-red-label d-block mb-1">Review</label>
-                            <textarea id="review-text" class="form-control studio-input" rows="4" placeholder="Share your experience with C4 Tattoo..." required style="resize: none;"></textarea>
+                            <label class="text-red-label d-block mb-1">Review Message</label>
+                            <textarea id="review-text" class="form-control studio-input" rows="4" placeholder="Share your experience with C4 Tattoo..." required style="background: transparent; color: inherit; border: 1px solid #222222; border-radius: 0; padding: 12px; resize: none;"></textarea>
                         </div>
                         <div class="col-12 text-start">
                             <button type="submit" class="btn btn-red px-4 py-2">Submit Review</button>
@@ -61,76 +66,35 @@
                     </div>
                 </form>
             </div>
+            {% endif %}
 
-            <!--REVIEWS DISPLAY GRID-->
             <div class="row g-4" id="reviews-feed-grid">
-                
-                <!-- Card 1 -->
+                {% for review in reviews %}
                 <div class="col-md-4">
                     <div class="studio-card">
                         <div class="studio-card-media flex-column">
                             <div class="mb-2" style="color: #b30000;">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                                {% if review.rating >= 1 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                {% if review.rating >= 2 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                {% if review.rating >= 3 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                {% if review.rating >= 4 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                {% if review.rating >= 5 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
                             </div>
-                            <span class="fw-bold text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif; color: inherit;">user123</span>
+                            <span class="fw-bold text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif; color: inherit;">{{ review.user.username }}</span>
                         </div>
                         <div class="studio-card-content">
-                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// LETTER</span>
-                            <p style="height: auto; margin-bottom: 0; min-height: 110px; color: inherit;">
-                                "Oreo did an amazing job"
+                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// {{ review.item.title }}</span>
+                            <p style="height: auto; margin-bottom: 0; min-height: 110px; color: inherit; font-style: italic;">
+                                "{{ review.comment }}"
                             </p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Card 2 -->
-                <div class="col-md-4">
-                    <div class="studio-card">
-                        <div class="studio-card-media flex-column">
-                            <div class="mb-2" style="color: #b30000;">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <span class="fw-bold text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif; color: inherit;">Alex</span>
-                        </div>
-                        <div class="studio-card-content">
-                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// EAR STRETCH</span>
-                            <p style="height: auto; margin-bottom: 0; min-height: 110px; color: inherit;">
-                                "Monster energy is great"
-                            </p>
-                        </div>
-                    </div>
+                {% empty %}
+                <div class="col-12 text-center py-5" id="no-reviews-msg">
+                    <p style="font-family: monospace; color: inherit;">// NO REVIEWS RECORDED YET.</p>
                 </div>
-
-                <!-- Card 3 -->
-                <div class="col-md-4">
-                    <div class="studio-card">
-                        <div class="studio-card-media flex-column">
-                            <div class="mb-2" style="color: #b30000;">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <span class="fw-bold text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif; color: inherit;">nick</span>
-                        </div>
-                        <div class="studio-card-content">
-                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// BLACKOUT</span>
-                            <p style="height: auto; margin-bottom: 0; min-height: 110px; color: inherit;">
-                                "Ruby Red is an amazing piercer"
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
+                {% endfor %}
             </div>
         </div>
     </main>
@@ -140,13 +104,15 @@
             <div class="studio-card">
                 <div class="studio-card-media flex-column">
                     <div class="mb-2 review-stars" style="color: #b30000;"></div>
-                    <span class="fw-bold text-uppercase review-author" style="font-size: 1.2rem; font-family: 'Impact', sans-serif; color: inherit;"></span>
+                    <span class="fw-bold text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif; color: inherit;"></span>
                 </div>
                 <div class="studio-card-content">
                     <span class="text-red-accent d-block mb-2 text-uppercase review-tag" style="font-size: 0.85rem;"></span>
-                    <p class="review-body" style="height: auto; margin-bottom: 0; min-height: 110px; color: inherit;"></p>
+                    <p class="review-body" style="height: auto; margin-bottom: 0; min-height: 110px; color: inherit; font-style: italic;"></p>
                 </div>
             </div>
         </div>
     </template>
+
+    <script src="{% static 'reviews.js' %}"></script>
 {% endblock %}

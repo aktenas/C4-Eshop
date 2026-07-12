@@ -22,6 +22,7 @@ class Item(models.Model):
     material = models.CharField(max_length=50, default="Titanium")
     color = models.CharField(max_length=50, default="Silver") 
     size = models.CharField(max_length=50, default="1.2mm (16g)")
+    
     def __str__(self):
         return self.title
 

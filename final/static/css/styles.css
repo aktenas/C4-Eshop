@@ -565,6 +565,15 @@ body.light-mode .studio-footer .footer-text,
 body.light-mode .studio-footer .footer-link {
     color: #111111 !important;
 }
+/* Time slots */
+body.studio-body.light-mode .studio-time-slot-btn {
+    color: #FF0000 !important;
+}
+
+/* Time slot text when clicked*/
+body.studio-body.light-mode .studio-time-slot-btn.btn-danger {
+    color: #ffffff !important;
+}
 
 body.light-mode .studio-footer .footer-link:hover {
     color: #b30000 !important;

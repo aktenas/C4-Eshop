@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO - {{ item.title }}{% endblock %}
+
+{% block content %}
+<main class="container-fluid my-5 py-4">
+    <div class="page-shell">
+        
+        <div class="text-start mb-4">
+            <a href="{% url 'catalog:catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                <i class="fa-solid fa-arrow-left me-2"></i> BACK TO CATALOG
+            </a>
+        </div>
+
+        <h1 class="page-title text-start">{{ item.title }}</h1>
+        <div class="red-accent-line"></div>
+        <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// PRODUCT SPECIFICATION BRIEF</p>
+
+        <div class="row g-5 text-start">
+            <div class="col-md-6">
+                <div class="p-3 border border-secondary border-opacity-10 text-center position-relative overflow-hidden" style="background-color: #0d0d0d; min-height: 400px; display: flex; align-items: center; justify-content: center;">
+                    <div class="carousel-bg-blur" style="background-image: url('/static/images/{{ item.title|slugify }}.png');"></div>
+                    <img src="/static/images/{{ item.title|slugify }}.png" class="img-fluid carousel-fg-img position-relative" alt="{{ item.title }}" style="z-index: 5; max-height: 380px;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.2';">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h2 style="font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 0.02em;">Specification Metrics</h2>
+                
+                <div class="p-4 review-panel-container mt-3">
+                    <p class="fs-5 mb-4 d-block w-100" style="font-style: italic; line-height: 1.6; color: #888888 !important; font-family: monospace;">"{{ item.description }}"</p>
+                    
+                    <div class="row g-3 mb-4 text-uppercase" style="font-family: monospace; font-size: 0.95rem;">
+                        <div class="col-6">
+                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// COMPOSITION MATERIAL</span>
+                            <span class="fw-bold d-block" style="color: var(--bs-body-color, #ffffff) !important;">{{ item.material }}</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// COLOR SHADE</span>
+                            <span class="fw-bold d-block" style="color: var(--bs-body-color, #ffffff) !important;">{{ item.color }}</span>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// CALIBER SIZE</span>
+                            <span class="fw-bold d-block" style="color: var(--bs-body-color, #ffffff) !important;">{{ item.size }}</span>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// STOCK QUANTITY</span>
+                            <span class="fw-bold d-block {% if item.stock > 0 %}text-success{% else %}text-danger{% endif %}">{{ item.stock }} AVAILABLE</span>
+                        </div>
+                    </div>
+
+                    <div class="red-accent-line my-4" style="border-bottom-width: 1px !important;"></div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="small d-block text-muted monospace">// UNIT VALUE</span>
+                            <h2 class="m-0 text-danger" style="font-family: 'Impact', sans-serif; font-size: 2.8rem;">${{ item.price }}</h2>
+                        </div>
+                        
+                        <form method="POST" action="{% url 'catalog:cart_add' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-red m-0 px-4 py-3" {% if item.stock < 1 %}disabled style="opacity:0.4 !important;"{% endif %}>
+                                {% if item.stock > 0 %}[ Secure to Cart ]{% else %}[ OUT OF STOCK ]{% endif %}
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock %}

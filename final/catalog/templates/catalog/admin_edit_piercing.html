@@ -1,42 +1,60 @@
 {% extends 'base.html' %}
-{% block title %}Edit Piercing Properties{% endblock %}
+{% load static %}
+
+{% block title %}C4 TATTOO - Modify Properties{% endblock %}
 
 {% block content %}
-<main class="container my-5 py-4">
-    <div class="col-md-8 mx-auto p-4 review-panel-container" style="border-left: 4px solid #FF0000;">
-        <label class="text-red-label mb-3">// EDIT DATA MODEL ELEMENT</label>
-        <h2 class="text-center mb-4 text-uppercase" style="font-family: 'Impact', sans-serif;">Modify Properties</h2>
+<main class="container-fluid my-5 py-4">
+    <div class="page-shell d-flex justify-content-center">
         
-        <form method="POST">
-            {% csrf_token %}
+        <!-- Main Form Wrapper Container using strict stylesheet formatting -->
+        <div class="p-5 review-panel-container w-100" style="max-width: 650px;">
+            <span class="text-red-label text-start d-block mb-2">// EDIT DATA</span>
+
+            <h1 class="page-title m-0 mb-4" style="font-size: 2.8rem !important; text-shadow: none !important;">MODIFY PROPERTIES</h1>
             
-            <div class="mb-3">
-                <label class="small text-muted mb-1" style="font-family: monospace;">PIERCING STYLE NAME</label>
-                <input type="text" name="title" class="form-control studio-input" value="{{ item.title }}" required>
-            </div>
+            <form method="POST" class="mt-4">
+                {% csrf_token %}
+                
+                <!-- PIERCING STYLE NAME -->
+                <div class="mb-4 text-start">
+                    <label class="text-red-label text-start mb-2" style="font-size: 0.85rem;">// PIERCING NAME</label>
+                    <input type="text" name="title" value="{{ item.title }}" class="studio-input w-100" required>
+                </div>
+                
+                <!-- PROCEDURE + JEWELRY COST -->
+                <div class="mb-4 text-start">
+                    <label class="text-red-label text-start mb-2" style="font-size: 0.85rem;">// PROCEDURE + JEWELRY COST ($)</label>
+                    <input type="number" name="price" step="0.01" value="{{ item.price }}" class="studio-select w-100" required>
+                </div>
+                
+                <!-- JEWELRY MATERIAL -->
+                <div class="mb-4 text-start">
+                    <label class="text-red-label text-start mb-2" style="font-size: 0.85rem;">// JEWELRY MATERIAL (e.g., Titanium, Surgical Steel)</label>
+                    <input type="text" name="material" value="{{ item.material|default:'' }}" class="studio-input w-100">
+                </div>
+                
+                <!-- COLOR OPTION -->
+                <div class="mb-4 text-start">
+                    <label class="text-red-label text-start mb-2" style="font-size: 0.85rem;">// COLOR OPTION</label>
+                    <input type="text" name="color" value="{{ item.color|default:'' }}" class="studio-input w-100">
+                </div>
+                
+                <div class="red-accent-line my-4" style="border-bottom-width: 1px !important;"></div>
+                
+                <!-- ACTIONS ROW -->
+                <div class="d-flex flex-column flex-sm-row gap-3 align-items-stretch align-items-sm-center mt-4">
+                    <a href="{% url 'catalog:admin_piercing_dashboard' %}" class="text-decoration-none text-uppercase fw-bold text-muted small px-4 py-3 text-center order-2 order-sm-1" style="font-family: monospace; letter-spacing: 0.05em; border: 1px solid rgba(128,128,128,0.3); background: transparent; min-width: 120px;">
+                        [ Cancel ]
+                    </a>
+                    <button type="submit" class="btn-red text-uppercase fw-bold m-0 flex-grow-1 order-1 order-sm-2" style="font-size: 1rem; padding: 12px 24px !important; width: auto !important; display: block !important;">
+                        Save
+                    </button>
+                </div>
 
-            <div class="mb-3">
-                <label class="small text-muted mb-1" style="font-family: monospace;">PROCEDURE + JEWELRY COST ($)</label>
-                <input type="number" step="0.01" name="price" class="form-control studio-input" value="{{ item.price }}" required>
-            </div>
+            </form>
+        </div>
 
-            <div class="mb-3">
-                <label class="small text-muted mb-1" style="font-family: monospace;">JEWELRY MATERIAL (e.g., Titanium, Surgical Steel)</label>
-                <input type="text" name="material" class="form-control studio-input" value="{{ item.material }}">
-            </div>
-
-            <div class="mb-4">
-                <label class="small text-muted mb-1" style="font-family: monospace;">COLOR OPTION</label>
-                <input type="text" name="color" class="form-control studio-input" value="{{ item.color }}">
-            </div>
-
-            <div class="red-accent-line my-4"></div>
-            
-            <div class="d-flex gap-2">
-                <a href="{% url 'catalog:admin_piercing_dashboard' %}" class="btn btn-secondary w-50" style="border-radius: 0;">Cancel</a>
-                <button type="submit" class="btn-red w-50 m-0">Save Properties</button>
-            </div>
-        </form>
     </div>
 </main>
 {% endblock %}

@@ -6,34 +6,41 @@
     <div class="page-shell">
         <h1 class="page-title">Piercing Specifications</h1>
         <div class="red-accent-line mb-3"></div>
-        <p class="small mb-4 text-muted" style="font-family: monospace;">// DATA MANAGER</p>
+        <p class="small mb-4" style="font-family: monospace; color: inherit;">// DATA MANAGER</p>
 
-        <div class="table-responsive" style="border-left: 3px solid #ff0000;">
-            <table class="table table-bordered align-middle mb-0 text-white" style="background: #0d0d0d;">
-                <thead class="table-dark">
-                    <tr style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em;">
-                        <th>Piercing Style</th>
-                        <th>Category Group</th>
-                        <th>Standard Jewelry Material</th>
-                        <th>Color Variant</th>
-                        <th class="text-end">Base Price</th>
-                        <th class="text-center">Action</th>
+        <div class="table-responsive w-100" style="border: none;">
+            <table class="table table-bordered align-middle mb-0 responsive-card-table" style="border-color: rgba(128,128,128,0.15);">
+                <thead>
+                    <tr style="font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; color: var(--bs-body-color, #ffffff);">
+                        <th class="p-3">Piercing Style</th>
+                        <th class="p-3">Category Group</th>
+                        <th class="p-3">Standard Jewelry Material</th>
+                        <th class="p-3">Color Variant</th>
+                        <th class="p-3 text-end">Base Price</th>
+                        <th class="p-3 text-center">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="color: var(--bs-body-color, inherit);">
                     {% for item in items %}
-                    <tr>
-                        <td class="fw-bold text-uppercase" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">{{ item.title }}</td>
-                        <td>{{ item.category.title }}</td>
-                        <td style="font-family: monospace; font-size: 0.85rem;">{{ item.material|default:"N/A" }}</td>
-                        <td style="font-family: monospace; font-size: 0.85rem;">{{ item.color|default:"N/A" }}</td>
-                        <td class="text-end text-danger fw-bold">${{ item.price }}</td>
-                        <td class="text-center">
-                            <!-- Using your catalog namespace here -->
-                            <a href="{% url 'catalog:admin_edit_piercing' item.id %}" class="btn btn-sm btn-outline-light text-uppercase fw-bold" style="border-radius:0; font-size:0.75rem;">
+                    <tr style="border-bottom: 1px solid rgba(128,128,128,0.15);">
+                        <td data-label="Style" class="fw-bold text-uppercase p-3" style="font-family: 'Impact', sans-serif; font-size: 1.2rem; color: inherit;">
+                            {{ item.title }}
+                        </td>
+                        <td data-label="Category" class="p-3">
+                            {{ item.category.name }}
+                        </td>
+                        <td data-label="Material" class="p-3" style="font-family: monospace;">{{ item.material|default:"—" }}</td>
+                        <td data-label="Color" class="p-3" style="font-family: monospace;">{{ item.color|default:"—" }}</td>
+                        <td data-label="Price" class="text-end fw-bold p-3" style="color: #FF0000; font-size: 1.1rem;">${{ item.price }}</td>
+                        <td data-label="Action" class="text-center p-3">
+                            <a href="{% url 'catalog:admin_edit_piercing' item.id %}" class="btn-red text-decoration-none text-center d-inline-block m-0" style="font-size:0.75rem; padding: 8px 16px !important; width: fit-content !important;">
                                 Edit Parameters
                             </a>
                         </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 monospace text-muted">// No items are currently registered.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

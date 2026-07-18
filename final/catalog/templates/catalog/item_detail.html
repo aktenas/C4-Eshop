@@ -15,7 +15,7 @@
 
         <h1 class="page-title text-start">{{ item.title }}</h1>
         <div class="red-accent-line"></div>
-        <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// PRODUCT SPECIFICATION BRIEF</p>
+        <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// PRODUCT SPECIFICATIONS</p>
 
         <div class="row g-5 text-start">
             <div class="col-md-6">
@@ -26,26 +26,26 @@
             </div>
 
             <div class="col-md-6">
-                <h2 style="font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 0.02em;">Specification Metrics</h2>
+                <h2 style="font-family: 'Impact', sans-serif; text-transform: uppercase; letter-spacing: 0.02em;">Specifications</h2>
                 
                 <div class="p-4 review-panel-container mt-3">
-                    <p class="fs-5 mb-4 d-block w-100" style="font-style: italic; line-height: 1.6; color: #888888 !important; font-family: monospace;">"{{ item.description }}"</p>
+                    <p class="fs-5 mb-4 d-block w-100" style="font-style: italic; line-height: 1.6; font-family: monospace;">"{{ item.description }}"</p>
                     
                     <div class="row g-3 mb-4 text-uppercase" style="font-family: monospace; font-size: 0.95rem;">
                         <div class="col-6">
-                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// COMPOSITION MATERIAL</span>
-                            <span class="fw-bold d-block" style="color: var(--bs-body-color, #ffffff) !important;">{{ item.material }}</span>
+                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// MATERIAL</span>
+                            <span class="fw-bold d-block">{{ item.material }}</span>
                         </div>
                         <div class="col-6">
                             <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// COLOR SHADE</span>
-                            <span class="fw-bold d-block" style="color: var(--bs-body-color, #ffffff) !important;">{{ item.color }}</span>
+                            <span class="fw-bold d-block">{{ item.color }}</span>
                         </div>
                         <div class="col-6 mt-3">
-                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// CALIBER SIZE</span>
-                            <span class="fw-bold d-block" style="color: var(--bs-body-color, #ffffff) !important;">{{ item.size }}</span>
+                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// SIZE</span>
+                            <span class="fw-bold d-block">{{ item.size }}</span>
                         </div>
                         <div class="col-6 mt-3">
-                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// STOCK QUANTITY</span>
+                            <span class="text-red-label d-block mb-1" style="text-align: left !important; color: #FF0000 !important;">// STOCK</span>
                             <span class="fw-bold d-block {% if item.stock > 0 %}text-success{% else %}text-danger{% endif %}">{{ item.stock }} AVAILABLE</span>
                         </div>
                     </div>
@@ -54,14 +54,14 @@
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="small d-block text-muted monospace">// UNIT VALUE</span>
+                            <span class="small d-block monospace">// PRICE</span>
                             <h2 class="m-0 text-danger" style="font-family: 'Impact', sans-serif; font-size: 2.8rem;">${{ item.price }}</h2>
                         </div>
                         
                         <form method="POST" action="{% url 'catalog:cart_add' item.id %}">
                             {% csrf_token %}
                             <button type="submit" class="btn-red m-0 px-4 py-3" {% if item.stock < 1 %}disabled style="opacity:0.4 !important;"{% endif %}>
-                                {% if item.stock > 0 %}[ Secure to Cart ]{% else %}[ OUT OF STOCK ]{% endif %}
+                                {% if item.stock > 0 %}[ Add to Cart ]{% else %}[ OUT OF STOCK ]{% endif %}
                             </button>
                         </form>
                     </div>

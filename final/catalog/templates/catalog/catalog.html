@@ -66,28 +66,30 @@
                 {% for item in items %}
                     <div class="col">
                         <div class="studio-card h-100">
-                            <div class="studio-card-media" style="background: #e0e0e0 !important; border-bottom: 2px solid #cccccc !important; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0;"><img src="/static/images/{{ item.title|slugify }}.png" class="img-fluid carousel-fg-img" alt="{{ item.title }}" style="max-height: 80%; max-width: 80%; object-fit: contain;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.15'; this.style.maxHeight='80%';"></div>
+                            <div class="studio-card-media" style="background: #ffffff !important; border-bottom: 2px solid #ff0000; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 15px;">
+                                <img src="/static/images/{{ item.title|slugify }}.png" class="img-fluid" alt="{{ item.title }}" style="max-height: 100%; max-width: 100%; object-fit: contain;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.15';">
+                            </div>
                             
                             <div class="studio-card-content">
                                 <div>
                                     <span class="text-red-label d-block text-start mb-2" style="text-align: left !important; color: #FF0000 !important;">// {{ selected_category.name|upper }}</span>
-                                    <h3 style="color: var(--bs-body-color, #ffffff) !important;">{{ item.title }}</h3>
-                                    <p class="text-muted small">"{{ item.description|truncatechars:65 }}"</p>
-                                    <span class="d-block mb-3" style="font-size: 0.75rem; font-family: monospace; color: #888888 !important;">// MAT: {{ item.material }} | CLR: {{ item.color }}</span>
+                                    <h3>{{ item.title }}</h3>
+                                    <p class="small">"{{ item.description|truncatechars:65 }}"</p>
+                                    <span class="d-block mb-3" style="font-size: 0.75rem; font-family: monospace;">// MAT: {{ item.material }} | CLR: {{ item.color }}</span>
                                 </div>
                                 <div class="mt-auto">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="fs-4 fw-bold" style="color: var(--bs-body-color, #ffffff) !important;">${{ item.price }}</span>
+                                        <span class="fs-4 fw-bold">${{ item.price }}</span>
                                         <span class="small monospace {% if item.stock > 0 %}text-success{% else %}text-danger{% endif %}">// STOCK: {{ item.stock }}</span>
                                     </div>
-                                    <a href="{% url 'catalog:item_detail' item.title|slugify %}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">View Specifications</a>
+                                    <a href="{% url 'catalog:item_detail' item.title|slugify %}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">VIEW DETAILS</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% empty %}
                     <div class="col-12 text-center py-5">
-                        <p class="monospace text-muted" style="color: var(--bs-body-color, #ffffff) !important;">// No items match your active sector filter parameters.</p>
+                        <p class="monospace">// No items match your active sector filter parameters.</p>
                     </div>
                 {% endfor %}
             </div>
@@ -102,23 +104,25 @@
                 {% for category in categories %}
                     <div class="col">
                         <div class="studio-card h-100">
-                            <div class="studio-card-media" style="background: #e0e0e0 !important; border-bottom: 2px solid #cccccc !important; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0;"><img src="/static/images/{{ category.name|slugify }}.png" class="img-fluid carousel-fg-img" alt="{{ category.name }}" style="max-height: 80%; max-width: 80%; object-fit: contain;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.15'; this.style.maxHeight='80%';"></div>
+                            <div class="studio-card-media" style="height: 200px; overflow: hidden; position: relative; border-bottom: 2px solid #ff0000;">
+                                <img src="/static/images/{{ category.name|slugify }}.png" class="w-100 h-100" alt="{{ category.name }}" style="object-fit: cover; object-position: center;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.15'; this.style.objectFit='contain';">
+                            </div>
                             
                             <div class="studio-card-content text-start">
                                 <div>
-                                    <span class="text-red-label d-block text-start mb-2" style="text-align: left !important; color: #FF0000 !important;">// SECTOR SELECTION</span>
+                                    <span class="text-red-label d-block text-start mb-2" style="text-align: left !important; color: #FF0000 !important;">// CATEGORY</span>
                                     <h3>{{ category.name }}</h3>
-                                    <p class="text-muted small">{{ category.description|default:"Browse specialized studio modifications and pristine hardware blueprints." }}</p>
+                                    <p class="small">{{ category.description|default:"Browse specialized studio modifications and pristine hardware blueprints." }}</p>
                                 </div>
-                                <div>
-                                    <a href="?category={{ category.id }}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">Enter Department</a>
+                                <div class="mt-auto">
+                                    <a href="?category={{ category.id }}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">BROWSE</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% empty %}
                     <div class="col-12 text-center py-5">
-                        <p class="monospace text-muted">// No active catalog channels configured in database rows.</p>
+                        <p class="monospace">// No active catalog channels configured in database rows.</p>
                     </div>
                 {% endfor %}
             </div>

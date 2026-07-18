@@ -25,17 +25,17 @@
                     <div class="p-4 review-panel-container">
                         <div class="mb-3">
                             <span class="text-red-label text-start d-block">// USERNAME</span>
-                            <p class="fs-5 fw-bold mb-0" style="color: inherit;">{{ user.username }}</p>
+                            <p class="fs-5 fw-bold mb-0">{{ user.username }}</p>
                         </div>
                         
                         <div class="mb-3">
                             <span class="text-red-label text-start d-block">// EMAIL ADDRESS</span>
-                            <p class="fs-5 mb-0" style="color: inherit;">{{ user.email }}</p>
+                            <p class="fs-5 mb-0">{{ user.email }}</p>
                         </div>
                         
                         <div class="mb-3">
                             <span class="text-red-label text-start d-block">// FULL NAME</span>
-                            <p class="fs-5 mb-0" style="color: inherit;">
+                            <p class="fs-5 mb-0">
                                 {{ user.first_name|default:"—" }} {{ user.last_name|default:"" }}
                             </p>
                         </div>
@@ -50,10 +50,10 @@
                     {% if user.is_staff %}
                         <div class="mt-4 p-4 review-panel-container" style="border: 1px solid #ff0000 !important; border-left: 4px solid #ff0000 !important;">
                             <span class="text-red-label text-start d-block mb-2">// ITEM EDIT</span>
-                            <h3 class="fw-bold text-uppercase mb-2" style="font-family: 'Impact', sans-serif; font-size: 1.4rem; color: inherit;">
+                            <h3 class="fw-bold text-uppercase mb-2" style="font-family: 'Impact', sans-serif; font-size: 1.4rem;">
                                 ITEM METADATA EDITOR
                             </h3>
-                            <p class="small mb-3" style="font-family: monospace; color: #888888; height: auto; overflow: visible;">
+                            <p class="small mb-3" style="font-family: monospace; height: auto; overflow: visible;">
                                 Modify live inventory, custom materials, or pricing parameters.
                             </p>
                             
@@ -74,7 +74,7 @@
                         {% for booking in user_bookings %}
                             <div class="studio-card p-4">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
+                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em;">
                                         {{ booking.service.title|upper }} SESSION
                                     </h4>
                                     <span class="badge bg-dark border border-secondary text-danger fw-bold" style="font-family: monospace; letter-spacing: 0.05em;">
@@ -83,25 +83,26 @@
                                 </div>
                                 <div class="red-accent-line my-2" style="border-bottom-width: 1px !important; margin-bottom: 12px !important;"></div>
                                 
-                                <p class="small mb-0" style="font-family: monospace; color: inherit; white-space: pre-line; letter-spacing: 0.02em; height: auto; overflow: visible;">
+                                <p class="small mb-0" style="font-family: monospace; white-space: pre-line; letter-spacing: 0.02em; height: auto; overflow: visible;">
                                     {{ booking.notes }}
                                 </p>
                                 
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <form method="POST" action="{% url 'home:cancel_booking' booking.id %}" onsubmit="return confirm('Are you sure you want to cancel this appointment session?');">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn p-0 text-decoration-none text-uppercase fw-bold text-muted small" style="font-family: monospace; font-size: 0.75rem; background: transparent; border: none; letter-spacing: 0.05em;">
+                                        <!-- FIXED: Stripped text-muted and forced solid red cancel appearance -->
+                                        <button type="submit" class="btn p-0 text-decoration-none text-uppercase fw-bold small" style="color: #FF0000; background: transparent; border: none; font-family: monospace; font-size: 0.85rem; letter-spacing: 0.05em;">
                                             [ Cancel Appointment ]
                                         </button>
                                     </form>
                                     <div>
-                                        <small class="text-muted" style="font-size: 0.75rem; font-family: monospace;">LOGGED: {{ booking.created_at|date:"M d, Y @ H:i" }}</small>
+                                        <small style="font-size: 0.75rem; font-family: monospace;">LOGGED: {{ booking.created_at|date:"M d, Y @ H:i" }}</small>
                                     </div>
                                 </div>
                             </div>
                         {% empty %}
                             <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
-                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
+                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible;">
                                     // No scheduled sessions.
                                 </p>
                             </div>
@@ -115,7 +116,7 @@
                         {% for order in user_orders %}
                             <div class="studio-card p-4">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
+                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em;">
                                         ORDER #{{ order.id }}
                                     </h4>
                                     <span class="badge bg-dark border border-secondary text-danger fw-bold" style="font-family: monospace; letter-spacing: 0.05em;">
@@ -129,7 +130,7 @@
                                         <li class="py-1 border-bottom border-secondary border-opacity-10 d-flex justify-content-between">
                                             <span>
                                                 &gt;&gt; {{ item.quantity }}x {{ item.item_title|upper }} 
-                                                <small class="text-muted">({{ item.item_material }} // {{ item.item_color }})</small>
+                                                <small>({{ item.item_material }} // {{ item.item_color }})</small>
                                             </span>
                                             <span class="fw-bold">${{ item.item_price }}</span>
                                         </li>
@@ -137,7 +138,7 @@
                                 </ul>
 
                                 <div class="text-end mt-3">
-                                    <small class="text-muted" style="font-size: 0.75rem; font-family: monospace;">PROCESSED: {{ order.created_at|date:"M d, Y @ H:i" }}</small>
+                                    <small style="font-size: 0.75rem; font-family: monospace;">PROCESSED: {{ order.created_at|date:"M d, Y @ H:i" }}</small>
                                 </div>
                                 <div class="mt-3 text-start">
                                     {% if order.status != 'Cancelled' %}
@@ -150,13 +151,13 @@
                                             </button>
                                         </form>
                                     {% else %}
-                                        <span class="text-muted monospace small" style="font-size: 0.85rem;">// ORDER TRANSACTION</span>
+                                        <span class="monospace small" style="font-size: 0.85rem;">// ORDER TRANSACTION</span>
                                     {% endif %}
                                 </div>
                             </div>
                         {% empty %}
                             <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
-                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
+                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible;">
                                     // No transaction history
                                 </p>
                             </div>
@@ -170,7 +171,7 @@
                         {% for review in user_reviews %}
                             <div class="studio-card p-4">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
+                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em;">
                                         {{ review.service.title }}
                                     </h4>
                                     <div style="color: #b30000;">
@@ -182,13 +183,13 @@
                                     </div>
                                 </div>
                                 <div class="red-accent-line my-2" style="border-bottom-width: 1px !important; margin-bottom: 12px !important;"></div>
-                                <p style="height: auto; overflow: visible; margin-bottom: 0; font-style: italic; color: inherit;">
+                                <p style="height: auto; overflow: visible; margin-bottom: 0; font-style: italic;">
                                     "{{ review.comment }}"
                                 </p>
                             </div>
                         {% empty %}
                             <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
-                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
+                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible;">
                                     // You haven't submitted any reviews yet!
                                 </p>
                             </div>

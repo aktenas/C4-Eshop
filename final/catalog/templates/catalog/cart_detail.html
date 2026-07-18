@@ -34,10 +34,10 @@
                             {% with item=item_data.item %}
                                 <tr>
                                     <td data-label="Item" class="px-4 py-3">
-                                        <div class="text-body fw-bold text-uppercase" style="font-family: 'Impact', sans-serif; font-size: 1.2rem; letter-spacing: 0.02em;">
+                                        <div class="fw-bold text-uppercase" style="font-family: 'Impact', sans-serif; font-size: 1.2rem; letter-spacing: 0.02em;">
                                             {{ item.title }}
                                         </div>
-                                        <span class="small d-block" style="font-family: monospace; font-size: 0.75rem; color: inherit;">
+                                        <span class="small d-block" style="font-family: monospace; font-size: 0.75rem;">
                                             // {{ item.material }} // {{ item.color }}
                                         </span>
                                     </td>
@@ -53,7 +53,7 @@
                                                 <button type="submit" class="qty-btn-minus">-</button>
                                             </form>
                                             
-                                            <span class="px-3 fw-bold monospace text-body text-center qty-value-display">{{ item_data.quantity }}</span>
+                                            <span class="px-3 fw-bold monospace text-center qty-value-display">{{ item_data.quantity }}</span>
                                             
                                             <!-- PLUS BUTTON FORM -->
                                             <form method="POST" action="{% url 'catalog:cart_add' item.id %}" class="m-0 p-0">
@@ -65,7 +65,7 @@
                                         </div>
                                     </td>
                                     
-                                    <td data-label="Unit Cost" class="px-3 py-3 text-end text-body fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
+                                    <td data-label="Unit Cost" class="px-3 py-3 text-end fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
                                         ${{ item_data.price }}
                                     </td>
                                     <td data-label="Total Cost" class="px-3 py-3 text-end text-danger fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
@@ -84,8 +84,8 @@
             </div>
 
             <div class="text-end mt-4 p-4 border" style="background: rgba(0,0,0,0.02);">
-                <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">// TOTAL</span>
-                <h2 class="text-body mb-4" style="font-family: 'Impact', sans-serif; font-size: 2.2rem; letter-spacing: 0.02em;">
+                <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em;">// TOTAL</span>
+                <h2 class="mb-4" style="font-family: 'Impact', sans-serif; font-size: 2.2rem; letter-spacing: 0.02em;">
                     Grand Total: <span class="text-danger">${{ global_cart.get_total_price }}</span>
                 </h2>
                 
@@ -94,12 +94,13 @@
                 </a>
             </div>
 
+            {% block empty_cart %}
             {% else %}
             <div class="text-center py-5 border" style="background: rgba(0,0,0,0.02); border-left: 3px solid #ff0000 !important;">
                 <div class="mb-3">
-                    <i class="fa-solid fa-cart-shopping opacity-50" style="font-size: 3rem; color: inherit;"></i>
+                    <i class="fa-solid fa-cart-shopping opacity-50" style="font-size: 3rem;"></i>
                 </div>
-                <p class="mb-0 fw-bold" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">
+                <p class="mb-0 fw-bold" style="font-family: monospace; letter-spacing: 0.05em;">
                     // YOUR CART IS EMPTY.
                 </p>
             </div>

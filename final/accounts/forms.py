@@ -9,11 +9,19 @@ class UserRegistrationForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
+            # 'maxlength': '20' stops users from physically typing more than 20 characters in the browser field
+            'username': forms.TextInput(attrs={'placeholder': 'Username (Max 20 chars)', 'maxlength': '20'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Email Address'}),
             'first_name': forms.TextInput(attrs={'placeholder': 'First Name'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
         }
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        # Secure backend check: rejects registration if the string somehow exceeds 20 characters
+        if username and len(username) > 20:
+            raise forms.ValidationError("Username cannot be longer than 20 characters.")
+        return username
 
     def clean(self):
         cleaned_data = super().clean()

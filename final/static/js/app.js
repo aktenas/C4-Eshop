@@ -168,7 +168,9 @@ function setupBookingPage() {
     let state = {
         currentStep: 0,
         category: '',
-        service: '',
+        serviceId: '',
+        serviceTitle: '',
+        servicePrice: '0.00',
         artist: '',
         time: ''
     };
@@ -184,7 +186,6 @@ function setupBookingPage() {
 
     function generateStudioTimeSlots(artist) {
         if (artist && String(artist).toLowerCase().trim() === 'monster energy') {
-            // tattoo artist slots
             return [
                 { raw: "13:00", display: "01:00 PM" },
                 { raw: "15:30", display: "03:30 PM" },
@@ -192,7 +193,6 @@ function setupBookingPage() {
             ];
         }
         
-        // Standard studio slots
         return [
             { raw: "13:00", display: "01:00 PM" },
             { raw: "13:30", display: "01:30 PM" },
@@ -323,10 +323,24 @@ function setupBookingPage() {
         
         renderStep(1);
     });
+
     // Step 1 -> Step 2
     $(document).off('click', '.service-select-btn').on('click', '.service-select-btn', function() {
-        state.service = $(this).data('srv');
+        state.serviceId = $(this).attr('data-id');
+        state.serviceTitle = $(this).attr('data-srv');
+        state.servicePrice = $(this).attr('data-price') || "0.00";
         
+        const bridgeServiceIdInput = document.querySelector('#id_service_id');
+        if (bridgeServiceIdInput) {
+            bridgeServiceIdInput.value = state.serviceId;
+        }
+
+        const paymentPriceLabel = document.querySelector('.live-payment-price');
+        const summarySrvNode = document.querySelector('#summary-srv-node');
+        
+        if (paymentPriceLabel) paymentPriceLabel.textContent = `€${parseFloat(state.servicePrice).toFixed(2)}`;
+        if (summarySrvNode) summarySrvNode.textContent = `${state.serviceTitle} (€${parseFloat(state.servicePrice).toFixed(2)})`;
+
         const monsterEnergyBtn = document.querySelector('.artist-select-btn[data-art="Monster Energy"]');
         if (monsterEnergyBtn) {
             if (state.category && state.category.toLowerCase().includes('piercing')) {
@@ -342,10 +356,15 @@ function setupBookingPage() {
 
     // Step 2 -> Step 3 
     $(document).off('click', '.artist-select-btn').on('click', '.artist-select-btn', function() {
-        state.artist = $(this).data('art');
+        state.artist = $(this).attr('data-art');
         
+        const bridgeArtistInput = document.querySelector('#id_artist');
+        const summaryArtNode = document.querySelector('#summary-art-node');
+        
+        if (bridgeArtistInput) bridgeArtistInput.value = state.artist;
+        if (summaryArtNode) summaryArtNode.textContent = state.artist;
+
         const currentSelectedDate = document.querySelector('#calendar-date-picker').value;
-        
         if (currentSelectedDate) {
             fetchAndRenderSlots(currentSelectedDate);
         }
@@ -394,28 +413,26 @@ function setupBookingPage() {
         }
 
         document.querySelector('#summary-cat-node').textContent = state.category;
-        document.querySelector('#summary-srv-node').textContent = state.service;
-        document.querySelector('#summary-art-node').textContent = state.artist;
         document.querySelector('#summary-time-node').textContent = state.time;
 
         renderStep(5);
     });
 
-    // Step 5
+    // Step 5 
     $(document).off('click', '#final-confirm-btn').on('click', '#final-confirm-btn', function(e) {
         e.preventDefault();
 
-        if (state.category && state.category.toLowerCase().includes('tattoo')) {
-            document.querySelector('#id_service_type').value = 'tattoo';
-        } else {
-            document.querySelector('#id_service_type').value = 'piercing';
+        const bridgeNotesInput = document.querySelector('#id_notes');
+        if (bridgeNotesInput) {
+            bridgeNotesInput.value = `Artist: ${state.artist} | Date: ${state.time}`;
         }
 
-        const generatedNotes = `Service: ${state.service} | Artist: ${state.artist} | Date: ${state.time}`;
-        document.querySelector('#id_notes').value = generatedNotes;
-
-        alert(`BOOKING SUCCESSFUL!\nYour appointment for a ${state.service} with ${state.artist} on ${state.time} has been registered to your account.`);
-        document.querySelector('#django-booking-bridge').submit();
+        alert(`BOOKING SUCCESSFUL!\nYour appointment for a ${state.serviceTitle} with ${state.artist} on ${state.time} has been registered to your account.`);
+        
+        const bookingForm = document.querySelector('#django-booking-bridge');
+        if (bookingForm) {
+            bookingForm.submit();
+        }
     });
 
     // Back Button
@@ -440,53 +457,3 @@ function setupBookingPage() {
         document.querySelector('#booking-subtext').textContent = headings[stepNumber].sub;
     }
 }
-
-// --- REVIEW SYSTEM ---
-$(document).ready(function() {
-    if ($('#client-review-form').length === 0) return;
-
-    $(document).on('click', '#toggle-review-form-btn', function() {
-        const formPanel = $('#review-form-panel');
-        formPanel.toggleClass('d-none');
-        
-        if (formPanel.hasClass('d-none')) {
-            $(this).text('Write A Review');
-        } else {
-            $(this).text('Close Form Panel');
-        }
-    });
-
-    $('#client-review-form').on('submit', function(e) {
-        e.preventDefault();
-
-        const author = document.querySelector('#review-author').value.trim();
-        const tag = document.querySelector('#review-tag').value.trim();
-        const score = parseInt(document.querySelector('#review-rating').value);
-        const content = document.querySelector('#review-text').value.trim();
-
-        let starsHTML = '';
-        for (let i = 0; i < 5; i++) {
-            if (i < score) {
-                starsHTML += '<i class="fa-solid fa-star"></i> ';
-            } else {
-                starsHTML += '<i class="fa-regular fa-star"></i> ';
-            }
-        }
-        
-        const templateNode = document.querySelector('#review-card-template');
-        const cardClone = templateNode.content.cloneNode(true);
-
-        $(cardClone).find('.review-stars').html(starsHTML);
-        $(cardClone).find('.review-author').text(author);
-        $(cardClone).find('.review-tag').text(`// ${tag}`);
-        $(cardClone).find('.review-body').text(`"${content}"`);
-
-        $('#reviews-feed-grid').prepend(cardClone);
-
-        $('#client-review-form')[0].reset();
-        $('#review-form-panel').addClass('d-none');
-        $('#toggle-review-form-btn').text('Write A Review');
-
-        alert('Your review has been posted.');
-    });
-});

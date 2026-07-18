@@ -54,3 +54,10 @@ final/home/migrations/__pycache__/0002_booking_remove_item_category_remove_revie
 final/home/migrations/__pycache__/0003_alter_booking_service_type.cpython-39.pyc
 __pycache__/
 *.pyc
+final/home/migrations/0004_remove_booking_deposit_booking_price.py
+final/home/migrations/0005_booking_artist_alter_booking_service_type.py
+final/home/migrations/0006_service_remove_booking_price_and_more.py
+final/home/migrations/0007_review.py
+final/catalog/migrations/0003_order_orderitem.py
+~$ITC4214 FINAL PRESENTATION.pptx
+final/home/__pycache__/admin.cpython-39.pyc

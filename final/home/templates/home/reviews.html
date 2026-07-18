@@ -26,7 +26,7 @@
                     {% if user.is_authenticated %}
                         <button id="toggle-review-form-btn" class="btn btn-red px-4 py-3">Write A Review</button>
                     {% else %}
-                        <a href="{% url 'accoounts:login' %}" class="btn btn-red px-4 py-3">Log In To Review</a>
+                        <a href="{% url 'accounts:login' %}" class="btn btn-red px-4 py-3">Log In To Review</a>
                     {% endif %}
                 </div>
             </div>
@@ -39,10 +39,10 @@
                     {% csrf_token %}
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <label class="text-red-label d-block mb-1">Select Catalog Item</label>
+                            <label class="text-red-label d-block mb-1">Select Service</label>
                             <select id="review-item-id" class="form-control studio-select text-danger fw-bold" required style="background: transparent; border: 1px solid #222222; border-radius: 0; padding: 12px;">
-                                {% for item in items %}
-                                    <option value="{{ item.id }}">{{ item.title }}</option>
+                                {% for service in services %}
+                                    <option value="{{ service.id }}">{{ service.title }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -83,7 +83,7 @@
                             <span class="fw-bold text-uppercase user-review-author-name" style="font-size: 1.2rem; font-family: 'Impact', sans-serif; color: inherit;">{{ review.user.username }}</span>
                         </div>
                         <div class="studio-card-content">
-                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// {{ review.item.title }}</span>
+                            <span class="text-red-accent d-block mb-2 text-uppercase" style="font-size: 0.85rem;">// {{ review.service.title }}</span>
                             <p style="height: auto; margin-bottom: 0; min-height: 110px; color: inherit; font-style: italic;">
                                 "{{ review.comment }}"
                             </p>
@@ -114,5 +114,5 @@
         </div>
     </template>
 
-    <script src="{% static 'reviews.js' %}"></script>
+    <script src="{% static 'js/reviews.js' %}"></script>
 {% endblock %}

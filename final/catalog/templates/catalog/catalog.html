@@ -1,55 +1,129 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}C4 TATTOO - Catalog{% endblock %}
+{% block title %}C4 TATTOO - Studio Catalog{% endblock %}
 
 {% block content %}
-    <main class="container-fluid my-5 py-4">
-        <div class="page-shell">
-            
+<main class="container-fluid my-5 py-4">
+    <div class="page-shell">
+        
+        {% if selected_category %}
+            <!-- CONTEXT A: JEWELRY VIEWER FOR SELECTED CATEGORY -->
             <div class="text-start mb-4">
-                <a href="{% url 'home:home' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
-                    <i class="fa-solid fa-arrow-left me-2"></i> BACK TO HOME
+                <a href="{% url 'catalog:catalog' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                    <i class="fa-solid fa-arrow-left me-2"></i> BACK TO CATEGORIES
                 </a>
             </div>
-            
-            <h1 class="page-title text-start">Our Collections</h1>
-            <div class="red-accent-line"></div>
-            <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// CHOOSE A COLLECTION TO EXPLORE SPECIFIC PIERCING JEWELLERY OPTIONS</p>
 
-            <div class="row g-4">
-                {% for cat in categories %}
-                    <div class="col-lg-4 col-md-6">
+            <h1 class="page-title text-start">{{ selected_category.name }}</h1>
+            <div class="red-accent-line"></div>
+            <p class="text-start mb-4 small" style="font-family: monospace; letter-spacing: 0.05em;">// SPECIFICATIONS: {{ selected_category.name|upper }}</p>
+
+            <!-- YOUR SEARCH AND FILTERS PANEL INTEGRATED HERE -->
+            <form method="GET" action="" class="mb-5 p-4 review-panel-container" style="background: rgba(128, 128, 128, 0.08); border: 1px solid rgba(128, 128, 128, 0.2); border-left: 3px solid #ff0000 !important; border-radius: 0;">
+                <div class="row g-3 align-items-end">
+                    <input type="hidden" name="category" value="{{ selected_category.id }}">
+                    <div class="col-lg-3 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// SEARCH</label>
+                        <input type="text" name="search" value="{{ search_query }}" class="form-control studio-input" placeholder="Search item...">
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// MATERIAL</label>
+                        <select name="material" class="form-select studio-select fw-bold">
+                            <option value="" style="background: #111; color: #fff;">All Materials</option>
+                            <option value="Titanium" {% if selected_material == "Titanium" %}selected{% endif %} style="background: #111; color: #fff;">Titanium</option>
+                            <option value="Surgical Steel" {% if selected_material == "Surgical Steel" %}selected{% endif %} style="background: #111; color: #fff;">Surgical Steel</option>
+                            <option value="Gold" {% if selected_material == "Gold" %}selected{% endif %} style="background: #111; color: #fff;">Gold</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// COLOR</label>
+                        <select name="color" class="form-select studio-select fw-bold">
+                            <option value="" style="background: #111; color: #fff;">All Colors</option>
+                            <option value="Silver" {% if selected_color == "Silver" %}selected{% endif %} style="background: #111; color: #fff;">Silver</option>
+                            <option value="Gold" {% if selected_color == "Gold" %}selected{% endif %} style="background: #111; color: #fff;">Gold</option>
+                            <option value="Black" {% if selected_color == "Black" %}selected{% endif %} style="background: #111; color: #fff;">Black</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <label class="text-red-label d-block mb-1" style="font-size: 0.75rem; font-family: monospace; text-align: left !important;">// SORT BY</label>
+                        <select name="sort" class="form-select studio-select fw-bold">
+                            <option value="" style="background: #111; color: #fff;">Default Sorting</option>
+                            <option value="price_low" {% if selected_sort == "price_low" %}selected{% endif %} style="background: #111; color: #fff;">Price: Low to High</option>
+                            <option value="price_high" {% if selected_sort == "price_high" %}selected{% endif %} style="background: #111; color: #fff;">Price: High to Low</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-12 text-lg-end">
+                        <div class="d-flex gap-2 justify-content-lg-end">
+                            <button type="submit" class="btn-red text-uppercase fw-bold flex-grow-1 flex-lg-grow-0 px-4" style="font-size: 0.85rem; letter-spacing: 0.05em; margin: 0 !important;">Apply Filters</button>
+                            <a href="?category={{ selected_category.id }}" class="btn btn-dark text-uppercase fw-bold px-3 d-inline-flex align-items-center justify-content-center" style="border-radius: 0; padding: 10px; font-size: 0.85rem; background: #222; border: 1px solid #333; color: #fff; text-decoration: none;">Reset</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for item in items %}
+                    <div class="col">
                         <div class="studio-card h-100">
-                            
-                            <div class="studio-card-media" style="background: rgba(128, 128, 128, 0.05); border-color: rgba(128, 128, 128, 0.15);">
-                                <i class="fa-solid fa-gem text-danger" style="font-size: 3rem; opacity: 0.85;"></i>
-                            </div>
+                            <div class="studio-card-media" style="background: #e0e0e0 !important; border-bottom: 2px solid #cccccc !important; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0;"><img src="/static/images/{{ item.title|slugify }}.png" class="img-fluid carousel-fg-img" alt="{{ item.title }}" style="max-height: 80%; max-width: 80%; object-fit: contain;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.15'; this.style.maxHeight='80%';"></div>
                             
                             <div class="studio-card-content">
                                 <div>
-                                    <h3>{{ cat.name }}</h3>
-                                    <p style="height: auto; overflow: visible; margin-bottom: 25px;">
-                                        {{ cat.description }}
-                                    </p>
+                                    <span class="text-red-label d-block text-start mb-2" style="text-align: left !important; color: #FF0000 !important;">// {{ selected_category.name|upper }}</span>
+                                    <h3 style="color: var(--bs-body-color, #ffffff) !important;">{{ item.title }}</h3>
+                                    <p class="text-muted small">"{{ item.description|truncatechars:65 }}"</p>
+                                    <span class="d-block mb-3" style="font-size: 0.75rem; font-family: monospace; color: #888888 !important;">// MAT: {{ item.material }} | CLR: {{ item.color }}</span>
                                 </div>
-                                
-                                <a href="{% url 'catalog:category' cat.id %}" class="btn-red text-center text-decoration-none">
-                                    Browse Collection <i class="fa-solid fa-chevron-right ms-2" style="font-size: 0.75rem;"></i>
-                                </a>
+                                <div class="mt-auto">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="fs-4 fw-bold" style="color: var(--bs-body-color, #ffffff) !important;">${{ item.price }}</span>
+                                        <span class="small monospace {% if item.stock > 0 %}text-success{% else %}text-danger{% endif %}">// STOCK: {{ item.stock }}</span>
+                                    </div>
+                                    <a href="{% url 'catalog:item_detail' item.title|slugify %}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">View Specifications</a>
+                                </div>
                             </div>
-                            
                         </div>
                     </div>
                 {% empty %}
-                    <div class="col-12 text-start py-4">
-                        <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; font-style: italic; color: inherit;">
-                            // No collections found. Head to the admin panel to add categories!
-                        </p>
+                    <div class="col-12 text-center py-5">
+                        <p class="monospace text-muted" style="color: var(--bs-body-color, #ffffff) !important;">// No items match your active sector filter parameters.</p>
                     </div>
                 {% endfor %}
             </div>
-            
-        </div>
-    </main>
+
+        {% else %}
+            <!-- CONTEXT B: MAIN CATEGORY SELECTION GATEWAY -->
+            <h1 class="page-title text-start">Studio Catalog</h1>
+            <div class="red-accent-line"></div>
+            <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// SELECT CATEGORY</p>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for category in categories %}
+                    <div class="col">
+                        <div class="studio-card h-100">
+                            <div class="studio-card-media" style="background: #e0e0e0 !important; border-bottom: 2px solid #cccccc !important; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0;"><img src="/static/images/{{ category.name|slugify }}.png" class="img-fluid carousel-fg-img" alt="{{ category.name }}" style="max-height: 80%; max-width: 80%; object-fit: contain;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.15'; this.style.maxHeight='80%';"></div>
+                            
+                            <div class="studio-card-content text-start">
+                                <div>
+                                    <span class="text-red-label d-block text-start mb-2" style="text-align: left !important; color: #FF0000 !important;">// SECTOR SELECTION</span>
+                                    <h3>{{ category.name }}</h3>
+                                    <p class="text-muted small">{{ category.description|default:"Browse specialized studio modifications and pristine hardware blueprints." }}</p>
+                                </div>
+                                <div>
+                                    <a href="?category={{ category.id }}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">Enter Department</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <p class="monospace text-muted">// No active catalog channels configured in database rows.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+</main>
 {% endblock %}

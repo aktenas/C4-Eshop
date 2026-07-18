@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}C4 TATTOO - Secure Checkout{% endblock %}
+
+{% block content %}
+<main class="container-fluid my-5 py-4">
+    <div class="page-shell">
+        
+        <!-- BACK NAVIGATION BRIDGE -->
+        <div class="text-start mb-4">
+            <a href="{% url 'catalog:cart_detail' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
+                <i class="fa-solid fa-arrow-left me-2"></i> BACK TO CART
+            </a>
+        </div>
+
+        <!-- CORE LAYOUT HEADERS -->
+        <h1 class="page-title text-start">Secure Checkout</h1>
+        <div class="red-accent-line"></div>
+        <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// SECURE DEBIT TRANSACTION GATEWAY TERMINAL INITIALIZED</p>
+
+        <form method="POST" action="{% url 'catalog:checkout' %}" id="checkout-payment-form">
+            {% csrf_token %}
+            <div class="row g-5">
+                
+                <!-- LEFT COLUMN: PAYMENT AUTHORIZATION -->
+                <div class="col-md-6">
+                    <h2 class="mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.03em; text-transform: uppercase;">Card Authorization</h2>
+                    <div class="p-4 review-panel-container">
+                        
+                        <div class="mb-3 text-start">
+                            <span class="text-red-label text-start">// CARDHOLDER NAME</span>
+                            <input type="text" name="payment_name" id="payment-name" class="form-control studio-input w-100" placeholder="JOHN DOE" required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <span class="text-red-label text-start">// CARD NUMBER</span>
+                            <input type="text" name="payment_card" id="payment-card" class="form-control studio-input w-100" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                        </div>
+
+                        <div class="row g-3 text-start">
+                            <div class="col-6">
+                                <span class="text-red-label text-start">// EXPIRATION</span>
+                                <input type="text" name="payment_expiry" id="payment-expiry" class="form-control studio-input w-100" placeholder="MM/YY" maxlength="5" required>
+                            </div>
+                            <div class="col-6">
+                                <span class="text-red-label text-start">// SECURITY CODE</span>
+                                <input type="password" name="payment_cvv" id="payment-cvv" class="form-control studio-input w-100" placeholder="CVV" maxlength="4" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: TOTAL SYSTEM VALUATION SUMMARY -->
+                <div class="col-md-6">
+                    <h2 class="mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.03em; text-transform: uppercase;">Order Manifest</h2>
+                    <div class="p-4 review-panel-container d-flex flex-column justify-content-between layout-summary-panel" style="min-height: 290px;">
+                        
+                        <!-- ITEM FLOW REGISTRY -->
+                        <div class="text-start">
+                            <span class="text-red-label text-start">// VERIFIED SELECTION ITEMS</span>
+                            <ul class="list-unstyled mb-4" style="font-family: monospace; font-size: 0.95rem;">
+                                {% for item_data in cart %}
+                                    <li class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
+                                        <span>{{ item_data.quantity }}x {{ item_data.item.title|upper }}</span>
+                                        <span class="text-danger fw-bold">${{ item_data.total_price }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- TOTALS & ACTION TRIGGER -->
+                        <div class="text-end pt-3 border-top border-secondary border-opacity-20">
+                            <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em;">// FINAL SYSTEM TOTAL VALUE</span>
+                            <h2 class="mb-4 text-end" style="font-family: 'Impact', sans-serif; font-size: 2.5rem; letter-spacing: 0.02em;">
+                                Total: <span class="text-danger">${{ cart.get_total_price }}</span>
+                            </h2>
+                            <button type="submit" class="btn-red w-100 py-3 m-0" style="font-size: 1.1rem;">
+                                [ Confirm Order & Pay ]
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

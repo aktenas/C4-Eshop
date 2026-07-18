@@ -125,14 +125,24 @@ section.bg-secondary .btn-red {
     margin: 20px auto 0 auto !important;
 }
 
+/* Explicit limits for landing page appointment actions */
+.booking-cta-btn {
+    display: inline-block !important;
+    width: 280px !important;
+    max-width: 100% !important;
+    padding: 14px 24px !important;
+    margin: 10px auto 0 auto !important;
+    text-align: center !important;
+}
+
 
 /* ==========================================================================
    3 NAVIGATION BAR
    ========================================================================== */
 
 /* Navbar Background */
-.bg-obsidian {
-    background-color: #050505 !important;
+body.studio-body .bg-obsidian {
+    background: linear-gradient(180deg, #050505 0%, #0d0d0d 100%) !important;
     border-bottom: 1px solid #FF0000 !important;
 }
 
@@ -454,14 +464,19 @@ body.studio-body.light-mode #summary-cat-node,
 body.studio-body.light-mode #summary-srv-node,
 body.studio-body.light-mode #summary-art-node,
 body.studio-body.light-mode #summary-time-node,
-body.light-mode .analytics-value {
+body.studio-body.light-mode .analytics-value {
     color: #111111 !important;
 }
 
+/* Ensure data details in cards don't drop context flags */
+body.studio-body.light-mode .studio-card-content p,
+body.studio-body.light-mode .analytics-box p {
+    color: #444444 !important;
+}
 
 /* Navbar*/
 body.studio-body.light-mode .bg-obsidian {
-    background-color: #ffffff !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%) !important;
     border-bottom: 1px solid #e0e0e0 !important;
 }
 
@@ -581,6 +596,82 @@ body.light-mode .studio-footer .footer-link:hover {
 /* ==========================================================================
    8 RESPONSIVE DESIGN
    ========================================================================== */
+
+/* RESPONSIVE TABLE TRANSFORMATION: FORCES 100% CONTAINER WIDTH, NO HORIZONTAL SCROLLBARS */
+@media (max-width: 768px) {
+    /* Stop treating tables as tables on mobile */
+    .responsive-card-table, 
+    .responsive-card-table thead, 
+    .responsive-card-table tbody, 
+    .responsive-card-table th, 
+    .responsive-card-table td, 
+    .responsive-card-table tr { 
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    /* Hide the primary headers completely */
+    .responsive-card-table thead {
+        display: none !important;
+    }
+    
+    /* Format each row as an individual red-bordered block */
+    .responsive-card-table tr {
+        background-color: var(--bs-body-bg, #0d0d0d) !important;
+        border: 1px solid rgba(128, 128, 128, 0.15) !important;
+        border-left: 4px solid #ff0000 !important;
+        margin-bottom: 25px !important;
+        padding: 15px !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    }
+    
+    /* Convert cells into vertical label:value pairs */
+    .responsive-card-table td {
+        text-align: right !important;
+        padding: 10px 0 !important;
+        border: none !important;
+        border-bottom: 1px dashed rgba(128, 128, 128, 0.15) !important;
+        position: relative !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Center and format button / action columns separately */
+    .responsive-card-table td[data-label="Action"] {
+        border-bottom: none !important;
+        justify-content: center !important;
+        padding-top: 15px !important;
+    }
+
+    .responsive-card-table td[data-label="Action"] a,
+    .responsive-card-table td[data-label="Action"] button {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 12px !important;
+    }
+    
+    /* Dynamically inject headers on the left using content attributes */
+    .responsive-card-table td::before {
+        content: attr(data-label) !important;
+        float: left !important;
+        font-family: 'Special Elite', monospace !important;
+        font-weight: bold !important;
+        text-transform: uppercase !important;
+        color: #888888 !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.05em !important;
+        text-align: left !important;
+    }
+
+    /* Force tables to expand to full body margins safely */
+    .table-responsive {
+        overflow-x: visible !important;
+        max-width: 100% !important;
+    }
+}
+
 @media (max-width: 480px) {
     .carousel-inner { height: 260px !important; }
 }
@@ -657,4 +748,98 @@ body.light-mode .studio-footer .footer-link:hover {
         display: none !important;
         content: "" !important;
     }
+}
+/* ==========================================================================
+   9 INLINE QUANTITY ADJUSTMENT COMPONENT
+   ========================================================================== */
+.qty-control-block {
+    background-color: var(--bs-body-bg, #000000);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.qty-btn-minus, 
+.qty-btn-plus {
+    background: transparent !important;
+    border: none !important;
+    color: var(--bs-body-color, #ffffff) !important;
+    font-family: monospace !important;
+    font-weight: bold !important;
+    font-size: 1.1rem !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.qty-btn-minus:hover, 
+.qty-btn-plus:hover {
+    background-color: #ff0000 !important;
+    color: #ffffff !important;
+}
+
+.qty-value-display {
+    min-width: 30px;
+    font-size: 1rem;
+}
+
+/* Maintain crisp layout logic inside mobile stacked grid cards */
+@media (max-width: 768px) {
+    .responsive-card-table td[data-label="Qty"] {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+/* ==========================================================================
+   10 DESKTOP DARK OVERRIDES FOR STANDARD STYLESHEET TABLES
+   ========================================================================== */
+@media (min-width: 769px) {
+    /* Kill bootstrap's internal row/cell variables that default to white elements */
+    .responsive-card-table,
+    .responsive-card-table tbody,
+    .responsive-card-table tr,
+    .responsive-card-table td {
+        background-color: #0d0d0d !important;
+        color: #CCCCCC !important;
+        border-color: rgba(128, 128, 128, 0.15) !important;
+    }
+
+    /* Force headers to remain distinct dark anthracite fields */
+    .responsive-card-table thead,
+    .responsive-card-table thead tr,
+    .responsive-card-table thead th {
+        background-color: #111111 !important;
+        color: #FFFFFF !important;
+        border-color: rgba(128, 128, 128, 0.15) !important;
+    }
+
+    /* Handle text colors inside the table links and spans */
+    .responsive-card-table td div.text-body,
+    .responsive-card-table td {
+        color: #CCCCCC !important;
+    }
+}
+
+/* Light mode override safety so light mode tables don't stay black */
+body.light-mode .responsive-card-table,
+body.light-mode .responsive-card-table tbody,
+body.light-mode .responsive-card-table tr,
+body.light-mode .responsive-card-table td {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    border-color: #e0e0e0 !important;
+}
+
+body.light-mode .responsive-card-table thead,
+body.light-mode .responsive-card-table thead tr,
+body.light-mode .responsive-card-table thead th {
+    background-color: #f8f9fa !important;
+    color: #111111 !important;
+    border-color: #e0e0e0 !important;
 }

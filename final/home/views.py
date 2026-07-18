@@ -1,47 +1,60 @@
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
-from catalog.models import Item, Review
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Booking
+from .models import Booking, Service, Review
 from datetime import datetime
 from django.db.models import Q
 
-
 def home(request):
-    return render (request, 'home/index.html', {})
+    return render(request, 'home/index.html', {})
+
 def tasks(request):
-    return render (request, 'home/tasks.html', {})
+    db_services = Service.objects.all()
+    return render(request, 'home/tasks.html', {
+        'piercing_services': db_services
+    })
+
 def contact(request):
-    return render (request, 'home/contact.html', {})
+    return render(request, 'home/contact.html', {})
+
 def about(request):
-    return render (request, 'home/about.html', {})
+    return render(request, 'home/about.html', {})
+
+
 def reviews(request):
-    return render (request, 'home/reviews.html', {})
+    all_reviews = Review.objects.all().order_by('-id')
+    db_services = Service.objects.all()
+    return render(request, 'home/reviews.html', {
+        'reviews': all_reviews,
+        'services': db_services
+    })
 
 @login_required
 @require_POST
 def add_review_ajax(request):
     try:
-        item_id = request.POST.get('item_id')
+        service_id = request.POST.get('item_id') or request.POST.get('service_id')
         rating = request.POST.get('rating')
         comment = request.POST.get('comment', '').strip()
 
-        if not all([item_id, rating, comment]):
+        if not all([service_id, rating, comment]):
             return JsonResponse({'success': False, 'error': 'All fields are required.'}, status=400)
 
         try:
-            item = Item.objects.get(id=item_id)
-        except Item.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Selected catalog item does not exist.'}, status=404)
+            service_obj = Service.objects.get(id=service_id)
+        except Service.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Selected service item does not exist.'}, status=404)
 
-        rating_val = int(rating)
-        if not (1 <= rating_val <= 5):
+        try:
+            rating_val = int(rating)
+            if not (1 <= rating_val <= 5):
+                raise ValueError()
+        except ValueError:
             return JsonResponse({'success': False, 'error': 'Invalid rating value.'}, status=400)
 
         review = Review.objects.create(
-            item=item,
+            service=service_obj,
             user=request.user,
             rating=rating_val,
             comment=comment
@@ -50,7 +63,7 @@ def add_review_ajax(request):
         return JsonResponse({
             'success': True,
             'username': request.user.username,
-            'item_title': item.title,
+            'item_title': service_obj.title,
             'rating': review.rating,
             'comment': review.comment,
         })
@@ -58,21 +71,22 @@ def add_review_ajax(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
-
 @login_required
 def book_appointment(request):
     if request.method == 'POST':
-        service_type = request.POST.get('service_type')
+        service_id = request.POST.get('service_id')
+        artist = request.POST.get('artist')
         notes = request.POST.get('notes', '')
+
+        selected_service = get_object_or_404(Service, id=service_id)
+
         Booking.objects.create(
             user=request.user,
-            service_type=service_type,
+            service=selected_service,
+            artist=artist,
             notes=notes
         )
-    
         return redirect('accounts:dashboard')
-        
-    return redirect('home:home')
 
 @login_required
 def cancel_booking(request, booking_id):
@@ -80,7 +94,6 @@ def cancel_booking(request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id, user=request.user)
         booking.delete()
     return redirect('accounts:dashboard')
-
 
 def check_taken_slots(request):
     date_str = request.GET.get('date')

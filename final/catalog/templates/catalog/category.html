@@ -73,21 +73,20 @@
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="studio-card h-100">
                             
-                            <div class="studio-card-media" style="background: rgba(128, 128, 128, 0.05); border-color: rgba(128, 128, 128, 0.15);">
-                                <i class="fa-solid fa-ring text-danger" style="font-size: 2.5rem; opacity: 0.85;"></i>
-                            </div>
+                            <div class="studio-card-media" style="background: #e0e0e0 !important; border-bottom: 2px solid #cccccc !important; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0;"><img src="/static/images/{{ item.title|slugify }}.png" class="img-fluid carousel-fg-img" alt="{{ item.title }}" style="max-height: 80%; max-width: 80%; object-fit: contain;" onerror="this.src='/static/images/logo-red.png'; this.style.opacity='0.15'; this.style.maxHeight='80%';"></div>
                             
                             <div class="studio-card-content">
                                 <div>
-                                    <h3>{{ item.title }}</h3>
+                                    <span class="text-red-label d-block text-start mb-2" style="text-align: left !important; color: #FF0000 !important;">// {{ category.name|upper }}</span>
+                                    <h3 style="color: var(--bs-body-color, #ffffff) !important;">{{ item.title }}</h3>
                                     
-                                    <span class="d-block mb-3" style="font-size: 0.75rem; font-family: monospace; color: inherit;">
+                                    <span class="d-block mb-3" style="font-size: 0.75rem; font-family: monospace; color: #888888 !important;">
                                         // {{ item.material }} // {{ item.color }}
                                     </span>
                                 </div>
                                 
                                 <div class="mt-auto">
-                                    <p style="font-size: 1.6rem; font-family: 'Impact', sans-serif; letter-spacing: 0.02em; font-weight: bold; height: auto; margin-bottom: 15px; color: inherit;">
+                                    <p style="font-size: 1.6rem; font-family: 'Impact', sans-serif; letter-spacing: 0.02em; font-weight: bold; height: auto; margin-bottom: 15px; color: var(--bs-body-color, #ffffff) !important;">
                                         ${{ item.price }}
                                     </p>
 

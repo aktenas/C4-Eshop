@@ -24,17 +24,17 @@
                     
                     <div class="p-4 review-panel-container">
                         <div class="mb-3">
-                            <span class="text-red-label">// USERNAME</span>
+                            <span class="text-red-label text-start d-block">// USERNAME</span>
                             <p class="fs-5 fw-bold mb-0" style="color: inherit;">{{ user.username }}</p>
                         </div>
                         
                         <div class="mb-3">
-                            <span class="text-red-label">// EMAIL ADDRESS</span>
+                            <span class="text-red-label text-start d-block">// EMAIL ADDRESS</span>
                             <p class="fs-5 mb-0" style="color: inherit;">{{ user.email }}</p>
                         </div>
                         
                         <div class="mb-3">
-                            <span class="text-red-label">// FULL NAME</span>
+                            <span class="text-red-label text-start d-block">// FULL NAME</span>
                             <p class="fs-5 mb-0" style="color: inherit;">
                                 {{ user.first_name|default:"—" }} {{ user.last_name|default:"" }}
                             </p>
@@ -46,54 +46,39 @@
                             </a>
                         </div>
                     </div>
+
+                    {% if user.is_staff %}
+                        <div class="mt-4 p-4 review-panel-container" style="border: 1px solid #ff0000 !important; border-left: 4px solid #ff0000 !important;">
+                            <span class="text-red-label text-start d-block mb-2">// ITEM EDIT</span>
+                            <h3 class="fw-bold text-uppercase mb-2" style="font-family: 'Impact', sans-serif; font-size: 1.4rem; color: inherit;">
+                                ITEM METADATA EDITOR
+                            </h3>
+                            <p class="small mb-3" style="font-family: monospace; color: #888888; height: auto; overflow: visible;">
+                                Modify live inventory, custom materials, or pricing parameters.
+                            </p>
+                            
+                            <a href="{% url 'catalog:admin_piercing_dashboard' %}" class="btn-red text-decoration-none text-center m-0 w-100" style="font-size: 0.9rem; padding: 12px 20px !important;">
+                                Open
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="col-md-7">
                     
                     <h2>Your Activity</h2>
                     
-                    <span class="text-red-label mb-3">// ARCHIVED CLIENT REVIEWS SUBMISSIONS</span>
+                    <span class="text-red-label text-start d-block mb-3">// APPOINTMENTS</span>
                     
                     <div class="d-flex flex-column gap-3 mb-5">
-                        {% for review in user_reviews %}
-                            <div class="studio-card p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
-                                        {{ review.item.title }}
-                                    </h4>
-                                    <div style="color: #b30000;">
-                                        {% if review.rating >= 1 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
-                                        {% if review.rating >= 2 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
-                                        {% if review.rating >= 3 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
-                                        {% if review.rating >= 4 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
-                                        {% if review.rating >= 5 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
-                                    </div>
-                                </div>
-                                <div class="red-accent-line my-2" style="border-bottom-width: 1px !important; margin-bottom: 12px !important;"></div>
-                                <p style="height: auto; overflow: visible; margin-bottom: 0; font-style: italic; color: inherit;">
-                                    "{{ review.comment }}"
-                                </p>
-                            </div>
-                        {% empty %}
-                            <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
-                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
-                                    // You haven't submitted any reviews yet!
-                                </p>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <span class="text-red-label mb-3">// REGISTERED APPOINTMENTS SESSIONS</span>
-                    
-                    <div class="d-flex flex-column gap-3">
                         {% for booking in user_bookings %}
                             <div class="studio-card p-4">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
-                                        {{ booking.get_service_type_display|upper }} SESSION
+                                        {{ booking.service.title|upper }} SESSION
                                     </h4>
                                     <span class="badge bg-dark border border-secondary text-danger fw-bold" style="font-family: monospace; letter-spacing: 0.05em;">
-                                        ${{ booking.deposit }} DEPOSIT BALANCED
+                                        €{{ booking.service.price }}
                                     </span>
                                 </div>
                                 <div class="red-accent-line my-2" style="border-bottom-width: 1px !important; margin-bottom: 12px !important;"></div>
@@ -117,7 +102,94 @@
                         {% empty %}
                             <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
                                 <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
-                                    // No scheduled sessions linked to this account token.
+                                    // No scheduled sessions.
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <span class="text-red-label text-start d-block mb-3">// ORDERS</span>
+                    
+                    <div class="d-flex flex-column gap-3 mb-5">
+                        {% for order in user_orders %}
+                            <div class="studio-card p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
+                                        ORDER #{{ order.id }}
+                                    </h4>
+                                    <span class="badge bg-dark border border-secondary text-danger fw-bold" style="font-family: monospace; letter-spacing: 0.05em;">
+                                        ${{ order.grand_total }}
+                                    </span>
+                                </div>
+                                <div class="red-accent-line my-2" style="border-bottom-width: 1px !important; margin-bottom: 12px !important;"></div>
+                                
+                                <ul class="list-unstyled mb-0 mt-2" style="font-family: monospace; font-size: 0.85rem;">
+                                    {% for item in order.items.all %}
+                                        <li class="py-1 border-bottom border-secondary border-opacity-10 d-flex justify-content-between">
+                                            <span>
+                                                &gt;&gt; {{ item.quantity }}x {{ item.item_title|upper }} 
+                                                <small class="text-muted">({{ item.item_material }} // {{ item.item_color }})</small>
+                                            </span>
+                                            <span class="fw-bold">${{ item.item_price }}</span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+
+                                <div class="text-end mt-3">
+                                    <small class="text-muted" style="font-size: 0.75rem; font-family: monospace;">PROCESSED: {{ order.created_at|date:"M d, Y @ H:i" }}</small>
+                                </div>
+                                <div class="mt-3 text-start">
+                                    {% if order.status != 'Cancelled' %}
+                                        <form method="POST" action="{% url 'catalog:cancel_order' order.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-outline-danger monospace p-0 border-0" 
+                                                    style="color: #FF0000; background: transparent; font-size: 0.85rem; font-weight: bold; letter-spacing: 0.05em;"
+                                                    onclick="return confirm('SYSTEM WARNING: Are you sure you want to cancel this secure order?');">
+                                                [ CANCEL ORDER ]
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <span class="text-muted monospace small" style="font-size: 0.85rem;">// ORDER TRANSACTION</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
+                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
+                                    // No transaction history
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <span class="text-red-label text-start d-block mb-3">// REVIEWS</span>
+                    
+                    <div class="d-flex flex-column gap-3">
+                        {% for review in user_reviews %}
+                            <div class="studio-card p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h4 class="fw-bold text-uppercase m-0" style="font-family: 'Impact', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; color: inherit;">
+                                        {{ review.service.title }}
+                                    </h4>
+                                    <div style="color: #b30000;">
+                                        {% if review.rating >= 1 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                        {% if review.rating >= 2 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                        {% if review.rating >= 3 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                        {% if review.rating >= 4 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                        {% if review.rating >= 5 %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                                    </div>
+                                </div>
+                                <div class="red-accent-line my-2" style="border-bottom-width: 1px !important; margin-bottom: 12px !important;"></div>
+                                <p style="height: auto; overflow: visible; margin-bottom: 0; font-style: italic; color: inherit;">
+                                    "{{ review.comment }}"
+                                </p>
+                            </div>
+                        {% empty %}
+                            <div class="p-4 border text-center" style="background: rgba(128, 128, 128, 0.04); border-color: rgba(128, 128, 128, 0.15) !important;">
+                                <p class="mb-0" style="font-family: monospace; letter-spacing: 0.05em; height: auto; overflow: visible; color: inherit;">
+                                    // You haven't submitted any reviews yet!
                                 </p>
                             </div>
                         {% endfor %}

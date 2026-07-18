@@ -4,10 +4,10 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegistrationForm, UserProfileForm
-from catalog.models import Review
-from home.models import Booking
+from home.models import Booking, Review as HomeReview
 from django.db.models import Q
-
+from catalog.cart import Cart
+from catalog.models import Order, OrderItem
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -45,27 +45,25 @@ class CustomLoginView(LoginView):
         return response
 
 class CustomLogoutView(LogoutView):
+    next_page = 'home:home'  
+
     def dispatch(self, request, *args, **kwargs):
-        current_cart = request.session.get('cart', None)
+        # Grab the current cart state before Django clears the session
+        current_cart = request.session.get('cart', {})
+        
+        # Let Django proceed with standard logout session clearing
         response = super().dispatch(request, *args, **kwargs)
+        
+        # Handle the cookie update accurately
         if current_cart:
+            # If they have items, save them for next time
             response.set_cookie('saved_cart', json.dumps(current_cart), max_age=30*24*60*60)
+        else:
+            # IF THE CART IS EMPTY: Force-delete the cookie so it doesn't add them on next login
+            response.delete_cookie('saved_cart')
             
         return response
 
-@login_required
-def dashboard(request):
-    # Pull user reviews from catalog.models
-    user_reviews = Review.objects.filter(user=request.user).select_related('item').order_by('-created_at')
-    
-    # Pull user bookings from catalog.models 
-    user_bookings = Booking.objects.filter(user=request.user).order_by('-created_at')
-    
-    context = {
-        'user_reviews': user_reviews,
-        'user_bookings': user_bookings,
-    }
-    return render(request, 'accounts/dashboard.html', context)
 
 @login_required
 def update_profile(request):
@@ -80,12 +78,14 @@ def update_profile(request):
 
 @login_required
 def dashboard(request):
-    user_reviews = Review.objects.filter(user=request.user).select_related('item').order_by('-created_at')
-    
-    user_bookings = Booking.objects.filter(user=request.user).order_by('-id')
-    
+    # 1. Fetch data from DB
+    bookings_query = Booking.objects.filter(user=request.user).order_by('-id')
+    reviews_query = HomeReview.objects.filter(user=request.user).order_by('-id')
+
     context = {
-        'user_reviews': user_reviews,
-        'user_bookings': user_bookings,
+        'user_bookings': bookings_query, 
+        'user_reviews': reviews_query,    
+        'user_orders': Order.objects.filter(user=request.user).order_by('-id'),
     }
+    
     return render(request, 'accounts/dashboard.html', context)

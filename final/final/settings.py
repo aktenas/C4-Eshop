@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-bydltv-1bh6o9nwzl1+t&9=70*#0p^18uj7my#1g4kbp@m%1iy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =  False
 
-ALLOWED_HOSTS = ['c4tattoo.pythonanywhere.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['aktenas.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition

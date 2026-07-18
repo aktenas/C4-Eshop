@@ -15,12 +15,12 @@
             
             <h1 class="page-title text-start">Your Cart Summary</h1>
             <div class="red-accent-line mb-3"></div>
-            <p class="text-start mb-4 small" style="font-family: monospace; letter-spacing: 0.05em;">// VERIFY YOUR SELECTIONS BEFORE SECURING SECURE CHECKOUT ROW</p>
+            <p class="text-start mb-4 small" style="font-family: monospace; letter-spacing: 0.05em;">// VERIFY SELECTIONS</p>
 
             {% if global_cart|length > 0 %}
-            <div class="table-responsive mb-4" style="border-left: 3px solid #ff0000;">
-                <table class="table table-bordered align-middle mb-0">
-                    <thead class="table-dark">
+            <div class="table-responsive mb-4" style="border: none;">
+                <table class="table table-bordered align-middle mb-0 responsive-card-table">
+                    <thead>
                         <tr style="font-family: 'Impact', sans-serif; letter-spacing: 0.05em; font-size: 0.95rem;">
                             <th scope="col" class="px-4 py-3 text-uppercase">Item / Service</th>
                             <th scope="col" class="px-3 py-3 text-uppercase text-center">Quantity</th>
@@ -33,7 +33,7 @@
                         {% for item_data in cart %}
                             {% with item=item_data.item %}
                                 <tr>
-                                    <td class="px-4 py-3">
+                                    <td data-label="Item" class="px-4 py-3">
                                         <div class="text-body fw-bold text-uppercase" style="font-family: 'Impact', sans-serif; font-size: 1.2rem; letter-spacing: 0.02em;">
                                             {{ item.title }}
                                         </div>
@@ -41,16 +41,37 @@
                                             // {{ item.material }} // {{ item.color }}
                                         </span>
                                     </td>
-                                    <td class="px-3 py-3 text-center fw-bold" style="font-family: monospace; color: inherit;">
-                                        {{ item_data.quantity }}
+                                    
+                                    <td data-label="Qty" class="px-3 py-3 text-center">
+                                        <div class="d-inline-flex align-items-center justify-content-center qty-control-block">
+                                            
+                                            <!-- MINUS BUTTON FORM -->
+                                            <form method="POST" action="{% url 'catalog:cart_add' item.id %}" class="m-0 p-0">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="quantity" value="-1">
+                                                <input type="hidden" name="override" value="False">
+                                                <button type="submit" class="qty-btn-minus">-</button>
+                                            </form>
+                                            
+                                            <span class="px-3 fw-bold monospace text-body text-center qty-value-display">{{ item_data.quantity }}</span>
+                                            
+                                            <!-- PLUS BUTTON FORM -->
+                                            <form method="POST" action="{% url 'catalog:cart_add' item.id %}" class="m-0 p-0">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="quantity" value="1">
+                                                <input type="hidden" name="override" value="False">
+                                                <button type="submit" class="qty-btn-plus">+</button>
+                                            </form>
+                                        </div>
                                     </td>
-                                    <td class="px-3 py-3 text-end text-body fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
+                                    
+                                    <td data-label="Unit Cost" class="px-3 py-3 text-end text-body fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
                                         ${{ item_data.price }}
                                     </td>
-                                    <td class="px-3 py-3 text-end text-danger fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
+                                    <td data-label="Total Cost" class="px-3 py-3 text-end text-danger fw-bold" style="font-family: 'Impact', sans-serif; font-size: 1.1rem;">
                                         ${{ item_data.total_price }}
                                     </td>
-                                    <td class="px-4 py-3 text-end">
+                                    <td data-label="Action" class="px-4 py-3 text-end">
                                         <a href="{% url 'catalog:cart_remove' item.id %}" class="btn btn-sm btn-outline-danger text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em; border-radius: 0; padding: 4px 10px;">
                                             Remove
                                         </a>
@@ -63,13 +84,14 @@
             </div>
 
             <div class="text-end mt-4 p-4 border" style="background: rgba(0,0,0,0.02);">
-                <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">// TOTAL SYSTEM VALUATION</span>
+                <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">// TOTAL</span>
                 <h2 class="text-body mb-4" style="font-family: 'Impact', sans-serif; font-size: 2.2rem; letter-spacing: 0.02em;">
                     Grand Total: <span class="text-danger">${{ global_cart.get_total_price }}</span>
                 </h2>
-                <button class="btn btn-red btn-lg text-uppercase fw-bold px-5 py-3" style="font-size: 0.95rem; letter-spacing: 0.05em; border-radius: 0;">
+                
+                <a href="{% url 'catalog:checkout' %}" class="btn btn-red btn-lg text-uppercase fw-bold px-5 py-3 d-inline-flex align-items-center justify-content-center" style="font-size: 0.95rem; letter-spacing: 0.05em; border-radius: 0; text-decoration: none;">
                     Proceed to Checkout <i class="fa-solid fa-chevron-right ms-2" style="font-size: 0.8rem;"></i>
-                </button>
+                </a>
             </div>
 
             {% else %}
@@ -78,7 +100,7 @@
                     <i class="fa-solid fa-cart-shopping opacity-50" style="font-size: 3rem; color: inherit;"></i>
                 </div>
                 <p class="mb-0 fw-bold" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">
-                    // YOUR CART IS COMPLETELY EMPTY.
+                    // YOUR CART IS EMPTY.
                 </p>
             </div>
             {% endif %}

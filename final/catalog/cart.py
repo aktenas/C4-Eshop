@@ -12,6 +12,7 @@ class Cart:
     def add(self, item, quantity=1, override_quantity=False):
         item_id = str(item.id)
         if item_id not in self.cart:
+            # Force string conversion on the price
             self.cart[item_id] = {'quantity': 0, 'price': str(item.price)}
         
         if override_quantity:
@@ -29,12 +30,17 @@ class Cart:
     def __iter__(self):
         item_ids = self.cart.keys()
         items = Item.objects.filter(id__in=item_ids)
-        cart = self.cart.copy()
+        
+        # creates a completely separate dict to avoid mutating the live session dictionary reference
+        cart_copy = {}
+        for item_id, item_data in self.cart.items():
+            cart_copy[item_id] = item_data.copy() #  copy the item dictionaries
         
         for item in items:
-            cart[str(item.id)]['item'] = item
+            cart_copy[str(item.id)]['item'] = item
 
-        for item_data in cart.values():
+        for item_data in cart_copy.values():
+            # alters temporary cart_copy
             item_data['price'] = Decimal(item_data['price'])
             item_data['total_price'] = item_data['price'] * item_data['quantity']
             yield item_data
@@ -51,11 +57,10 @@ class Cart:
             
         return base_total
 
-    def get_total_price(self):
-        return sum(Decimal(item_data['price']) * item_data['quantity'] for item_data in self.cart.values())
-
     def clear(self):
-        del self.session['cart']
-        self.save()
+        if 'cart' in self.session:
+            del self.session['cart']
+            self.save()
+
     def save(self):
         self.session.modified = True

@@ -19,7 +19,6 @@
             <div class="red-accent-line"></div>
             <p class="text-start mb-4 small" style="font-family: monospace; letter-spacing: 0.05em;">// SPECIFICATIONS: {{ selected_category.name|upper }}</p>
 
-            <!-- YOUR SEARCH AND FILTERS PANEL INTEGRATED HERE -->
             <form method="GET" action="" class="mb-5 p-4 review-panel-container" style="background: rgba(128, 128, 128, 0.08); border: 1px solid rgba(128, 128, 128, 0.2); border-left: 3px solid #ff0000 !important; border-radius: 0;">
                 <div class="row g-3 align-items-end">
                     <input type="hidden" name="category" value="{{ selected_category.id }}">
@@ -112,17 +111,17 @@
                                 <div>
                                     <span class="text-red-label d-block text-start mb-2" style="text-align: left !important; color: #FF0000 !important;">// CATEGORY</span>
                                     <h3>{{ category.name }}</h3>
-                                    <p class="small">{{ category.description|default:"Browse specialized studio modifications and pristine hardware blueprints." }}</p>
+                                    <p class="small">{{ category.description|default:"Browse." }}</p>
                                 </div>
                                 <div class="mt-auto">
-                                    <a href="?category={{ category.id }}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">BROWSE</a>
+                                    <a href="?category={{ category.id }}" class="btn-red text-center w-100 text-decoration-none m-0" style="font-size: 0.95rem;">BROWSE COLLECTION</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% empty %}
                     <div class="col-12 text-center py-5">
-                        <p class="monospace">// No active catalog channels configured in database rows.</p>
+                        <p class="monospace">// No active catalogs.</p>
                     </div>
                 {% endfor %}
             </div>

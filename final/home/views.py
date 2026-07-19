@@ -10,6 +10,7 @@ def home(request):
     return render(request, 'home/index.html', {})
 
 def tasks(request):
+    # retrieves all services from the databse
     db_services = Service.objects.all()
     return render(request, 'home/tasks.html', {
         'piercing_services': db_services
@@ -34,25 +35,26 @@ def reviews(request):
 @require_POST
 def add_review_ajax(request):
     try:
+        # collects review data
         service_id = request.POST.get('item_id') or request.POST.get('service_id')
         rating = request.POST.get('rating')
         comment = request.POST.get('comment', '').strip()
-
+        # checks to make sure that none of these three values are empty or missing
         if not all([service_id, rating, comment]):
             return JsonResponse({'success': False, 'error': 'All fields are required.'}, status=400)
-
+        # service id validation
         try:
             service_obj = Service.objects.get(id=service_id)
         except Service.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Selected service item does not exist.'}, status=404)
-
+        # rating validation
         try:
             rating_val = int(rating)
             if not (1 <= rating_val <= 5):
                 raise ValueError()
         except ValueError:
             return JsonResponse({'success': False, 'error': 'Invalid rating value.'}, status=400)
-
+        # review is saved to database
         review = Review.objects.create(
             service=service_obj,
             user=request.user,
@@ -98,10 +100,10 @@ def cancel_booking(request, booking_id):
 def check_taken_slots(request):
     date_str = request.GET.get('date')
     artist_str = request.GET.get('artist')
-    
+    # if date or artist is missig return an empoty array
     if not date_str or not artist_str:
         return JsonResponse({'taken_slots': []})
-    
+    # make the text match
     try:
         date_obj = datetime.strptime(date_str, "%Y-%m-%d")
         month_name = date_obj.strftime("%B")
@@ -111,8 +113,9 @@ def check_taken_slots(request):
         formatted_date_string = f"{month_name} {day_num}, {year_num}"
     except ValueError:
         return JsonResponse({'taken_slots': []})
-
+    # Q is used to form database queries, AND in this case
     existing_bookings = Booking.objects.filter(
+        #case insensitive lookup in notes which is artist and date, returns existing bookings for that artist on that date
         Q(notes__icontains=f"Artist: {artist_str}") & 
         Q(notes__icontains=f"Date: {formatted_date_string}")
     )
@@ -120,10 +123,12 @@ def check_taken_slots(request):
     taken_slots = []
     for booking in existing_bookings:
         if " @ " in booking.notes:
+            # split the @ (timeslot) PM from the date
             try:
                 time_part = booking.notes.split(" @ ")[1].strip()
                 time_obj = datetime.strptime(time_part, "%I:%M %p")
                 military_time = time_obj.strftime("%H:%M")
+                # taken slots are appended
                 taken_slots.append(military_time)
             except (ValueError, IndexError):
                 continue

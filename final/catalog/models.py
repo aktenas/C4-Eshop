@@ -51,7 +51,6 @@ class OrderItem(models.Model):
     # if a catalog item is deleted, the purchase history stays alive
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True)
     
-    # Snapshot fields to lock in the values exactly as they were during checkout
     item_title = models.CharField(max_length=200)
     item_price = models.DecimalField(max_digits=10, decimal_places=2)
     item_material = models.CharField(max_length=50)

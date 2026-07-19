@@ -110,7 +110,7 @@
                             </div>
                             <div class="studio-card-content p-4">
                                 <h4 class="fw-bold mb-2" style="font-family: 'Impact', sans-serif; color: inherit;">{{ service.title }}</h4>
-                                <p class="small">{{ service.description|default:"Professional sterile procedure allocation processing." }}</p>
+                                <p class="small">{{ service.description|default:"Piercing Procedure Done Proffessionally." }}</p>
                                 
                                 <div class="fw-bold mb-3" style="color: #FF0000; font-family: monospace; font-size: 1.15rem;">
                                     €{{ service.price }}
@@ -127,7 +127,7 @@
                     </div>
                 {% empty %}
                     <div class="col-12 text-center">
-                        <p class="monospace" style="color: inherit;">// NO ACTIVE SERVICES FOUND IN DATABASE TERMINAL</p>
+                        <p class="monospace" style="color: inherit;">// NO SERVICES FOUND</p>
                     </div>
                 {% endfor %}
             </div>
@@ -180,7 +180,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="text-red-label mb-2">// AVAILABLE SESSION WINDOWS (1PM - 8PM)</label>
-                            <p class="small mb-3" style="font-family: monospace;">// Choose an active block below. Red items are already secured.</p>
+                            <p class="small mb-3" style="font-family: monospace;">// Choose an active block below.</p>
                             <div id="time-slots-container" class="d-flex flex-wrap gap-2 justify-content-center"></div>
                         </div>
                         <div class="red-accent-line my-4"></div>
@@ -215,7 +215,7 @@
                             </div>
                         </div>
                         <div class="red-accent-line my-4"></div>
-                        <button type="button" class="btn-red w-100" id="payment-continue-btn">Authorize & Verify</button>
+                        <button type="button" class="btn-red w-100" id="payment-continue-btn">Continue</button>
                     </div>
                 </div>
             </div>

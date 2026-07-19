@@ -22,10 +22,10 @@ class Service(models.Model):
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
     
-    # RELATIONAL LINK: Inherits price and service type directly from the Service table row
+    # inherits price and service type directly from the service table row
     service = models.ForeignKey(Service, on_delete=models.PROTECT, related_name='appointments', null=True, blank=True)
     
-    # CAPTURED FROM WIZARD FLOW: Gathered dynamically during the user booking process
+    # gathered during the user booking process
     artist = models.CharField(max_length=100, default="Any Artist")
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -34,10 +34,8 @@ class Booking(models.Model):
         return f"{self.user.username} - {self.service.title} (€{self.service.price})"
     
 class Review(models.Model):
-    # Added unique related_name to resolve the User property clash!
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='service_reviews')
-    
-    # Linked to our new Service model relation column row cleanly
+
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='reviews') 
     
     rating = models.IntegerField()

@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 
 class UserRegistrationForm(forms.ModelForm):
-    # Defining the field explicitly here guarantees Django forces the max_length constraint onto the HTML element
     username = forms.CharField(
         max_length=20, 
         widget=forms.TextInput(attrs={'placeholder': 'Username (Max 20 chars)'})

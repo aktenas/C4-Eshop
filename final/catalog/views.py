@@ -9,6 +9,7 @@ from .cart import Cart
 from .models import Order, OrderItem
 from django.contrib import messages
 
+# a fresh page is booted each time so the catalog is up to date
 @never_cache
 def catalog(request):
     categories = Category.objects.all()
@@ -77,18 +78,17 @@ def cart_add(request, item_id):
     except (ValueError, TypeError):
         qty_modifier = 1
 
-    # INVENTORY CHECK 
-    # Find out how many items are ALREADY sitting inside the session cart
+    # Find out how many items are inside the session cart
     current_qty_in_cart = 0
     for cart_item in cart:
         if cart_item['item'].id == item.id:
             current_qty_in_cart = cart_item['quantity']
             break
 
-    # Calculate what the total would be
+    # calculate what the total would be
     projected_total = current_qty_in_cart + qty_modifier
 
-    # Block addition if it breaches actual database inventory limits
+    # block addition if it exceeds inventory limits
     if projected_total > item.stock:
         messages.error(request, f"CANNOT ADD MORE: Only {item.stock} units of '{item.title}' are available in stock.")
         return redirect('catalog:cart_detail')
@@ -113,12 +113,12 @@ def cart_detail(request):
 
 def is_studio_admin(user):
     return user.is_authenticated and user.is_staff
-
+# only admins can access the item edit board
 @user_passes_test(is_studio_admin, login_url='login')
 def admin_piercing_dashboard(request):
     piercing_items = Item.objects.all().order_by('category', 'title')
     return render(request, 'catalog/admin_piercings.html', {'items': piercing_items})
-
+# admin can edit the piercing attrs
 @user_passes_test(is_studio_admin, login_url='login')
 def admin_edit_piercing(request, item_id):
     item = get_object_or_404(Item, id=item_id)
@@ -146,7 +146,7 @@ def checkout(request):
         card_number = request.POST.get('payment_card')
         card_expiry = request.POST.get('payment_expiry')
         card_cvv = request.POST.get('payment_cvv')
-        
+        # card validation
         if not card_name or not card_number or not card_expiry or not card_cvv:
             messages.error(request, "GATEWAY WARNING: Invalid payment parameters provided.")
             return redirect('catalog:checkout')
@@ -173,13 +173,13 @@ def checkout(request):
                     item_color=catalog_item.color,
                     quantity=item_data['quantity']
                 )
-                
+                # reduce stock after payment
                 catalog_item.stock -= item_data['quantity']
                 catalog_item.save()
             
             cart.clear()
             
-        messages.success(request, "ORDER SUCCESSFUL! Your studio items have been secured.")
+        messages.success(request, "ORDER SUCCESSFUL! Your items have been secured.")
         return redirect('accounts:dashboard')
 
     return render(request, 'catalog/checkout.html', {'cart': cart})
@@ -187,11 +187,13 @@ def checkout(request):
 @login_required
 @require_POST
 def cancel_order(request, order_id):
+    # the user id is crucial , attackers cannot delete someone elses order by its ID
     order = get_object_or_404(Order, id=order_id, user=request.user)
     
     with transaction.atomic():
         for order_item in order.items.all():
             if order_item.item:
+                # increase the item quantity after order deletion
                 order_item.item.stock += order_item.quantity
                 order_item.item.save()
         
@@ -202,11 +204,13 @@ def cancel_order(request, order_id):
 
 @never_cache
 def item_detail(request, slug):
+    # every databse item is requested
     all_items = Item.objects.all()
     item = None
-    
+    # loop through the items to find the one the user clicked on
     from django.utils.text import slugify
     for i in all_items:
+        # slugify converts items titles to search friendly text, example: Industrial Cat Holo -> industrial-cat-holo
         if slugify(i.title) == slug:
             item = i
             break

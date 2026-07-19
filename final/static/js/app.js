@@ -183,8 +183,9 @@ function setupBookingPage() {
         { title: "Payment", sub: "Make Payment" },
         { title: "Verify Booking", sub: "Review booking." }
     ];
-
+    // generate time slots for artists
     function generateStudioTimeSlots(artist) {
+        // monster energy is a tattoer, he has longer but less time slots
         if (artist && String(artist).toLowerCase().trim() === 'monster energy') {
             return [
                 { raw: "13:00", display: "01:00 PM" },
@@ -192,7 +193,7 @@ function setupBookingPage() {
                 { raw: "18:00", display: "06:00 PM" }
             ];
         }
-        
+        // the rest are piercers, sessions with 30 min intervals
         return [
             { raw: "13:00", display: "01:00 PM" },
             { raw: "13:30", display: "01:30 PM" },
@@ -213,29 +214,32 @@ function setupBookingPage() {
     }
 
     function fetchAndRenderSlots(dateString) {
+        // wipe the timeslots of each day 
         const slotsContainer = document.querySelector('#time-slots-container');
         if (!slotsContainer) return;
         
         slotsContainer.innerHTML = ''; 
+        // collect artist name
         const currentArtist = state.artist || ""; 
-        
+        // check available hours for the day, encoding converts some characters so its safe to read
         const checkUrl = `/home/book/check-slots/?date=${dateString}&artist=${encodeURIComponent(currentArtist)}`;
-        
+        // check server response
         fetch(checkUrl)
             .then(response => response.json())
             .then(data => {
+                // return taken time slots of the day and generate the artists timer slots
                 const takenSlots = data.taken_slots; 
                 const masterSlots = generateStudioTimeSlots(currentArtist);
                 
                 slotsContainer.innerHTML = ''; 
-
+                // loop through every slot to check which ones will be created based on availability
                 masterSlots.forEach(slot => {
                     const isTaken = takenSlots.includes(slot.raw) || takenSlots.includes(slot.display);
 
                     if (isTaken) {
                         return; 
                     }
-
+                    // creates time slot button
                     const btn = document.createElement('button');
                     btn.type = 'button';
                     btn.style.fontFamily = 'monospace';
@@ -254,9 +258,10 @@ function setupBookingPage() {
     const datePickerEl = document.querySelector('#calendar-date-picker');
     if (datePickerEl) {
         const tomorrow = new Date();
+        // creates the date tomorrow
         tomorrow.setDate(tomorrow.getDate() + 1);
         const tomorrowString = tomorrow.toISOString().split('T')[0];
-        
+        // users cannot select past dates, only from tomorrow and onwards
         datePickerEl.min = tomorrowString;
         datePickerEl.value = tomorrowString;
         
@@ -273,19 +278,20 @@ function setupBookingPage() {
 
     // Step 0 -> Step 1
     $(document).off('click', '.category-select-btn').on('click', '.category-select-btn', function() {
+        // reads the category chosen, tatto or piercing
         const chosenCategory = $(this).attr('data-category') || $(this).data('category') || "";
         state.category = chosenCategory;
-    
+        // show tatto or piercing services
         $('.service-filterable-card').addClass('d-none');
         $(`.service-filterable-card[data-cat="${state.category}"]`).removeClass('d-none');
         
         const monsterEnergyBtn = document.querySelector('.artist-select-btn[data-art="MONSTER ENERGY"]');
         const oreoBtn = document.querySelector('.artist-select-btn[data-art="OREO"]');
         const rubyRedBtn = document.querySelector('.artist-select-btn[data-art="RUBY RED"]');
-        
+        // check if it is a tattoo service to display the appropriate artist
         const isTattoo = state.category && state.category.toLowerCase().includes('tattoo');
 
-        // 1. Filter Monster Energy
+        // 1. filter monster energy
         if (monsterEnergyBtn) {
             const column = monsterEnergyBtn.closest('.col-md-4');
             if (column) {
@@ -297,7 +303,7 @@ function setupBookingPage() {
             }
         }
 
-        // 2. Filter Oreo
+        // 2. filter oreo
         if (oreoBtn) {
             const column = oreoBtn.closest('.col-md-4');
             if (column) {
@@ -309,7 +315,7 @@ function setupBookingPage() {
             }
         }
 
-        // 3. Filter Ruby Red
+        // 3. filter ruby red
         if (rubyRedBtn) {
             const column = rubyRedBtn.closest('.col-md-4');
             if (column) {
@@ -326,10 +332,11 @@ function setupBookingPage() {
 
     // Step 1 -> Step 2
     $(document).off('click', '.service-select-btn').on('click', '.service-select-btn', function() {
+        // grab the service info
         state.serviceId = $(this).attr('data-id');
         state.serviceTitle = $(this).attr('data-srv');
         state.servicePrice = $(this).attr('data-price') || "0.00";
-        
+        // save the service id
         const bridgeServiceIdInput = document.querySelector('#id_service_id');
         if (bridgeServiceIdInput) {
             bridgeServiceIdInput.value = state.serviceId;
@@ -337,10 +344,10 @@ function setupBookingPage() {
 
         const paymentPriceLabel = document.querySelector('.live-payment-price');
         const summarySrvNode = document.querySelector('#summary-srv-node');
-        
+        // convert string price to 2 decimal float
         if (paymentPriceLabel) paymentPriceLabel.textContent = `€${parseFloat(state.servicePrice).toFixed(2)}`;
         if (summarySrvNode) summarySrvNode.textContent = `${state.serviceTitle} (€${parseFloat(state.servicePrice).toFixed(2)})`;
-
+        // fallback so monster energy does not appear in a piercing category accidentally
         const monsterEnergyBtn = document.querySelector('.artist-select-btn[data-art="Monster Energy"]');
         if (monsterEnergyBtn) {
             if (state.category && state.category.toLowerCase().includes('piercing')) {
@@ -356,6 +363,7 @@ function setupBookingPage() {
 
     // Step 2 -> Step 3 
     $(document).off('click', '.artist-select-btn').on('click', '.artist-select-btn', function() {
+        // store artist info
         state.artist = $(this).attr('data-art');
         
         const bridgeArtistInput = document.querySelector('#id_artist');
@@ -363,7 +371,7 @@ function setupBookingPage() {
         
         if (bridgeArtistInput) bridgeArtistInput.value = state.artist;
         if (summaryArtNode) summaryArtNode.textContent = state.artist;
-
+        // loads the time slots for the next step
         const currentSelectedDate = document.querySelector('#calendar-date-picker').value;
         if (currentSelectedDate) {
             fetchAndRenderSlots(currentSelectedDate);
@@ -371,25 +379,26 @@ function setupBookingPage() {
         
         renderStep(3);
     });
-
+    // UI editing so the button selected changes appearance
     $(document).off('click', '.studio-time-slot-btn').on('click', '.studio-time-slot-btn', function() {
         $('.studio-time-slot-btn').removeClass('btn-danger text-black').addClass('btn-outline-danger text-white');
         $(this).removeClass('btn-outline-danger text-white').addClass('btn-danger text-black');
         
         const pickedTimeStr = $(this).attr('data-time-display');
         const dateVal = document.querySelector('#calendar-date-picker').value;
-
+        // picked date is saved
         const dateObj = new Date(dateVal);
         const formattedDate = dateObj.toLocaleDateString('en-US', { 
             month: 'long', 
             day: 'numeric', 
             year: 'numeric' 
         });
-
+        // date is formated 
         state.time = `${formattedDate} @ ${pickedTimeStr}`;
     });
 
     // Step 3 -> Step 4
+    // if the user tries to click on next, they are promted to select a time and date
     $(document).off('click', '#calendar-continue-btn').on('click', '#calendar-continue-btn', function() {
         const dateVal = document.querySelector('#calendar-date-picker').value;
 
@@ -401,14 +410,15 @@ function setupBookingPage() {
     });
 
     // Step 4 -> Step 5
+    //payment form
     $(document).off('click', '#payment-continue-btn').on('click', '#payment-continue-btn', function() {
         const name = document.querySelector('#payment-name').value.trim();
         const card = document.querySelector('#payment-card').value.trim();
         const expiry = document.querySelector('#payment-expiry').value.trim();
         const cvv = document.querySelector('#payment-cvv').value.trim();
-
+        // validation
         if (!name || !card || !expiry || !cvv) {
-            alert("GATEWAY WARNING:\nPlease input valid authentication card parameters before proceeding.");
+            alert("WARNING:\nPlease input valid authentication card parameters before proceeding.");
             return;
         }
 

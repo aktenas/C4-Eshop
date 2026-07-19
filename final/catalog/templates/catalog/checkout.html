@@ -7,23 +7,20 @@
 <main class="container-fluid my-5 py-4">
     <div class="page-shell">
         
-        <!-- BACK NAVIGATION BRIDGE -->
         <div class="text-start mb-4">
             <a href="{% url 'catalog:cart_detail' %}" class="text-decoration-none d-inline-flex align-items-center" style="color: #FF0000; font-family: 'Special Elite', monospace; letter-spacing: 0.1em; font-size: 0.9rem; font-weight: bold;">
                 <i class="fa-solid fa-arrow-left me-2"></i> BACK TO CART
             </a>
         </div>
 
-        <!-- CORE LAYOUT HEADERS -->
-        <h1 class="page-title text-start">Secure Checkout</h1>
+        <h1 class="page-title text-start">Checkout</h1>
         <div class="red-accent-line"></div>
-        <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// SECURE DEBIT TRANSACTION GATEWAY TERMINAL INITIALIZED</p>
+        <p class="text-start mb-5 small" style="font-family: monospace; letter-spacing: 0.05em;">// SECURE TRANSACTION</p>
 
         <form method="POST" action="{% url 'catalog:checkout' %}" id="checkout-payment-form">
             {% csrf_token %}
             <div class="row g-5">
-                
-                <!-- LEFT COLUMN: PAYMENT AUTHORIZATION -->
+
                 <div class="col-md-6">
                     <h2 class="mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.03em; text-transform: uppercase;">Card Authorization</h2>
                     <div class="p-4 review-panel-container">
@@ -51,14 +48,12 @@
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN: TOTAL SYSTEM VALUATION SUMMARY -->
                 <div class="col-md-6">
-                    <h2 class="mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.03em; text-transform: uppercase;">Order Manifest</h2>
+                    <h2 class="mb-4" style="font-family: 'Impact', sans-serif; letter-spacing: 0.03em; text-transform: uppercase;">Order</h2>
                     <div class="p-4 review-panel-container d-flex flex-column justify-content-between layout-summary-panel" style="min-height: 290px;">
                         
-                        <!-- ITEM FLOW REGISTRY -->
                         <div class="text-start">
-                            <span class="text-red-label text-start">// VERIFIED SELECTION ITEMS</span>
+                            <span class="text-red-label text-start">// ITEMS</span>
                             <ul class="list-unstyled mb-4" style="font-family: monospace; font-size: 0.95rem;">
                                 {% for item_data in cart %}
                                     <li class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
@@ -69,9 +64,8 @@
                             </ul>
                         </div>
 
-                        <!-- TOTALS & ACTION TRIGGER -->
                         <div class="text-end pt-3 border-top border-secondary border-opacity-20">
-                            <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em;">// FINAL SYSTEM TOTAL VALUE</span>
+                            <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em;">// TOTAL</span>
                             <h2 class="mb-4 text-end" style="font-family: 'Impact', sans-serif; font-size: 2.5rem; letter-spacing: 0.02em;">
                                 Total: <span class="text-danger">${{ cart.get_total_price }}</span>
                             </h2>

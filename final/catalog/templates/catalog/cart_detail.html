@@ -45,7 +45,7 @@
                                     <td data-label="Qty" class="px-3 py-3 text-center">
                                         <div class="d-inline-flex align-items-center justify-content-center qty-control-block">
                                             
-                                            <!-- MINUS BUTTON FORM -->
+                                            <!-- MINUS BUTTON -->
                                             <form method="POST" action="{% url 'catalog:cart_add' item.id %}" class="m-0 p-0">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="quantity" value="-1">
@@ -55,7 +55,7 @@
                                             
                                             <span class="px-3 fw-bold monospace text-center qty-value-display">{{ item_data.quantity }}</span>
                                             
-                                            <!-- PLUS BUTTON FORM -->
+                                            <!-- PLUS BUTTON -->
                                             <form method="POST" action="{% url 'catalog:cart_add' item.id %}" class="m-0 p-0">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="quantity" value="1">
@@ -86,7 +86,7 @@
             <div class="text-end mt-4 p-4 border" style="background: rgba(0,0,0,0.02);">
                 <span class="small d-block mb-1" style="font-family: monospace; letter-spacing: 0.05em;">// TOTAL</span>
                 <h2 class="mb-4" style="font-family: 'Impact', sans-serif; font-size: 2.2rem; letter-spacing: 0.02em;">
-                    Grand Total: <span class="text-danger">${{ global_cart.get_total_price }}</span>
+                    Total: <span class="text-danger">${{ global_cart.get_total_price }}</span>
                 </h2>
                 
                 <a href="{% url 'catalog:checkout' %}" class="btn btn-red btn-lg text-uppercase fw-bold px-5 py-3 d-inline-flex align-items-center justify-content-center" style="font-size: 0.95rem; letter-spacing: 0.05em; border-radius: 0; text-decoration: none;">

@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-bydltv-1bh6o9nwzl1+t&9=70*#0p^18uj7my#1g4kbp@m%1iy'
 
 
-# sets debug to True locally, but False on PythonAnywhere
+# sets debug to True locally, but False on PythonAnywhere so it works on both without switching the value
 DEBUG = 'runserver' in sys.argv
 
 ALLOWED_HOSTS = ['aktenas.pythonanywhere.com', '127.0.0.1', 'localhost']

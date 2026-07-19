@@ -750,7 +750,7 @@ body.light-mode .studio-footer .footer-link:hover {
     }
 }
 /* ==========================================================================
-   9 INLINE QUANTITY ADJUSTMENT COMPONENT
+   9 CART QUANTITY + -
    ========================================================================== */
 .qty-control-block {
     background-color: var(--bs-body-bg, #000000);
@@ -788,7 +788,7 @@ body.light-mode .studio-footer .footer-link:hover {
     font-size: 1rem;
 }
 
-/* Maintain crisp layout logic inside mobile stacked grid cards */
+/* Responsive Design */
 @media (max-width: 768px) {
     .responsive-card-table td[data-label="Qty"] {
         display: flex !important;
@@ -797,7 +797,7 @@ body.light-mode .studio-footer .footer-link:hover {
     }
 }
 /* ==========================================================================
-   10 DESKTOP DARK OVERRIDES FOR STANDARD STYLESHEET TABLES
+   10 DARK MODE OVERRIDE FOR TABLES
    ========================================================================== */
 @media (min-width: 769px) {
     /* Kill bootstrap's internal row/cell variables that default to white elements */

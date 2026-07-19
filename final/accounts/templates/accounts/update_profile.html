@@ -9,6 +9,7 @@
             
             <div style="width: 100%; max-width: 360px;">
                 
+                <!-- PROFILE INFO -->
                 <div class="mb-4 text-start">
                     <span style="font-family: 'Impact', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: inherit;">
                         // UPDATE PROFILE
@@ -31,9 +32,32 @@
                 
                 <div class="red-accent-line my-4" style="border-bottom-width: 1px !important; margin-bottom: 20px !important; opacity: 0.3;"></div>
                 
+                <!-- PASSWORD CHANGE -->
+                <div class="mb-4 text-start">
+                    <span style="font-family: 'Impact', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: inherit;">
+                        // CHANGE PASSWORD
+                    </span>
+                </div>
+
+                <form method="POST" class="m-0">
+                    {% csrf_token %}
+                    
+                    <div class="django-form-engine text-start">
+                        {{ password_form.as_p }}
+                    </div>
+                    
+                    <div class="pt-3">
+                        <button type="submit" class="btn-red w-100 text-uppercase fw-bold" style="margin: 0 !important; font-size: 0.9rem; letter-spacing: 0.05em; padding: 12px !important;">
+                            Update Password <i class="fa-solid fa-key ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="red-accent-line my-4" style="border-bottom-width: 1px !important; margin-bottom: 20px !important; opacity: 0.3;"></div>
+                
+                <!-- CANCEL AND RETURN LINK -->
                 <div class="text-start small">
                     <a href="{% url 'accounts:dashboard' %}" class="text-decoration-none" style="font-family: monospace; letter-spacing: 0.05em; color: inherit;">
-
                         ← CANCEL AND RETURN
                     </a>
                 </div>

@@ -1,8 +1,10 @@
 import json
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages 
 from .forms import UserRegistrationForm, UserProfileForm
 from home.models import Booking, Review as HomeReview
 from django.db.models import Q
@@ -76,13 +78,36 @@ class CustomLogoutView(LogoutView):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('accounts:dashboard')
+        profile_form = UserProfileForm(request.POST, instance=request.user)
+        password_form = PasswordChangeForm(user=request.user, data=request.POST)
+        
+        # determine if the user is submitting a password change or a profile info update
+        if 'old_password' in request.POST:
+            # User submitted the password change form
+            if password_form.is_valid():
+                user = password_form.save()
+                # updates the session so the user doesnt get logged out
+                update_session_auth_hash(request, user)
+                messages.success(request, "Your password was successfully updated!")
+                return redirect('accounts:dashboard')
+            else:
+                messages.error(request, "Please correct the errors in the password form.")
+        else:
+            # User submitted the normal profile info form
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, "Your profile info was successfully updated!")
+                return redirect('accounts:dashboard')
     else:
-        form = UserProfileForm(instance=request.user)
-    return render(request, 'accounts/update_profile.html', {'form': form})
+        # initialize forms when the user loads the page
+        profile_form = UserProfileForm(instance=request.user)
+        password_form = PasswordChangeForm(user=request.user)
+        
+    context = {
+        'form': profile_form,
+        'password_form': password_form,
+    }
+    return render(request, 'accounts/update_profile.html', context)
 
 @login_required
 def dashboard(request):

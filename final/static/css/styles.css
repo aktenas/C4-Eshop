@@ -565,7 +565,7 @@ body.studio-body.light-mode .page-shell::before {
 
 /* Gradient Footer*/
 body.light-mode .studio-footer {
-    background: linear-gradient(to top, rgba(255, 72, 72, 0.6) 0%, rgba(245, 245, 245, 0.75) 60%) !important;
+    background: linear-gradient(to top, rgba(255, 72, 72, 0.6) 0%, rgba(245, 245, 245, 0) 60%) !important;
 }
 
 body.light-mode .studio-footer footer {
